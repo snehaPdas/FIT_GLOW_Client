@@ -98,7 +98,7 @@ function TrainerKyc() {
             type="email"
             id="email"
             name="email"
-            placeholder="Enter your valid email address"
+            placeholder="Enter your valid email addresss"
             value={formData.email}
             onChange={handleInputChange}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
