@@ -6,6 +6,9 @@ import { AppDispatch,RootState } from "../../app/store";
 import {Toaster,toast } from 'react-hot-toast'
 import resendOtp from "../../services/userServices"
 import TrainerService from "../../services/TrainerService";
+import axios from "axios";
+import API_URL from '../../../axios/API_URL';
+
 
 
 
@@ -69,8 +72,10 @@ function TrainerOtp() {
     try {
       setIsButtonDisabled(true)
       setTimer(30)
+      await axios.post(`${API_URL}/api/trainer/resend-otp`, { email: trainerData.email });
+
       toast.success("Otp sent successfully")
-    //   await TrainerService.resendOtp(trainerData.email)
+      
       
     } catch (error) {
       console.error("error in sending Otp",error)

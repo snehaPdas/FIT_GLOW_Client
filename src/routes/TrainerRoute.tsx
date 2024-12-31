@@ -7,7 +7,13 @@ import TrainerLayout from '../components/trainers/TrainerLayout'
 import TrainerForgotPasswordPage from '../pages/trainer/TrainerForgotPasswordPage'
 import TrainerForgotPswdOtpPage from '../pages/trainer/TrainerForgotPswdOtpPage'
 import TrainerResetpswdPage from '../pages/trainer/TrainerResetpswdPage'
-import TrainerKyc from '../components/trainers/TrainerKyc'
+import TrainerDashboard from '../components/trainers/TrainerDashboard'
+
+import ProtectRoute from "../routes/protector/TrainerProtectRoute"
+
+// import TrainerKyc from '../components/trainers/TrainerKyc'
+// import KycSubmitStatus from '../components/trainers/KycSubmitStatus'
+
 
 
 function TrainerRoute() {
@@ -22,7 +28,13 @@ function TrainerRoute() {
       <Route path="/trainer-forgotpassword" element={<TrainerForgotPasswordPage/>}/>
       <Route path="/trainer-forgotpswdOtp" element={<TrainerForgotPswdOtpPage/>}/>
       <Route path="/trainer-resetpassword" element={<TrainerResetpswdPage/>}/>
-      <Route path="/trainerkyc" element={<TrainerKyc/>}/>
+      
+
+      <Route index element={<ProtectRoute><TrainerDashboard/></ProtectRoute>}/>
+
+      {/* <Route path="/trainerkyc" element={<TrainerKyc/>}/>
+      <Route path="/kycsubmitstatus" element={<KycSubmitStatus/>}/> */}
+
 
 
 

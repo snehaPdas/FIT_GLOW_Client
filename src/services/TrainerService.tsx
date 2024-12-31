@@ -101,10 +101,10 @@ const verifyForgotOtp=async({ userData, otp,}:{userData:ITrainer;otp:string})=>{
 
 }
 const kycStatus = async (trainer_id: string) => {
+  console.log("request gone from servicefront")
   try {
-    const response = await trainerAxiosInstance.get(
-      `/api/trainer/kycStatus/${trainer_id}`
-    );
+    const response = await trainerAxiosInstance.get(`/api/trainer/kycStatus/${trainer_id}`);
+    console.log("*************",response.data)
     return response.data;
   } catch (error: any) {
     console.error(
@@ -122,6 +122,7 @@ const kycSubmission = async (formData: FormData) => {
         "Content-Type": "multipart/form-data",
       },
     });
+    console.log("response data is",response.data)
     return response.data;
   } catch (error: any) {
     console.error(

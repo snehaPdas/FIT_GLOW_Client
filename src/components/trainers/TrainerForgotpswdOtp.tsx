@@ -7,6 +7,9 @@ import { verifyForgotOtp } from "../../actions/TrainerAction";
 import {Toaster,toast } from 'react-hot-toast'
 import resendOtp from "../../services/userServices"
 import TrainerService from "../../services/TrainerService";
+import axios from "axios";
+import API_URL from '../../../axios/API_URL';
+
 
 
 function TrainerForgotpswdOtp() {
@@ -56,18 +59,22 @@ function TrainerForgotpswdOtp() {
 
   }
   }
-//   const handleResendOtp=async()=>{
-//     try {
-//       setIsButtonDisabled(true)
-//       setTimer(30)
-//       toast.success("Otp sent successfully")
-//       await TrainerService.resendOtp(userData.email)
+  const handleResendOtp=async()=>{
+    try {
+      setIsButtonDisabled(true)
+      setTimer(60)
+     
       
-//     } catch (error) {
-//       console.error("error in sending Otp",error)
-//       toast.error("failed to send Resend otp")
-//     }
-//   }
+      await axios.post(`${API_URL}/api/trainer/resend-otp`, { email: userData });
+
+      toast.success("Otp sent successfully")
+      
+      
+    } catch (error) {
+      console.error("error in sending Otp",error)
+      toast.error("failed to send Resend otp")
+    }
+  }
   function handleChange(value: string, index: number): void {
     const newOtp=[...otp]
     newOtp[index]=value
@@ -116,7 +123,7 @@ function TrainerForgotpswdOtp() {
     <p className="mt-4 text-center text-gray-500 text-sm">
       Didn't receive the code? 
       <button 
-    //   onClick ={handleResendOtp}
+     onClick ={handleResendOtp}
       disabled={isButtonDisabled}className={`ml-2 text-[#572c5f] hover:underline ${
               isButtonDisabled ? "opacity-50 cursor-not-allowed" : ""
             }`} >

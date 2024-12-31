@@ -68,6 +68,7 @@ const resendOtp=async( useremail:string)=>{
     try{
 const response=await axios.post(`${API_URL}/api/user/resendotp`,{useremail})
 if(response.data){
+    console.log("response of resend otp",response)
     return response.data
 }
     }catch(error:any){

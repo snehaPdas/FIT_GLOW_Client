@@ -69,11 +69,16 @@ function Otp() {
     }
   }
   function handleChange(value: string, index: number): void {
-    const newOtp=[...otp]
-    newOtp[index]=value
-    setOtp(newOtp)
-    
-  } 
+    setOtp(prevOtp => {
+      const newOtp = [...prevOtp];
+      console.log("new otp",newOtp)
+      newOtp[index] = value;
+      console.log("new otp..........",newOtp)
+
+      return newOtp;
+    });
+  }
+  
   
 
   return (

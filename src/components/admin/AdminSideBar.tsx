@@ -7,6 +7,7 @@ import {
   FaListAlt,
   FaUsers,
   FaSignOutAlt,
+  FaCheckCircle,
 } from "react-icons/fa";
 
 function AdminSideBar() {
@@ -52,6 +53,15 @@ function AdminSideBar() {
             <FaListAlt size={22} />
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>
               Specializations
+            </span>
+          </Link>
+          <Link
+            to="/admin/verification"
+            className="flex items-center p-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition"
+          >
+            <FaCheckCircle size={20} />
+            <span className={`ml-2 ${!isSidebarOpen && "hidden"}`}>
+              Verification
             </span>
           </Link>
 

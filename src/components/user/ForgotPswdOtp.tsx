@@ -61,7 +61,8 @@ function ForgotPswdOtp() {
       setIsButtonDisabled(true)
       setTimer(30)
       toast.success("Otp sent successfully")
-      await userService.resendOtp(userData.email)
+      console.log("///",userData)
+      await userService.resendOtp(userData)
       
     } catch (error) {
       console.error("error in sending Otp",error)

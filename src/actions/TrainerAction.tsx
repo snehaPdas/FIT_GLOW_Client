@@ -85,10 +85,10 @@ export const getKycStatus = createAsyncThunk(
   'trainer/kycStatus',
   async (trainer_id: string, thunkAPI) => {
    try {
-  
-    
+    console.log("yes request gone.......")
+
     const response = await trainerService.kycStatus(trainer_id)
-    // console.log(response,'dd');
+     console.log("//////////",response);
     
     return response
     
@@ -99,3 +99,4 @@ export const getKycStatus = createAsyncThunk(
   }
 
 )
+

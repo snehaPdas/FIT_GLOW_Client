@@ -12,7 +12,6 @@ interface LoginAdmin {
     
     try {
         const response=await adminService.loginAdmin({email,password})
-        console.log("oooooooooooo",response)
         return  {status:response.status,data:response.data}
     } catch (error:any) {
         return thunkAPI.rejectWithValue(error.response)
