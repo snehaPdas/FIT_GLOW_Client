@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+
 import LOGO from "../../assets/logo_fitglow.png";
 import {
   FaBars,
@@ -65,12 +67,19 @@ function TrainerSideBar() {
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Message</span>
           </Link>
           <Link
-            to="/admin/user-listing"
+            to="/trainer/schedulesessions"
+            className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
+          >
+            <FaUsers size={22} />
+            <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Schedule Session</span>
+          </Link>
+          {/* <Link
+            to=""
             className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
           >
             <FaUsers size={22} />
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Profie</span>
-          </Link>
+          </Link> */}
 
           {/* Logout Button */}
           <Link
@@ -80,6 +89,9 @@ function TrainerSideBar() {
             <FaSignOutAlt size={22} />
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Logout</span>
           </Link>
+
+         
+         
         </nav>
       </div>
     </div>

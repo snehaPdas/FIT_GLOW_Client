@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import login_img from "../../assets/login_back.jpg";
 import { loginUser, GoogleLogins } from "../../actions/userActio";
 import { Toaster, toast } from "react-hot-toast";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
+
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -59,7 +60,7 @@ const Login = () => {
         return;
       }
 
-      navigate("/");
+      navigate("/home");
     } catch (error: any) {
       console.log("Error:", error);
       if (error.response) {
@@ -72,9 +73,10 @@ const Login = () => {
   const handleGoogleResponse = async (response: CredentialResponse) => {
     const token = response.credential;
     if (token) {
+      localStorage.setItem("accesstoken",token)
       dispatch(GoogleLogins(token)).then((response: any) => {
         if (response.meta.requestStatus !== "rejected") {
-          navigate("/");
+          navigate("/home");
         }
       });
     }
@@ -83,6 +85,17 @@ const Login = () => {
   const handleGoogleError = () => {
     console.error("Google login failed");
   };
+
+let accesstoken=localStorage.getItem("accesstoken")
+
+useEffect(()=>{
+    if(accesstoken){
+        navigate("/home",{replace:true})
+    }
+},[accesstoken,navigate])
+
+
+
 
   return (
     <div

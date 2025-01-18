@@ -22,16 +22,6 @@ function AdminRoute() {
 
         <Route path="/trainer-view/:trainerId" element={<TrainerVeifyViewPge />} />
 
-
-
-
-    
-
-
-      
-
-
-    
       </Route>
 
     </Routes>

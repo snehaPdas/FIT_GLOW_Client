@@ -56,7 +56,9 @@ function TrainerView() {
             aadhaarBackImage: trainerData.aadhaarBackImage,
             certificate: trainerData.certificate,
             kycStatus: trainerData.kycStatus,
-            kycSubmissionDate: new Date(trainerData.createdAt).toLocaleDateString(),
+            kycSubmissionDate: new Date(
+              trainerData.createdAt
+            ).toLocaleDateString(),
           };
           setTrainer(data);
         } else {
@@ -82,9 +84,14 @@ function TrainerView() {
       }).then(async (result: { isConfirmed: any }) => {
         if (result.isConfirmed) {
           try {
-            await adminAxiosInstance.patch(`/api/admin/kyc-status-update/${trainerId}`, { status: newStatus });
-            setTrainer((prevTrainer) => prevTrainer ? { ...prevTrainer, kycStatus: newStatus } : null);
-            navigate('/admin/verification');
+            await adminAxiosInstance.patch(
+              `/api/admin/kyc-status-update/${trainerId}`,
+              { status: newStatus }
+            );
+            setTrainer((prevTrainer) =>
+              prevTrainer ? { ...prevTrainer, kycStatus: newStatus } : null
+            );
+            navigate("/admin/verification");
             Swal.fire("OK!", "Trainer Approved.", "success");
           } catch (error) {
             console.error("Error updating trainer status:", error);
@@ -130,23 +137,31 @@ function TrainerView() {
     }
 
     try {
-      await adminAxiosInstance.patch(`/api/admin/kyc-status-update/${trainerId}`, {
-        status: "rejected",
-        rejectionReason,
-      });
+      await adminAxiosInstance.patch(
+        `/api/admin/kyc-status-update/${trainerId}`,
+        {
+          status: "rejected",
+          rejectionReason,
+        }
+      );
       setTrainer((prevTrainer) =>
         prevTrainer ? { ...prevTrainer, kycStatus: "rejected" } : null
       );
       closeModal();
-      navigate('/admin/verification');
+      navigate("/admin/verification");
     } catch (error) {
-      console.error("Error updating trainer status with rejection reason:", error);
+      console.error(
+        "Error updating trainer status with rejection reason:",
+        error
+      );
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8 mt-8 space-y-6">
-      <h2 className="text-3xl font-bold text-center text-gray-800">Trainer Details</h2>
+      <h2 className="text-3xl font-bold text-center text-gray-800">
+        Trainer Details
+      </h2>
 
       {trainer ? (
         <>
@@ -159,24 +174,38 @@ function TrainerView() {
           </div>
 
           <div className="text-center">
-            <h3 className="text-2xl font-semibold text-gray-800">{trainer.trainerName}</h3>
+            <h3 className="text-2xl font-semibold text-gray-800">
+              {trainer.trainerName}
+            </h3>
             <p className="text-gray-600">{trainer.trainerEmail}</p>
             <p className="text-gray-600">Phone: {trainer.trainerPhone}</p>
           </div>
 
           <div className="border-t border-gray-300 pt-6">
-            <h4 className="font-medium text-lg text-gray-700">KYC Information</h4>
-            <p className="text-sm text-gray-500">KYC Submission Date: {trainer.kycSubmissionDate}</p>
+            <h4 className="font-medium text-lg text-gray-700">
+              KYC Information
+            </h4>
+            <p className="text-sm text-gray-500">
+              KYC Submission Date: {trainer.kycSubmissionDate}
+            </p>
             <p className="text-sm text-gray-500">Status: {trainer.kycStatus}</p>
-            <p className="text-sm text-gray-500">Specialization: {trainer.specialization}</p>
+            <p className="text-sm text-gray-500">
+              Specialization: {trainer.specialization}
+            </p>
           </div>
 
           <div className="border-t border-gray-300 pt-6">
             <h4 className="font-medium text-lg text-gray-700">Documents</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div>
-                <h5 className="font-semibold text-gray-700">Aadhaar Front Image</h5>
-                <a href={trainer.aadhaarFrontImage} target="_blank" rel="noopener noreferrer">
+                <h5 className="font-semibold text-gray-700">
+                  Aadhaar Front Image
+                </h5>
+                <a
+                  href={trainer.aadhaarFrontImage}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img
                     src={trainer.aadhaarFrontImage}
                     alt="Aadhaar Front"
@@ -185,8 +214,14 @@ function TrainerView() {
                 </a>
               </div>
               <div>
-                <h5 className="font-semibold text-gray-700">Aadhaar Back Image</h5>
-                <a href={trainer.aadhaarBackImage} target="_blank" rel="noopener noreferrer">
+                <h5 className="font-semibold text-gray-700">
+                  Aadhaar Back Image
+                </h5>
+                <a
+                  href={trainer.aadhaarBackImage}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img
                     src={trainer.aadhaarBackImage}
                     alt="Aadhaar Back"
@@ -196,7 +231,11 @@ function TrainerView() {
               </div>
               <div>
                 <h5 className="font-semibold text-gray-700">Certificate</h5>
-                <a href={trainer.certificate} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={trainer.certificate}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img
                     src={trainer.certificate}
                     alt="Certificate"
@@ -223,7 +262,9 @@ function TrainerView() {
           </div>
         </>
       ) : (
-        <p className="text-center text-gray-500">No trainer details available.</p>
+        <p className="text-center text-gray-500">
+          No trainer details available.
+        </p>
       )}
 
       {isModalOpen && (
@@ -238,7 +279,9 @@ function TrainerView() {
                 className="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {errors.rejectionReason && (
-                <div className="text-red-500 mb-4">{errors.rejectionReason}</div>
+                <div className="text-red-500 mb-4">
+                  {errors.rejectionReason}
+                </div>
               )}
               <div className="flex justify-end space-x-4">
                 <button

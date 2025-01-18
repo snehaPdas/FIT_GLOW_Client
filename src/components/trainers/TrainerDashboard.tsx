@@ -1,100 +1,86 @@
-import React from 'react';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function TrainerDashboard() {
+const TrainerBody: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen bg-gray-100 p-6 flex flex-col">
-
+    <div className="flex-1 p-6 bg-gradient-to-r from-[#f4f4f4] via-[#e3d9e7] to-[#f3f1f5] overflow-y-auto">
       {/* Header Section */}
-      <div className="bg-[#572c52] p-4 text-white flex items-center justify-between rounded-t-lg">
-        <h1 className="text-2xl font-bold">Trainer Dashboard</h1>
-        <div className="flex items-center gap-4">
-          <span>Welcome, Trainer</span>
-          <button className="bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 transition">Logout</button>
+      <div className="flex items-center justify-between border-b pb-6 mb-6">
+        <div className="flex items-center space-x-6">
+          {/* No profile or notification dropdown here */}
         </div>
       </div>
 
-      {/* Dashboard Content */}
-      <div className="flex flex-col md:flex-row gap-6 mt-6">
-
-        {/* Sidebar */}
-        <div className="bg-white shadow-lg rounded-lg p-4 w-full md:w-1/4">
-          <ul className="space-y-4">
-            <li>
-              <a href="/trainer-dashboard" className="text-gray-700 hover:text-[#572c52]">Dashboard</a>
-            </li>
-            <li>
-              <a href="/trainer-profile" className="text-gray-700 hover:text-[#572c52]">My Profile</a>
-            </li>
-            <li>
-              <a href="/trainer-kyc" className="text-gray-700 hover:text-[#572c52]">KYC Verification</a>
-            </li>
-            <li>
-              <a href="/trainer-courses" className="text-gray-700 hover:text-[#572c52]">Courses</a>
-            </li>
-            <li>
-              <a href="/trainer-stats" className="text-gray-700 hover:text-[#572c52]">Statistics</a>
-            </li>
-          </ul>
+      {/* Upcoming Sessions Section */}
+      <div className="bg-white shadow-xl rounded-lg p-6 mb-6">
+        <h2 className="text-2xl font-bold text-[#572c52] mb-4">Upcoming Sessions</h2>
+        <div className="grid grid-cols-6 gap-4 text-center text-[#572c52] text-lg font-semibold border-b border-gray-300 pb-2">
+          <div>User Name</div>
+          <div>Date</div>
+          <div>Time</div>
+          <div>Session Type</div>
+          <div>Specialization</div>
+          <div>Status</div>
         </div>
 
-        {/* Main Content */}
-        <div className="flex-1 bg-white shadow-lg rounded-lg p-6 space-y-6">
-          
-          {/* Trainer Overview */}
-          <div className="flex justify-between items-center">
-            <div>
-              <h3 className="text-xl font-semibold text-[#572c52]">Overview</h3>
-              <p className="text-gray-600">Welcome back! Here's your activity and KYC status.</p>
-            </div>
-            <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Update Profile</button>
+        {/* Sample Session Data */}
+        <div className="grid grid-cols-6 gap-4 items-center p-4 hover:bg-gradient-to-r from-[#e3d9e7] via-[#f3c6d3] to-[#f3f1f5] transition-all border-b border-gray-300 rounded-lg">
+          <div className="text-center text-[#333333] font-medium"></div>
+          <div className="text-center text-[#333333] font-medium"></div>
+          <div className="text-center text-[#333333] font-medium"></div>
+          <div className="text-center text-[#333333] font-medium">
+            <span className="bg-gradient-to-r from-[#9e7cc2] to-[#572c52] text-white rounded-full px-4 py-1 text-sm"></span>
           </div>
-
-          {/* KYC Status Card */}
-          <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-            <h4 className="text-lg font-semibold text-[#572c52]">KYC Status</h4>
-            <div className="flex justify-between items-center mt-4">
-              <span className="text-gray-600">Status: <strong>Pending</strong></span>
-              <button className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition">Check KYC</button>
-            </div>
+          <div className="text-center text-[#333333] font-medium">  </div> 
+          <div className="text-center font-medium text-[#c8a900]">
+            <span className="inline-block bg-[#51ca87] text-white px-4 py-2 rounded-lg text-sm"></span>
           </div>
+        </div>
 
-          {/* Upcoming Courses */}
-          <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-            <h4 className="text-lg font-semibold text-[#572c52]">Upcoming Courses</h4>
-            <ul className="mt-4">
-              <li className="flex justify-between items-center py-2">
-                <span className="text-gray-700">Course 1</span>
-                <span className="text-gray-500">01/01/2024</span>
-              </li>
-              <li className="flex justify-between items-center py-2">
-                <span className="text-gray-700">Course 2</span>
-                <span className="text-gray-500">10/01/2024</span>
-              </li>
-              <li className="flex justify-between items-center py-2">
-                <span className="text-gray-700">Course 3</span>
-                <span className="text-gray-500">20/01/2024</span>
-              </li>
-            </ul>
+        <div className="grid grid-cols-6 gap-4 items-center p-4 hover:bg-gradient-to-r from-[#e3d9e7] via-[#f3c6d3] to-[#f3f1f5] transition-all border-b border-gray-300 rounded-lg">
+          <div className="text-center text-[#333333] font-medium"></div>
+          <div className="text-center text-[#333333] font-medium"></div>
+          <div className="text-center text-[#333333] font-medium"></div>
+          <div className="text-center text-[#333333] font-medium">
+            <span className="bg-gradient-to-r from-[#9e7cc2] to-[#572c52] text-white rounded-full px-4 py-1 text-sm"></span>
           </div>
+          <div className="text-center text-[#333333] font-medium"></div>
+          <div className="text-center font-medium text-[#53db8c]">
+            <span className="inline-block bg-[#51ca87] text-white px-4 py-2 rounded-lg text-sm"></span>
+          </div>
+        </div>
+      </div>
 
-          {/* Activity Stats */}
-          <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-            <h4 className="text-lg font-semibold text-[#572c52]">Activity Statistics</h4>
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <div className="text-center">
-                <h5 className="font-medium text-gray-600">Total Students</h5>
-                <p className="text-2xl font-bold text-[#572c52]">150</p>
-              </div>
-              <div className="text-center">
-                <h5 className="font-medium text-gray-600">Total Courses</h5>
-                <p className="text-2xl font-bold text-[#572c52]">12</p>
-              </div>
-            </div>
+      {/* Performance Stats Section */}
+      <div className="grid grid-cols-2 gap-6 mb-6">
+        <div className="bg-white shadow-xl rounded-lg p-6">
+          <h3 className="text-xl font-semibold text-[#572c52] mb-4">Sessions Completed</h3>
+          <p className="text-3xl font-bold text-[#572c52]"></p>
+        </div>
+        <div className="bg-white shadow-xl rounded-lg p-6">
+          <h3 className="text-xl font-semibold text-[#572c52] mb-4">Total Trainees</h3>
+          <p className="text-3xl font-bold text-[#572c52]"></p>
+        </div>
+      </div>
+
+      {/* Recent Messages Section */}
+      <div className="bg-white shadow-xl rounded-lg p-6 mb-6">
+        <h3 className="text-xl font-semibold text-[#572c52] mb-4">Recent Messages</h3>
+        <div className="space-y-4">
+          <div className="p-4 bg-gradient-to-r from-[#e3d9e7] via-[#f3c6d3] to-[#f3f1f5] rounded-lg">
+            <p className="text-lg font-semibold text-[#333333]"></p>
+            <p className="text-[#666666]">""</p>
+          </div>
+          <div className="p-4 bg-gradient-to-r from-[#e3d9e7] via-[#f3c6d3] to-[#f3f1f5] rounded-lg">
+            <p className="text-lg font-semibold text-[#333333]"></p>
+            <p className="text-[#666666]">""</p>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default TrainerDashboard;
+export default TrainerBody;

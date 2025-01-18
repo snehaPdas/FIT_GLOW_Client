@@ -1,6 +1,8 @@
 import axios,{AxiosResponse,AxiosError,InternalAxiosRequestConfig} from "axios"
+import { Toaster } from "react-hot-toast"
 
 import API_URL from "./API_URL"
+import toast from "react-hot-toast"
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig{
     _retry?:boolean
@@ -29,11 +31,26 @@ userAxiosInstance.interceptors.request.use((config:CustomAxiosRequestConfig)=>{
 //response
 
 userAxiosInstance.interceptors.response.use((Response:AxiosResponse)=>{
+    console.log("ya here in axios instance response")
     return Response
 },
 async (error:AxiosError)=>{
     console.log("error in protected route",error)
+    
+    
     const originalRequest = error.config as CustomAxiosRequestConfig;
+     console.log("hiiiiiiiiiiii", error)
+        console.log("==============",error.response)
+    //blocked check
+    if (error.response?.status === 403 ) {
+        console.log("......///");
+       // toast.success("entered to block")
+       console.log("user has been blocked by admin")
+        console.warn("User is blocked, redirecting to login...");
+        window.location.href = "/login";
+        return Promise.reject(error);
+    }
+
     if (originalRequest && error.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
 
@@ -49,10 +66,11 @@ async (error:AxiosError)=>{
             console.error("Token refresh failed:", refreshError);
             return Promise.reject(refreshError);
 
-
-
         }
     }
+     
+
+    
     return Promise.reject(error);
 
 }

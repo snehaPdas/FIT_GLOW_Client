@@ -24,6 +24,7 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    console.log(".........................",)
     builder
       // Register User Actions
       .addCase(registerUser.fulfilled, (state, action) => {
@@ -39,8 +40,9 @@ const userSlice = createSlice({
         state.error = action.payload as string; 
       })
        .addCase(loginUser.fulfilled,(state,action)=>{
+        
         state.userInfo=action.payload.data.user
-        console.log("vanno??",state.userInfo)
+        console.log("user information got.........",state.userInfo)
         state.loading = false;
        })
        .addCase(loginUser.pending,(state)=>{

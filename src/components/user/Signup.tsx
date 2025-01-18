@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
 import { setUser } from '../../features/user/userSlice';
@@ -102,6 +102,14 @@ function Signup() {
       }
     }
   };
+
+  let accesstoken=localStorage.getItem("accesstoken")
+  
+  useEffect(()=>{
+      if(accesstoken){
+          navigate("/home",{replace:true})
+      }
+  },[accesstoken,navigate])
 
   return (
     // <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-gray-500 via-[#572c5f] to-gray-200">

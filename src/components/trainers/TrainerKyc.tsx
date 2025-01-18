@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from "../../app/store";
 import { submitKyc } from "../../actions/TrainerAction";
-import { useSelector, useDispatch } from 'react-redux';
 import Loading from "../spinner/loading";
 
 function TrainerKyc() {
@@ -15,19 +15,26 @@ function TrainerKyc() {
     profileImage: null,
   });
 
-  const [previews, setPreviews] = useState({
+  const [previews, setPreviews] = useState<Record<string, string | null>>({
     adhar: null,
     adharback: null,
     certificate: null,
     profileImage: null,
   });
 
-  const { trainerInfo, loading } = useSelector(
-    (state: RootState) => state.trainer
-  );
-  const trainer_id = trainerInfo.id;
-  let toks: any = localStorage.getItem("accesstoken");
+  // Define errors as a record with string keys and string values
+  const [errors, setErrors] = useState<Record<string, string>>({
+    name: '',
+    email: '',
+    phone: '',
+    profileImage: '',
+    adhar: '',
+    adharback: '',
+    certificate: '',
+  });
 
+  const { trainerInfo, loading } = useSelector((state: RootState) => state.trainer);
+  const trainer_id = trainerInfo.id;
   const dispatch = useDispatch<AppDispatch>();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,8 +51,27 @@ function TrainerKyc() {
     }
   };
 
+  const validateForm = () => {
+    let isValid = true;
+    let validationErrors: Record<string, string> = {};
+
+    if (!formData.name) validationErrors.name = "Please enter your full name.";
+    if (!formData.email) validationErrors.email = "Please enter a valid email address.";
+    if (!formData.phone) validationErrors.phone = "Please enter your phone number.";
+
+    if (!formData.profileImage) validationErrors.profileImage = "Upload your profile image.";
+    if (!formData.adhar) validationErrors.adhar = "Upload your Adhar image.";
+    if (!formData.adharback) validationErrors.adharback = "Upload Adhar Back image.";
+    if (!formData.certificate) validationErrors.certificate = "Upload Certificate image.";
+
+    setErrors(validationErrors);
+    return isValid;
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     const form = new FormData();
     form.append("trainer_id", trainer_id!);
     form.append('name', formData.name);
@@ -59,104 +85,92 @@ function TrainerKyc() {
     try {
       await dispatch(submitKyc({ formData: form }));
     } catch (error) {
-      console.log(error, error);
+      console.error("Error submitting KYC:", error);
     }
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200">
+    <div className="min-h-screen flex justify-center items-center bg-white p-4">
       {loading && <Loading />}
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-2xl w-full max-w-lg space-y-6"
+        className="bg-[#f4f0ec] p-6 rounded-lg shadow-lg max-w-5xl w-full"
         encType="multipart/form-data"
       >
-        <h2 className="text-3xl font-extrabold text-center text-[#572c52]">
+        <h2 className="text-2xl font-bold text-[#572c52] mb-4 text-center">
           Verification Form
         </h2>
-
-        {/* Text Fields */}
-        <div className="mb-4">
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Enter your full name"
-            value={formData.name}
-            onChange={handleInputChange}
-            className="mt-1 p-4 w-full border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#572c52]"
-          />
-        </div>
-        <div className="mb-4">
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your valid email address"
-            value={formData.email}
-            onChange={handleInputChange}
-            className="mt-1 p-4 w-full border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#572c52]"
-          />
-        </div>
-        <div className="mb-4">
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            placeholder="Enter your phone number"
-            value={formData.phone}
-            onChange={handleInputChange}
-            className="mt-1 p-4 w-full border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#572c52]"
-          />
-        </div>
-
-        {/* Profile Image */}
-        <div className="mb-6">
-          <label htmlFor="profileImage" className="block text-sm font-medium text-gray-700">
-            Profile Image
-          </label>
-          <input
-            type="file"
-            id="profileImage"
-            name="profileImage"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-[#572c52] hover:file:bg-blue-100"
-          />
-          {previews.profileImage && (
-            <img
-              src={previews.profileImage}
-              alt="Profile preview"
-              className="mt-2 w-32 h-32 object-cover border rounded-xl"
-            />
-          )}
-        </div>
-
-        {/* Other Image Fields with Previews */}
-        {['adhar', 'adharback', 'certificate'].map((imageField, index) => (
-          <div className="mb-6" key={imageField}>
-            <label
-              htmlFor={imageField}
-              className="block text-sm font-medium text-gray-700"
-            >
-              {['Adhar', 'Adhar Back', 'Certificate'][index]}
-            </label>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
             <input
-              type="file"
-              id={imageField}
-              name={imageField}
-              accept="image/*"
-              onChange={handleImageChange}
-              className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-[#572c52] hover:file:bg-blue-100"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleInputChange}
+              className="w-full p-3 border rounded-md"
             />
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
           </div>
-        ))}
+          <div>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleInputChange}
+              className="w-full p-3 border rounded-md"
+            />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+          </div>
+          <div>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              placeholder="Phone Number"
+              value={formData.phone}
+              onChange={handleInputChange}
+              className="w-full p-3 border rounded-md"
+            />
+            {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
+          </div>
+        </div>
 
-        {/* Submit Button */}
-        <div className="flex justify-end">
+        <h3 className="text-lg font-semibold text-[#572c52] mt-6 mb-2">Upload Documents</h3>
+        <div className="grid grid-cols-2 gap-4">
+          {['profileImage', 'adhar', 'adharback', 'certificate'].map((field) => (
+            <div key={field} className="flex flex-col items-center">
+              <label className="block text-sm font-medium text-[#572c52]
+               mb-1">
+                {field.charAt(0).toUpperCase() + field.slice(1)}
+              </label>
+              <input
+                type="file"
+                id={field}
+                name={field}
+                accept="image/*"
+                onChange={handleImageChange}
+                className="w-full"
+              />
+              {previews[field] && (
+                <img
+                  src={previews[field]!}
+                  alt={`${field} preview`}
+                  className="mt-2 w-16 h-16 object-cover border"
+                />
+              )}
+              {errors[field] && <p className="text-red-500 text-sm">{errors[field]}</p>}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 flex justify-center">
           <button
             type="submit"
-            className="px-6 py-3 bg-[#572c52] text-white text-lg font-semibold rounded-lg shadow-md hover:bg-[#6a3d72] transition"
+            className="px-6 py-2 bg-[#572c52] text-white rounded-md hover:bg-[#572c52]"
           >
             Submit
           </button>

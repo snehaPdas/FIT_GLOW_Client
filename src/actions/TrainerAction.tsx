@@ -73,7 +73,7 @@ export const submitKyc = createAsyncThunk(
     console.log("FormData check:", Array.from(formData.entries()));
     try {
       const response = await trainerService.kycSubmission(formData); // Pass FormData
-      console.log('response in submit', response);
+      console.log('response in submitkyc in action ', response);
       return response;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -88,7 +88,8 @@ export const getKycStatus = createAsyncThunk(
     console.log("yes request gone.......")
 
     const response = await trainerService.kycStatus(trainer_id)
-     console.log("//////////",response);
+    
+     console.log("kyc status response action",response);
     
     return response
     

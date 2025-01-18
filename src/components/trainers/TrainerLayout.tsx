@@ -1,45 +1,89 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { BsBell } from "react-icons/bs";
 import { Outlet, useNavigate } from "react-router-dom";
 import TrainerSideBar from "./TrainerSideBar";
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
-import img from "../../assets/cartoon dashboard.png"
-
+import img from "../../assets/cartoon1234567.webp";
 
 const TrainerLayout: React.FC = () => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const navigate = useNavigate();
+  const profileRef = useRef<HTMLDivElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
 
   const toggleProfileDropdown = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
+    setIsNotificationOpen(false); // Close notifications when profile opens
   };
 
   const toggleNotificationDropdown = () => {
     setIsNotificationOpen(!isNotificationOpen);
+    setIsProfileDropdownOpen(false); // Close profile when notifications open
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      profileRef.current &&
+      !profileRef.current.contains(event.target as Node) &&
+      notificationRef.current &&
+      !notificationRef.current.contains(event.target as Node)
+    ) {
+      setIsProfileDropdownOpen(false);
+      setIsNotificationOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
+    
+    
+
+
     <div className="h-screen flex bg-slate-100">
       {/* Sidebar */}
       <TrainerSideBar />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        {/* Top Bar */}
-        <header className="bg-gradient-to-r from-[#572c52] to-[#572c52] text-white shadow-md py-4 px-6 flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">Trainer Dashboard</h1>
+        {/* Quote Section (Status Bar) */}
+        <section className="bg-gradient-to-r from-[#FFFFFF] to-[#FFFFFF] py-2 px-4 flex items-center justify-between">
+          <div className="flex items-center space-x-10">
+            <FaQuoteLeft className="text-3xl text-[#572c52]" />
+            <p className="text-lg font-semibold   text-[#572C57]">
+              Train in confidence, believe in yourself.
+    
+            </p>
+            <FaQuoteRight className="text-3xl  text-[#572c52]" />
+            <div className="w-41 h-20 overflow-hidden opacity-">
+  <img
+    src={img}
+    alt="Cartoon illustration"
+    className=" h-auto"
+  />
+</div>
 
-          <div className="flex items-center space-x-6">
-            {/* Notifications */}
-            <div className="relative">
+          </div>
+          <div className="flex items-center space-x-4">
+            <div>
+            
+            
+            </div>
+           
+           <div className="relative" ref={notificationRef}>
               <BsBell
-                className="h-6 w-6 cursor-pointer"
+                className="h-5 w-5 cursor-pointer text-[#572c52]"
                 onClick={toggleNotificationDropdown}
               />
-              <span className="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-600 rounded-full">
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-[#572c52] bg-red-600 rounded-full">
                 3
               </span>
               {isNotificationOpen && (
@@ -58,10 +102,9 @@ const TrainerLayout: React.FC = () => {
               )}
             </div>
 
-            {/* Profile */}
-            <div className="relative">
-              <FaUserCircle
-                className="text-2xl cursor-pointer"
+            <div className="relative" ref={profileRef}>
+              <FaUserCircle 
+                className="text-xl cursor-pointer text-[#572c52]"
                 onClick={toggleProfileDropdown}
               />
               {isProfileDropdownOpen && (
@@ -84,37 +127,7 @@ const TrainerLayout: React.FC = () => {
               )}
             </div>
           </div>
-        </header>
-        <section className="flex justify-center items-center bg-gradient-to-r from-[#70466c] via-white to-[#70466c]">
-  <div className="w-full max-w-4xl flex items-center space-x-4 bg-white p-4 rounded-lg shadow-xl">
-    {/* Quote Section */}
-    <div className="flex-1 text-center space-y-2">
-      <div className="text-2xl font-semibold text-gray-800">
-        <FaQuoteLeft className="inline text-3xl text-gray-500" />
-        <p className="inline-block font-semibold text-sm">
-          "Train in confidence, believe in yourself."
-        </p>
-        <FaQuoteRight className="inline text-3xl text-gray-500" />
-      </div>
-
-      <p className="text-sm text-gray-600">
-        Consistency is key. Stay focused, stay strong, and let your actions speak louder than words!
-      </p>
-    </div>
-
-    {/* Cartoon Image Section */}
-    <div className="">
-      <img
-        src={img} // Smaller image size
-        alt="Cartoon illustration"
-        className="w-40 h-20 rounded-lg shadow-lg"
-      />
-    </div>
-  </div>
-</section>
-
-
-
+        </section>
 
         {/* Content Area */}
         <div className="flex-1 p-6 bg-slate-100 overflow-y-auto">
@@ -122,6 +135,9 @@ const TrainerLayout: React.FC = () => {
         </div>
       </div>
     </div>
+    
+
+
   );
 };
 

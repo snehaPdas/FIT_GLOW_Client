@@ -40,7 +40,7 @@ async (error:AxiosError)=>{
 
         try {
             console.log("sample check for refreshtoken")
-            const response= await trainerAxiosInstance.post<{accessToken:string}>("/api/user/refresh-token",{},{withCredentials:true})
+            const response= await trainerAxiosInstance.post<{accessToken:string}>("/api/trainer/refresh-token",{},{withCredentials:true})
             const {accessToken}=response.data
             localStorage.setItem("accesstoken",accessToken)
             console.log("Access token stored:", localStorage.getItem("accesstoken"));

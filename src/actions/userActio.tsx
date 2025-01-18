@@ -73,8 +73,8 @@ export const loginUser=createAsyncThunk(
     
         try {
             const response=await userService.loginUser({email,password})  
-            console.log("yesss")  
-            console.log("login action response",response)      
+            console.log("yesssUUUUUUUu")  
+            console.log("login action response is....",response)      
             return response
         } catch (error:any) {
           console.log("checckk",error)

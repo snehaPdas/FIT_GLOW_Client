@@ -7,6 +7,7 @@ const store=configureStore({
         user:userReducer,
         trainer:trainerReducer
     }
+
 })
 
 export default store

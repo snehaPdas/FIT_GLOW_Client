@@ -103,10 +103,14 @@ const trainerSlice=createSlice({
         
           })
           .addCase(getKycStatus.pending, (state) => {
+            console.log("pending case slice")
             state.loading = true;
             state.error = null;
           })
           .addCase(getKycStatus.fulfilled, (state, action: PayloadAction<any>) => {
+            console.log("fulfilled case slice")
+
+            console.log("yes ethii")
             state.loading = false;
             state.kycStatus = action.payload.kycStatus;
             console.log('get kyc',action.payload.kycStatus);
@@ -114,6 +118,8 @@ const trainerSlice=createSlice({
             state.error = null;
           })
           .addCase(getKycStatus.rejected, (state, action: PayloadAction<any>) => {
+            console.log("rejected case slice")
+
             state.loading = false;
             state.error = action.payload?.message || "OTP verification failed";
           })

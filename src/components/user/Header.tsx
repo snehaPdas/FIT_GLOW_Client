@@ -8,13 +8,15 @@ function Header() {
   
   const navigate=useNavigate()
 
-  function goToSignUp(event:React. MouseEvent<HTMLButtonElement>): void {
-    navigate("/signup")
-    throw new Error('Function not implemented.');
-  }
-  function goToLogin(event:React. MouseEvent<HTMLButtonElement>): void {
+  // function goToSignUp(event:React. MouseEvent<HTMLButtonElement>): void {
+  //   navigate("/signup")
+  //   throw new Error('Function not implemented.');
+  // }
+  
+
+  function handlelogout(){
+    localStorage.removeItem("accesstoken")
     navigate("/login")
-    throw new Error('Function not implemented.');
   }
 
 
@@ -30,17 +32,17 @@ function Header() {
     <nav className="hidden md:flex space-x-8">
       <a href="#" className="hover:text-yellow-400 transition">Home</a>
       <a href="#" className="hover:text-yellow-400 transition">About</a>
-      <a href="#" className="hover:text-yellow-400 transition">Trainers</a>
+      <a href="/trainers" className="hover:text-yellow-400 transition">Trainers</a>
       <a href="#" className="hover:text-yellow-400 transition">Contact</a>
     </nav>
 
     
     <div className="hidden md:flex space-x-4">
-      <button onClick={goToSignUp}
+      {/* <button onClick={goToSignUp}
       className="bg-transparent border-2 border-[#572c5f] text-[#572c5f] py-2 px-4 rounded-md hover:bg-[#572c5f] hover:text-white transition">
         SignUp
-      </button>
-      <button onClick={goToLogin}
+      </button> */}
+      <button onClick={handlelogout}
        className="bg-[#572c5f] text-white py-2 px-4 rounded-md hover:bg-[#572c5f] transition">
         LogOut
       </button>
@@ -60,7 +62,7 @@ function Header() {
   <div id="mobile-menu" className="md:hidden hidden bg-gray-800 text-white p-4">
     <a href="#" className="block py-2 hover:text-yellow-400">Home</a>
     <a href="#" className="block py-2 hover:text-yellow-400">About</a>
-    <a href="#" className="block py-2 hover:text-yellow-400">Services</a>
+    <a href="/Trainers" className="block py-2 hover:text-yellow-400">Trainers</a>
     <a href="#" className="block py-2 hover:text-yellow-400">Contact</a>
   </div>
 </header>

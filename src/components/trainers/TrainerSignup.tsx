@@ -22,7 +22,8 @@ function TrainerSignUp() {
   const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [errors, setErrors] = useState<any>({});
+  
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -41,6 +42,32 @@ function TrainerSignUp() {
     fetchSpecializations();
   }, []);
 
+  const validate = () => {
+    const newErrors: any = {};
+    if (!name) newErrors.name = "Full Name is required";
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Email is invalid";
+    }
+    if (!phone) {
+      newErrors.phone = "Phone Number is required";
+    } else if (!/^\d{10}$/.test(phone)) {
+      newErrors.phone = "Phone Number should be 10 digits";
+    }
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password should be at least 6 characters";
+    }
+    if (selectedSpecializations.length === 0) {
+      newErrors.specializations = "At least one specialization is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSpecializationChange = (specName: string) => {
     setSelectedSpecializations((prev) =>
       prev.includes(specName)
@@ -52,15 +79,17 @@ function TrainerSignUp() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const trainerData = {
-      name,
-      email,
-      phone,
-      password,
-      specializations: selectedSpecializations,
-    };
-    await dispatch(registerTrainer(trainerData));
-    navigate("/trainer/otp", { state: trainerData });
+    if (validate()) {
+      const trainerData = {
+        name,
+        email,
+        phone,
+        password,
+        specializations: selectedSpecializations,
+      };
+      await dispatch(registerTrainer(trainerData));
+      navigate("/trainer/otp", { state: trainerData });
+    }
   };
 
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
@@ -87,6 +116,7 @@ function TrainerSignUp() {
               onChange={(e) => SetName(e.target.value)}
               className="bg-gray-100 border border-gray-300 rounded-md py-3 px-4 w-full focus:ring-2 focus:ring-[#572c5f]"
             />
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
             <input
               type="email"
               placeholder="Email Address"
@@ -94,6 +124,7 @@ function TrainerSignUp() {
               onChange={(e) => SetEmail(e.target.value)}
               className="bg-gray-100 border border-gray-300 rounded-md py-3 px-4 w-full focus:ring-2 focus:ring-[#572c5f]"
             />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             <input
               type="text"
               placeholder="Phone Number"
@@ -101,6 +132,7 @@ function TrainerSignUp() {
               onChange={(e) => SetPhone(e.target.value)}
               className="bg-gray-100 border border-gray-300 rounded-md py-3 px-4 w-full focus:ring-2 focus:ring-[#572c5f]"
             />
+            {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
             <div className="relative">
               <button
                 type="button"
@@ -135,6 +167,9 @@ function TrainerSignUp() {
                 </div>
               )}
             </div>
+            {errors.specializations && (
+              <p className="text-red-500 text-sm">{errors.specializations}</p>
+            )}
             <input
               type="password"
               placeholder="Password"
@@ -142,6 +177,7 @@ function TrainerSignUp() {
               onChange={(e) => SetPassword(e.target.value)}
               className="bg-gray-100 border border-gray-300 rounded-md py-3 px-4 w-full focus:ring-2 focus:ring-[#572c5f]"
             />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
             <button
               type="submit"
               className="bg-[#572c5f] text-white font-semibold py-3 rounded-md w-full hover:bg-opacity-75"

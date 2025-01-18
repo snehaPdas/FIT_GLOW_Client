@@ -8,12 +8,13 @@ interface UserLoginProtectorProps {
 const UserLoginProtector = ({children}:UserLoginProtectorProps)=>{
 const navigate=useNavigate()
 const userToken=localStorage.getItem("accesstoken")
+console.log("/////",userToken)
 useEffect(()=>{
-    if(userToken){
-        navigate("/home")
+    if(!userToken){
+        navigate("/login",{replace:true})
     }
-},[navigate,userToken])
-if (!userToken) {
+},[userToken,navigate])
+if (userToken) {
     return children; 
   }
   return null

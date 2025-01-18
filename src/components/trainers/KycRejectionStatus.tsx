@@ -1,13 +1,12 @@
-import axios from "axios";
+import axiosInstance from "../../../axios/trainerAxiosInstance";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import axiosInstance from "../../../axios/trainerAxiosInstance";
-import TrainerKyc from "./TrainerKyc";
 import { useEffect, useState } from "react";
+import TrainerKyc from "./TrainerKyc";
 
 function KycRejectionStatus() {
   const [isResubmitted, setIsResubmitted] = useState(false);
-  const [rejectionReason, setRejectionReason] = useState('')
+  const [rejectionReason, setRejectionReason] = useState("");
 
   const { trainerInfo } = useSelector((state: RootState) => state.trainer);
   const trainerId = trainerInfo.id;
@@ -29,36 +28,43 @@ function KycRejectionStatus() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/api/trainer/rejection-reason/${trainerId}`);
-        setRejectionReason(response.data.reason)
+        const response = await axiosInstance.get(
+          `/api/trainer/rejection-reason/${trainerId}`
+        );
+        setRejectionReason(response.data.reason);
       } catch (error) {
-        console.error('Error fetching rejection data:', error);
+        console.error("Error fetching rejection data:", error);
       }
     };
-  
+
     fetchData();
-  }, []); // Dependency array ensures this runs only once when the component mounts
-  
-  
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
+    <div className="min-h-screen bg-gradient-to-r from-purple-100 via-gray-100 to-purple-100 py-10">
       {isResubmitted ? (
         <TrainerKyc />
       ) : (
-        <div className="flex items-center justify-center h-screen  bg-gray-100">
-          <div className="max-w-4xl mx-auto p-10 bg-white rounded-lg shadow-md text-center">
-            <h1 className="text-3xl font-semibold text-red-500 mb-4">
-              Your KYC information has been rejected.
+        <div className="flex items-center justify-center h-screen">
+          <div className="max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-lg text-center">
+            <h1 className="text-4xl font-bold text-red-500 mb-6">
+              KYC Rejected
             </h1>
-            <p className="text-lg text-gray-800 mb-4">
-              We regret to inform you that your application has been rejected.
+            <p className="text-lg text-gray-700 mb-4">
+              Unfortunately, your KYC submission has been rejected. Please check
+              the reason below and resubmit your application.
             </p>
-            <p className="text-lg text-gray-600 mb-6">{rejectionReason}</p>
+            <div className="mb-6">
+              <span className="text-md font-medium text-gray-800">
+                Rejection Reason:
+              </span>
+              <p className="mt-2 text-gray-600 italic">{rejectionReason}</p>
+            </div>
             <button
               onClick={handleResubmit}
-              className="bg-blue-500 text-white text-lg py-2 px-4 rounded-md hover:bg-blue-600"
+              className="bg-gradient-to-r from-purple-500 to-[#572c52] text-white font-semibold text-lg py-2 px-6 rounded-lg shadow-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
             >
-              Resubmit Your KYC
+              Resubmit KYC
             </button>
           </div>
         </div>
