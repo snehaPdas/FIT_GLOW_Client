@@ -67,3 +67,10 @@ export interface TrainerListFilterBarProps {
       language: string;
   }) => void;
 }
+export interface Specialization {
+  _id: string;
+  name: string;
+  description: string;
+  isListed: boolean
+  
+}

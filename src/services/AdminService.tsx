@@ -23,7 +23,7 @@ const loginAdmin=async({email,password}:{email:string,password:string})=>{
 }
 const addSpecialization=async(formData:any)=>{
   console.log("///  ")
-//  console.log("////////",Array.from(formData.entries()))
+ console.log("////////",Array.from(formData.entries()))
 try {
   const response= await adminAxiosInstance.post(`${API_URL}/api/admin/specialization`,formData)
   console.log("got response from speciali",response)
@@ -44,9 +44,9 @@ const getSpecializations = async () => {
   }
 }
 
-const updateSpecialization = async (id: string, formData: { name: string; description: string }) => {
+const updateSpecialization = async (id: string, formData: { name: string; description: string }| FormData) => {
   try{
-    console.log("hei in ")
+  
     const response= await adminAxiosInstance.put(`${API_URL}/api/admin/specialization/${id}`, formData);
     console.log(response)
        return response

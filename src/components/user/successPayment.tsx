@@ -10,7 +10,6 @@ function SuccessPayment() {
   const queryParams = new URLSearchParams(location.search);
   const sessionId = queryParams.get('session_id');
   
-  console.log("sessionId is...",sessionId)
   
   const stripe_session_id = queryParams.get('stripe_session_id')
  
@@ -19,7 +18,7 @@ function SuccessPayment() {
   const parseinfo=JSON.parse(atob(userInfo.split(".")[1]))
   const userId=parseinfo.id
 
-  console.log("userId is....",userId)
+
 
   
   useEffect(() => {
@@ -36,19 +35,6 @@ function SuccessPayment() {
             
           const response = await userAxiosInstance.post('/api/user/bookings', { sessionId, userId, stripe_session_id });
   
-          // const notificationData = {
-          //   receiverId: response.data.trainerId,
-          //   content: `New booking for ${response.data.sessionType} (${response.data.specialization}) on ${new Date(response.data.startDate).toDateString()} at ${response.data.startTime}. Amount: $${response.data.amount}.`,
-          //   sessionType: response.data.sessionType,
-          //   specialization: response.data.specialization,
-          //   bookingDate: response.data.bookingDate,
-          //   startDate: response.data.startDate,
-          //   startTime: response.data.startTime,
-          //   sessionId: response.data.sessionId,
-          // };
-  
-          // console.log("Emitting notification:", notificationData);
-          // socket?.emit("sendNotification", notificationData);
   
           localStorage.setItem('bookingCreated', 'true');
         } catch (error) {
@@ -60,39 +46,43 @@ function SuccessPayment() {
     createBooking();
   
     return () => {
-      isMounted = false; // Cleanup on unmount
+      isMounted = false; 
       localStorage.removeItem('bookingCreated');
     };
   }, [sessionId, userId, ]);
   
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-blue-50 px-4">
-      <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-lg text-center">
-        <div className="text-green-500 text-7xl flex justify-center animate-jump-in animate-once animate-duration-[2000ms]">
-          <FaCheckCircle />
-        </div>
-        <h1 className="text-3xl font-bold text-gray-800 mt-4">Payment Successful!</h1>
-        <p className="text-gray-600 mt-2">
-          Thank you for your payment. Your transaction has been completed.
-        </p>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-100 to-blue-50 px-4">
+    <div className="bg-white shadow-2xl rounded-lg p-8 w-full max-w-lg text-center">
+      <div className="text-green-500 text-6xl flex justify-center animate-bounce">
+        <FaCheckCircle />
+      </div>
+      <h1 className="text-4xl font-extrabold text-gray-800 mt-6">Payment Successful!</h1>
+      <p className="text-gray-600 mt-4 text-lg">
+        Thank you for your payment. Your transaction has been successfully completed.
+      </p>
 
-        <div className="mt-8">
-          <button
-            onClick={() => navigate('/')}
-            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
-          >
-            Go to Homepage
-          </button>
-          <button
-            onClick={() => navigate('/profile/bookings')}
-            className="ml-4 bg-gray-600 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition"
-          >
-            View Orders
-          </button>
-        </div>
+      <div className="mt-10 space-y-4">
+        <button
+          onClick={() => navigate('/home')}
+          className="w-full bg-[#553353] text-white py-3 rounded-lg shadow-md hover:bg-[#553353] transition-transform transform hover:scale-105"
+        >
+          Go to Homepage
+        </button>
+        <button
+          onClick={() => navigate('/profile/bookings')}
+          className="w-full bg-gray-600 text-white py-3 rounded-lg shadow-md hover:bg-gray-700 transition-transform transform hover:scale-105"
+        >
+          View Orders
+        </button>
       </div>
     </div>
+
+    <footer className="mt-10 text-gray-500 text-sm">
+      Need help? <span className="text-blue-500 underline cursor-pointer">Contact Support</span>
+    </footer>
+  </div>
   );
 }
 

@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import adminService from '../../services/AdminService';
+import { Form } from 'react-router-dom';
 
 interface Specialization {
+  image: string;
   _id: string;
   name: string;
   description: string;
   isListed: boolean;
+  formData:FormData
 }
 
 function Specializations() {
@@ -14,6 +17,8 @@ function Specializations() {
   const [description, setDescription] = useState('');
   const [specialization, setSpecialization] = useState<Specialization[]>([]);
   const [editingSpecialization, setEditingSpecialization] = useState<Specialization | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+
 
   // Fetch the specialization data when the component mounts
   useEffect(() => {
@@ -67,8 +72,13 @@ function Specializations() {
   const handleSaveSpecialization = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = { name, description };
-
+    const formData = new FormData();
+  formData.append("name", name);
+  formData.append("description", description);
+  if (image) {
+    formData.append('image', image); 
+  }
+    console.log("............",formData)
     try {
       if (editingSpecialization) {
         const response = await adminService.updateSpecialization(editingSpecialization._id, formData);
@@ -106,10 +116,12 @@ function Specializations() {
 
       {/* Specialization List */}
       <div className="w-full max-w-5xl bg-white shadow-lg rounded-lg p-6">
-        <div className="grid grid-cols-4 text-lg font-semibold text-gray-600 mb-4 border-b border-gray-200 pb-2">
+        <div className="grid grid-cols-4 text-lg font-semibold text-gray-600 mb-1 border-b border-gray-200 pb-2">
           <div>No</div>
           <div>Specialization</div>
-          <div className="text-center">Action</div>
+          <div className="text-center ">Image</div>
+          <div className="text-center">Edit</div>
+          
         </div>
         {specialization.length > 0 ? (
           specialization.map((spec, index) => (
@@ -119,13 +131,26 @@ function Specializations() {
             >
               <div>{index + 1}</div>
               <div>{spec.name}</div>
+              
               <div className="text-center">
+            {spec.image ? (
+              <img
+                src={spec.image}
+                alt={spec.name}
+                className="w-12 h-8 object-cover rounded ml-20" 
+                />
+            ) : (
+              <span>No Image</span>
+            )}
+          </div>
+          <div className="text-center">
                 <button
                   onClick={() => handleEditSpecialization(spec)}
                   className="text-[#572c52] hover:text-[#572c52]"
                 >
                   Edit
                 </button>
+               
               </div>
             </div>
           ))
@@ -159,6 +184,16 @@ function Specializations() {
                   type="text"
                   id="description"
                   onChange={(e) => setDescription(e.target.value)}
+                  className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                  add image
+                </label>
+                <input
+                  
+                  type="file"
+                  id="uploadFile1"
+                  onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>

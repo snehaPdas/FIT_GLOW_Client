@@ -8,14 +8,12 @@ import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-// Replace this with the actual API URL from your project
+
 import API_URL from "../../../axios/API_URL";
 import {loadStripe} from '@stripe/stripe-js';
 import userAxiosInstance from "../../../axios/userAxiosInstance";
 import { useNavigate } from "react-router-dom";
 
-
-// Define TypeScript interfaces for the required types
 interface ISessionSchedule {
   _id: any;
   price: any;
