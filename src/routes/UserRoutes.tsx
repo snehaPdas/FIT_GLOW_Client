@@ -11,8 +11,8 @@
   import ForgotPswdOtpPage from '../pages/user/ForgotPswdOtpPage'
   import ResetPasswordPage from '../pages/user/ResetPasswordPage'
   import TrainersPage from '../pages/user/TrainersPage'
-
-  import TrainersProfileView from '../components/user/TrainersProfileView'
+ // import TrainersProfileView from '../components/user/TrainersProfileView'
+ import TrainerProfileViewPage from '../pages/user/TrainerProfileViewPage'
   import SuccessPaymentPage from '../pages/user/SuccessPaymentPage'
   
 
@@ -38,7 +38,7 @@
           <Route path="/resetpassword" element={<ResetPasswordPage/>}/>
           <Route path="/trainers" element={<TrainersPage/>}/>
 
-          <Route path="/trainersprofileview/:trainerId" element={<TrainersProfileView/>} />
+          <Route path="/trainersprofileview/:trainerId" element={<TrainerProfileViewPage/>} />
           <Route path='/paymentSuccess' element={<SuccessPaymentPage />} />
 
           

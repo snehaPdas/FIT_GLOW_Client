@@ -24,13 +24,14 @@ interface ISessionSchedule {
   type: string;
   trainerId: string;
   isBooked: boolean;
+
 }
 
 interface TrainerProfile {
   _id: string;
   name: string;
   profileImage: string;
-  specializations: { name: string }[];
+ specializations: { name: string }[];
 }
 
 function TrainersProfileView() {
@@ -71,7 +72,6 @@ function TrainersProfileView() {
         const response = await axios.get(`${API_URL}/api/user/schedules`)
        
         const schedules = response.data
-        console.log("------------",schedules)
         // Filt er and extract available dates
         const date = Array.from(
           new Set(
@@ -168,7 +168,6 @@ function TrainersProfileView() {
       const response=await userAxiosInstance.post(`/api/user/payment/${sessionId.id}`,{userData:userId})
       console.log("response for fetch is..........",response)
       const stripe=await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
-      console.log("stripe is------------",stripe)
       if(stripe){
         await stripe.redirectToCheckout({sessionId:response.data.id})
       }else{

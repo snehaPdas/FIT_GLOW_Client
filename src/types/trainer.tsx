@@ -22,6 +22,7 @@ export interface Trainer {
 }
 
 export interface ISessionSchedule {
+  date: ReactNode;
   specialization: string;
   _id: string;
    isSingleSession: boolean;
@@ -68,6 +69,7 @@ export interface TrainerListFilterBarProps {
   }) => void;
 }
 export interface Specialization {
+  image: string | undefined;
   _id: string;
   name: string;
   description: string;

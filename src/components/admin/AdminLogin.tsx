@@ -5,6 +5,7 @@ import { adminLogin } from "../../actions/AdminAction";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
+
 function AdminLogin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");

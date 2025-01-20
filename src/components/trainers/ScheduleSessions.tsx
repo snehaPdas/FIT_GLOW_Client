@@ -41,6 +41,9 @@ const ScheduleSessions: React.FC = () => {
   const [specializationId, setSpecializationId] = useState("");
     const [sessionSchedules, setSessionSchedules] = useState<ISessionSchedule[]>([])
 
+    const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(3);
+
    
 
 
@@ -62,6 +65,22 @@ const ScheduleSessions: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (sessionType === "Single") {
+      if (!formData.selectedDate || !formData.startTime || !formData.endTime) {
+        toast.error("Please fill in all required fields for Single Session.");
+        return;
+      }
+    } else if (sessionType === "Package") {
+      if (!formData.startDate || !formData.endDate || !formData.startTime || !formData.endTime) {
+        toast.error("Please fill in all required fields for Package Session.");
+        return;
+      }
+    }
+    if (new Date(formData.startDate) >= new Date(formData.endDate)) {
+      toast.error("Start Date must be less than End Date.");
+      return;
+    }
+
     const newSessionData = {
       ...formData,
       type: sessionType,
@@ -72,7 +91,7 @@ const ScheduleSessions: React.FC = () => {
       const response=await axiosinstance.post(`${API_URL}/api/trainer/session/${trainerId}`,newSessionData)
       
       const newSchedule= response.data.sessioncreated
-      console.log("gottttttt",newSchedule)
+    
       setSessionSchedules((prevSchedules) =>
         Array.isArray(newSchedule)
           ? [...prevSchedules, ...newSchedule]
@@ -82,12 +101,23 @@ const ScheduleSessions: React.FC = () => {
       if (response.status === 201) {
         toast.success("Session created successfully");
       }
-    } catch (error) {
-      
+    } catch (error:any) {
+      if (error.response?.status === 400) {
+        const errorMessage =
+          error.response.data.message ||
+          "Time conflict with an existing session.please add new session";
+        toast.error(errorMessage);
+      } else if (error.response?.status === 401) {
+        console.error("Unauthorized request. Redirecting to login.");
+        window.location.href = "/trainer/login";
+      } else {
+        console.error("Unexpected error:", error);
+        const generalErrorMessage =
+          error.response?.data.message || "An unexpected error occurred";
+        toast.error(generalErrorMessage);
+      }
     }
     setShowModal(false);
-
-    
 
     setFormData({
       selectedDate: "",
@@ -130,7 +160,7 @@ const ScheduleSessions: React.FC = () => {
     setSessions(sessions.filter((_, i) => i !== index));
   };
   useEffect(() => {
-    console.log("inside useffect.....")
+    
     const fetchSessionData = async () => {
        
       try {
@@ -139,7 +169,7 @@ const ScheduleSessions: React.FC = () => {
           `${API_URL}/api/trainer/shedules/${trainerId}`
         );
 
-        console.log("yaaaaaaaaaaaa",response)
+        
         const schedules = response.data.sheduleData;
         // console.log("schedules", schedules);
 
@@ -153,6 +183,20 @@ const ScheduleSessions: React.FC = () => {
     };
     fetchSessionData();
   }, []);
+  
+  const handlePageChange = (pageNumber: number) => {
+    if (pageNumber < 1) {
+      setCurrentPage(1);  // Ensure page starts at 1
+    } else if (pageNumber > Math.ceil(sessionSchedules.length / itemsPerPage)) {
+      setCurrentPage(Math.ceil(sessionSchedules.length / itemsPerPage));  // Last page
+    } else {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentSessions = sessionSchedules.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="min-h-screen bg-white py-4 px-4">
@@ -345,7 +389,7 @@ const ScheduleSessions: React.FC = () => {
           <tbody>
             
           {/* <td className="py-3 px-6 text-center">{specialization}</td> */}
-            {sessionSchedules.map((session, index) => (
+            {currentSessions.map((session, index) => (
               <tr key={index} className="border-b">
                 <td className="py-3 px-6 text-center">{session.type}</td>
                 <td className="py-3 px-6 text-center">
@@ -370,6 +414,25 @@ const ScheduleSessions: React.FC = () => {
             ))}
           </tbody>
         </table>
+{/* ///////////////////////// */}
+<div className="mt-4 flex justify-center">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-4 py-2 bg-gray-300 text-black rounded mr-2 hover:bg-[#7f6a7c]"
+        >
+          Previous
+        </button>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={indexOfLastItem >= sessionSchedules.length}
+          className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-[#7f6a7c]"
+        >
+          Next
+        </button>
+      </div>
+        {/* ////////////////////////////////////////// */}
+
       </div>
     </div>
   );

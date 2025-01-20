@@ -30,7 +30,7 @@ function Header() {
 
     
     <nav className="hidden md:flex space-x-8">
-      <a href="#" className="hover:text-yellow-400 transition">Home</a>
+      <a href="/home" className="hover:text-yellow-400 transition">Home</a>
       <a href="#" className="hover:text-yellow-400 transition">About</a>
       <a href="/trainers" className="hover:text-yellow-400 transition">Trainers</a>
       <a href="#" className="hover:text-yellow-400 transition">Contact</a>
@@ -60,7 +60,7 @@ function Header() {
 
   
   <div id="mobile-menu" className="md:hidden hidden bg-gray-800 text-white p-4">
-    <a href="#" className="block py-2 hover:text-yellow-400">Home</a>
+    <a href="/home" className="block py-2 hover:text-yellow-400">Home</a>
     <a href="#" className="block py-2 hover:text-yellow-400">About</a>
     <a href="/Trainers" className="block py-2 hover:text-yellow-400">Trainers</a>
     <a href="#" className="block py-2 hover:text-yellow-400">Contact</a>
