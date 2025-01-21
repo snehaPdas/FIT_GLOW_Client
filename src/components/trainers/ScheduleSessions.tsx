@@ -43,6 +43,8 @@ const ScheduleSessions: React.FC = () => {
 
     const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(3);
+  const [editingSession, setEditingSession] = useState<ISessionSchedule | null>(null);
+
 
    
 
@@ -61,64 +63,81 @@ const ScheduleSessions: React.FC = () => {
   const handleSessionTypeChange = (type: string) => {
     setSessionType(type);
   };
+///////////////////////////////////////////////////
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (sessionType === "Single") {
-      if (!formData.selectedDate || !formData.startTime || !formData.endTime) {
-        toast.error("Please fill in all required fields for Single Session.");
-        return;
-      }
-    } else if (sessionType === "Package") {
-      if (!formData.startDate || !formData.endDate || !formData.startTime || !formData.endTime) {
-        toast.error("Please fill in all required fields for Package Session.");
-        return;
-      }
-    }
-    if (new Date(formData.startDate) >= new Date(formData.endDate)) {
-      toast.error("Start Date must be less than End Date.");
+  // Validation Logic
+  if (sessionType === "Single") {
+    if (!formData.selectedDate || !formData.startTime || !formData.endTime) {
+      toast.error("Please fill in all required fields for Single Session.");
       return;
     }
+  } else if (sessionType === "Package") {
+    if (!formData.startDate || !formData.endDate || !formData.startTime || !formData.endTime) {
+      toast.error("Please fill in all required fields for Package Session.");
+      return;
+    }
+  }
+  if (new Date(formData.startDate) >= new Date(formData.endDate)) {
+    toast.error("Start Date must be less than End Date.");
+    return;
+  }
 
-    const newSessionData = {
-      ...formData,
-      type: sessionType,
-      status: "Pending" ,
-      specializationId: specializationId,
-    };
-    try {
-      const response=await axiosinstance.post(`${API_URL}/api/trainer/session/${trainerId}`,newSessionData)
+  const sessionData = {
+    ...formData,
+    type: sessionType,
+    status: "Pending",
+    specializationId,
+  };
+
+  try {
+    console.log("ÿeseeeeeeeeeee")
+    if (editingSession) {
+      console.log("L")
+      // Edit Mode
+      console.log("checkiiiiiiiiiiiiiii",`${editingSession._id}`)
+      const response = await axiosinstance.put(
+        `${API_URL}/api/trainer/edit-session/${editingSession._id}`,
+        sessionData
+      );
+
+      if (response.status === 200) {
+        setSessionSchedules((prevSchedules) =>
+          prevSchedules.map((session) =>
+            session._id === editingSession._id
+              ? { ...session, ...response.data.updatedSession } 
+              : session
+          )
+          
+        );
+        toast.success("Session updated successfully");
+      }
       
-      const newSchedule= response.data.sessioncreated
-    
-      setSessionSchedules((prevSchedules) =>
-        Array.isArray(newSchedule)
-          ? [...prevSchedules, ...newSchedule]
-          : [...prevSchedules, newSchedule]
+    } 
+    else {
+      // Create Mode
+      const response = await axiosinstance.post(
+        `${API_URL}/api/trainer/session/${trainerId}`,
+        sessionData
       );
 
       if (response.status === 201) {
+        setSessionSchedules((prevSchedules) =>
+          Array.isArray(response.data.sessioncreated)
+            ? [...prevSchedules, ...response.data.sessioncreated]
+            : [...prevSchedules, response.data.sessioncreated]
+        );
         toast.success("Session created successfully");
       }
-    } catch (error:any) {
-      if (error.response?.status === 400) {
-        const errorMessage =
-          error.response.data.message ||
-          "Time conflict with an existing session.please add new session";
-        toast.error(errorMessage);
-      } else if (error.response?.status === 401) {
-        console.error("Unauthorized request. Redirecting to login.");
-        window.location.href = "/trainer/login";
-      } else {
-        console.error("Unexpected error:", error);
-        const generalErrorMessage =
-          error.response?.data.message || "An unexpected error occurred";
-        toast.error(generalErrorMessage);
-      }
     }
+  } catch (error: any) {
+    console.error("Error:", error);
+    const errorMessage =
+      error.response?.data.message || "An unexpected error occurred";
+    toast.error(errorMessage);
+  } finally {
     setShowModal(false);
-
     setFormData({
       selectedDate: "",
       startTime: "",
@@ -126,12 +145,14 @@ const ScheduleSessions: React.FC = () => {
       startDate: "",
       endDate: "",
       specialization: "",
-      price: 0, // Reset price
+      price: 0,
     });
     setSessionType("Single");
-    setShowModal(false);
-  };
+    setEditingSession(null);
+  }
+};
 
+//////////////////////////////////////////////////////////////////////
   const handleCancel = () => {
     setFormData({
       selectedDate: "",
@@ -155,10 +176,42 @@ const ScheduleSessions: React.FC = () => {
       console.error("Error fetching specializations:", error);
     }
   };
+  
+  /////////////////////////////////////////
+  const handleEdit = (session: ISessionSchedule) => {
+    setEditingSession(session)
+    console.log("Session Data:", session);
+    console.log("Specializations Array:", spec);
+  
+    if (spec.length === 0) {
+      console.error("Specializations are not loaded yet.");
+      return;
+    }
+  
+    const specialization = spec.find((s) => s._id === specializationId);
+    console.log("Matched Specialization:", specialization);
+  
+    
+    setFormData({
+      specialization: specialization ? specialization._id : '',
+      selectedDate: session.selectedDate 
+        ? new Date(session.selectedDate).toISOString().split('T')[0]
+        : '', 
+      startTime: session.startTime || '',
+      endTime: session.endTime || '',
+    //  price: session.price || '',
+    price:session.price,
+      startDate: session.selectedDate 
+        ? new Date(session.selectedDate).toISOString().split('T')[0]
+        : '', 
+      endDate: session.endDate || '',
 
-  const handleDelete = (index: number) => {
-    setSessions(sessions.filter((_, i) => i !== index));
+    });
+  
+    setShowModal(true);
   };
+  
+
   useEffect(() => {
     
     const fetchSessionData = async () => {
@@ -383,7 +436,7 @@ const ScheduleSessions: React.FC = () => {
               <th className="py-3 px-6 text-center">Start Time</th>
               <th className="py-3 px-6 text-center">Status</th>
               <th className="py-3 px-6 text-center">Price</th> 
-              {/* <th className="py-3 px-6 text-center">Action</th> */}
+              <th className="py-3 px-6 text-center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -403,18 +456,17 @@ const ScheduleSessions: React.FC = () => {
                 <td className="py-3 px-6 text-center">{session.status}</td>
                 <td className="py-3 px-6 text-center">{session.price}</td> {/* Display Price */}
                 <td className="py-3 px-6 text-center">
-                  {/* <button
-                    onClick={() => handleDelete(index)}
-                    className="px-4 py-2 bg-red-500 text-white rounded-full transform hover:scale-105 transition-all duration-300"
+                  <button
+                    onClick={() => handleEdit(session)}
+                    className="px-4 py-2 bg-[#823c77] text-white rounded-full transform hover:scale-105 transition-all duration-300"
                   >
-                    Delete
-                  </button> */}
+                    Edit
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-{/* ///////////////////////// */}
 <div className="mt-4 flex justify-center">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
@@ -431,7 +483,7 @@ const ScheduleSessions: React.FC = () => {
           Next
         </button>
       </div>
-        {/* ////////////////////////////////////////// */}
+    
 
       </div>
     </div>
