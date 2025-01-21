@@ -44,16 +44,16 @@ const getSpecializations = async () => {
   }
 }
 
-const updateSpecialization = async (id: string, formData: { name: string; description: string }| FormData) => {
-  try{
-  
-    const response= await adminAxiosInstance.put(`${API_URL}/api/admin/specialization/${id}`, formData);
-    console.log(response)
-       return response
-  
-  }catch(error){
-    console.log("Error in frontend service",error)
-  }
+  const updateSpecialization = async (id: string, formData: { name: string; description: string ,image:string}| FormData) => {
+    try{
+      console.log("Form Data check ", Object.fromEntries(formData.entries())); // Debugging line
+      const response= await adminAxiosInstance.put(`${API_URL}/api/admin/specialization/${id}`, formData);
+      console.log(response)
+        return response
+    
+    }catch(error){
+      console.log("Error in frontend service",error)
+    }
  
 };
 

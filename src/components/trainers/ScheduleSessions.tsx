@@ -92,11 +92,10 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   };
 
   try {
-    console.log("ÿeseeeeeeeeeee")
+    
     if (editingSession) {
       console.log("L")
       // Edit Mode
-      console.log("checkiiiiiiiiiiiiiii",`${editingSession._id}`)
       const response = await axiosinstance.put(
         `${API_URL}/api/trainer/edit-session/${editingSession._id}`,
         sessionData

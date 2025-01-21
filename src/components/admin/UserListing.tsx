@@ -11,7 +11,7 @@ function UserListing() {
         const fetchData=async()=>{
         try {
          const response=await adminAxiosInstance.get(`/api/admin/users`)
-        setUsers(response.data.users)
+        setUsers(response.data.data.users)
             
         } catch (error) {
             console.log("Error in fextch datas",error)
