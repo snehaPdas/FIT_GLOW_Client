@@ -70,12 +70,12 @@ function SuccessPayment() {
         >
           Go to Homepage
         </button>
-        <button
+        {/* <button
           onClick={() => navigate('/profile/bookings')}
           className="w-full bg-gray-600 text-white py-3 rounded-lg shadow-md hover:bg-gray-700 transition-transform transform hover:scale-105"
         >
           View Orders
-        </button>
+        </button> */}
       </div>
     </div>
 

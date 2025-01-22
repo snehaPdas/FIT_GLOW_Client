@@ -12,10 +12,10 @@ interface Specialization {
 interface BookingDetail {
   name: string;
   _id: string;
-  userId:{
-    name:string,
-    email:string
-  }
+  // userId:{
+  //   name:string,
+  //   email:string
+  // }
   startDate:string
   startTime: string;
   sessionEndTime: string;
@@ -23,6 +23,7 @@ interface BookingDetail {
   sessionType: string;
   paymentStatus: string;
   sessionStatus?: string;
+  userId:string
 }
 
 //const formattedDate = new Date(startDate).toLocaleDateString("en-US");
@@ -43,6 +44,7 @@ console.log("trainer info is",trainerInfo)
     }
     fetchbookingDetails()
   },[trainerInfo.id])
+  console.log("biiking details.............",bookingDetails)
 
   return (
     <div className="flex-1 p-6 bg-gradient-to-r from-[#f4f4f4] via-[#e3d9e7] to-[#f3f1f5] overflow-y-auto">
@@ -55,9 +57,9 @@ console.log("trainer info is",trainerInfo)
 
     
       <div className="bg-white shadow-xl rounded-lg p-6 mb-6">
-        <h2 className="text-2xl font-bold text-[#572c52] mb-4">Upcoming Sessions</h2>
+        <h2 className="text-2xl font-bold text-[#572c52] mb-4">Upcoming Booked Sessions</h2>
         <div className="grid grid-cols-6 gap-4 text-center text-[#572c52] text-lg font-semibold border-b border-gray-300 pb-2">
-          <div>User Name</div>
+          {/* <div>User Name</div> */}
           <div>Date</div>
           <div>Time</div>
           <div>Session Type</div>
@@ -68,7 +70,7 @@ console.log("trainer info is",trainerInfo)
         { bookingDetails.length>0?(
            bookingDetails.map((session) => (
         <div className="grid grid-cols-6 gap-4 items-center p-4 hover:bg-gradient-to-r from-[#e3d9e7] via-[#f3c6d3] to-[#f3f1f5] transition-all border-b border-gray-300 rounded-lg">
-          <div className="text-center text-[#333333] font-medium">{session.userId.name||"null"}</div>
+          {/* <div className="text-center text-[#333333] font-medium">{session.userId}</div> */}
           <div className="text-center text-[#333333] font-medium">{new Date(session.startDate).toLocaleDateString("en-US")}</div>
           <div className="text-center text-[#333333] font-medium">{session.startTime}</div>
           <div className="text-center text-[#333333] font-medium">

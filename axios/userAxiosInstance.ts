@@ -47,7 +47,7 @@ async (error:AxiosError)=>{
        // toast.success("entered to block")
        console.log("user has been blocked by admin")
         console.warn("User is blocked, redirecting to login...");
-        window.location.href = "/login";
+        window.location.href = "/home";
         return Promise.reject(error);
     }
 

@@ -65,7 +65,7 @@ function AdminSideBar() {
             </span>
           </Link>
 
-          <Link
+          {/* <Link
             to=""
             className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
           >
@@ -73,7 +73,7 @@ function AdminSideBar() {
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>
               Trainers
             </span>
-          </Link>
+          </Link> */}
           <Link
             to="/admin/user-listing"
             className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
