@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 
+
 import API_URL from "../../../axios/API_URL";
 import {loadStripe} from '@stripe/stripe-js';
 import userAxiosInstance from "../../../axios/userAxiosInstance";
@@ -54,7 +55,7 @@ function TrainersProfileView() {
   useEffect(() => {
     const fetchTrainer = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/user/trainers/${trainerId}`);
+        const response = await userAxiosInstance.get(`${API_URL}/api/user/trainers/${trainerId}`);
         if (response.data && response.data.length > 0) {
           setTrainer(response.data[0]);
         }
@@ -69,11 +70,11 @@ function TrainersProfileView() {
   useEffect(() => {
     const fetchSessionSchedules = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/user/schedules`)
+        const response = await userAxiosInstance.get(`${API_URL}/api/user/schedules`)
        
         const schedules = response.data
         // Filt er and extract available dates
-        const date = Array.from(
+        const date:any = Array.from(
           new Set(
             schedules
               .filter(
@@ -100,11 +101,11 @@ function TrainersProfileView() {
   }, []);
 
 
-  const handleDateChange = (date: dayjs.Dayjs | null) => {
+  const handleDateChange = (date: any | null) => {
     setSelectedDate(date);
     if (date) {
       const formattedDate = date.format("YYYY-MM-DD");
-      const slots = sessionSchedules
+      const slots:any = sessionSchedules
         .filter((schedule) => {
           const scheduleDate = dayjs(schedule.selectedDate || schedule.startDate).format(
             "YYYY-MM-DD"
@@ -162,7 +163,7 @@ function TrainersProfileView() {
     )
   );
 
-  const handlepayment=async (sessionId: string)=>{
+  const handlepayment=async (sessionId: any)=>{
     
     try {
       const response=await userAxiosInstance.post(`/api/user/payment/${sessionId.id}`,{userData:userId})
@@ -247,7 +248,7 @@ function TrainersProfileView() {
                   Proceed to payment:
                 </Typography>
                 <div className="grid grid-cols-2 gap-4">
-                  {availableSlots.map((slot, index) => (
+                  {availableSlots.map((slot:any, index) => (
 
                     <Button
                       key={index}

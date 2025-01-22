@@ -25,7 +25,7 @@ function Specializations() {
     const fetchSpecializations = async () => {
       try {
         const response = await adminService.getSpecializations();
-        setSpecialization(response?.data || []);
+        setSpecialization(response?.data.data || []);
       } catch (error) {
         console.error('Failed to fetch specializations:', error);
       }

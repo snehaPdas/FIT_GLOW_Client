@@ -2,6 +2,7 @@ import React from 'react';
 import Banner_img from "../../assets/edit_selectedcover.jpg";
 
 function Banner() {
+  
   return (
     <div
       className=" h-[900px] bg-no-repeat bg-cover"

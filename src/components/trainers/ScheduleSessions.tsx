@@ -160,7 +160,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       startDate: "",
       endDate: "",
       specialization: "",
-      price: 0, // Reset price
+      price: 0,
     });
     setSessionType("Single");
     setShowModal(false);
@@ -238,7 +238,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   
   const handlePageChange = (pageNumber: number) => {
     if (pageNumber < 1) {
-      setCurrentPage(1);  // Ensure page starts at 1
+      setCurrentPage(1);  
     } else if (pageNumber > Math.ceil(sessionSchedules.length / itemsPerPage)) {
       setCurrentPage(Math.ceil(sessionSchedules.length / itemsPerPage));  // Last page
     } else {

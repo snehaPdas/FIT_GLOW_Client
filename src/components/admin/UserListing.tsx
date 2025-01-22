@@ -6,6 +6,8 @@ import {User} from "../../types/user"
 
 function UserListing() {
     const [users, setUsers] = useState<User[]>([]);
+    const [currentPage,setcurrentPage]=useState<number>(1)
+    const[itemsPerPage,setItemsPerPage]=useState<number>(5)
 
     useEffect(()=>{
         const fetchData=async()=>{
@@ -25,6 +27,7 @@ function UserListing() {
             const response=await adminAxiosInstance.patch(`/api/admin/${userId}/block-unblock`,{status:!currentStatus})
             if(response.status===200 && response.data){
                 const updatedUserStatus = response.data.data
+            
                 console.log("updated state is..........",updatedUserStatus)
                 setUsers((prevUsers)=>
                     prevUsers.map((user)=>
@@ -39,6 +42,21 @@ function UserListing() {
             console.log("Error in block-unblock of user",error)
          }
     }
+
+    const handlePageChange:any=(pageNumber:number)=>{
+     if(pageNumber<1){
+        setcurrentPage(1)
+     }else if(pageNumber>Math.ceil(users.length/itemsPerPage)){
+        setcurrentPage(Math.ceil(users.length/itemsPerPage))
+
+     }else{
+        setcurrentPage(pageNumber)
+     }
+    }
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentSessions = users.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     
@@ -55,8 +73,8 @@ function UserListing() {
         </thead>
         <tbody className="bg-white">
             {
-            users.length>0?(
-                users.map((user)=>(
+            currentSessions.length>0?(
+                currentSessions.map((user)=>(
             <tr key={user.id}>
                 <td className="py-4 px-6 border-b border-gray-200">{user.name}</td>
                 <td className="py-4 px-6 border-b border-gray-200 truncate">{user.email}</td>
@@ -85,6 +103,23 @@ function UserListing() {
   
         </tbody>
     </table>
+    <div className="flex justify-center mt-4">
+
+    <button onClick={()=>handlePageChange(currentPage-1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-gray-300 text-black rounded mr-2 hover:bg-[#7f6a7c]"
+
+    >previous</button>
+    
+
+<button onClick={()=>handlePageChange(currentPage+1)}
+          disabled={indexOfLastItem >= users.length}
+          className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-[#7f6a7c]"
+
+    >next
+    </button>
+    
+    </div>
 </div>
   )
 }

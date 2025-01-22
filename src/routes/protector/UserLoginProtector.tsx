@@ -18,6 +18,6 @@ if (userToken) {
     return children; 
   }
   return null
-}
+ }
 
 export default UserLoginProtector

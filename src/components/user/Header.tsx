@@ -2,6 +2,7 @@ import React from 'react'
 import logo_img from "../../assets/logo_fitglow.png"
 import { MouseEvent } from 'react'; 
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 function Header() {
@@ -19,6 +20,7 @@ function Header() {
     navigate("/login")
   }
 
+  
 
   return (
     <header className="bg-white text-[#572c5f] p-4 sticky top-0 z-50">
