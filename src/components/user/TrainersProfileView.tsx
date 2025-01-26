@@ -181,98 +181,105 @@ function TrainersProfileView() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 p-8">
-      <div className="max-w-3xl mx-auto">
-        <Paper elevation={6} className="shadow-lg rounded-lg overflow-hidden">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#572c52] to-purple-500 opacity-70"></div>
-            <img
-              src={trainer?.profileImage}
-              alt="Trainer"
-              className="h-40 w-40 mx-auto mt-6 rounded-full border-4 border-white relative z-10"
-            />
-          </div>
-          <div className="p-6 text-center">
-            <Typography variant="h5">{trainer?.name}</Typography>
-            <Typography variant="body2" color="textSecondary">
-              Specializations: {trainer?.specializations[0]?.name || "N/A"}
-            </Typography>
-            <Typography variant="body1" mt={4}>
-              Dedicated and experienced professional Fitness Trainer
-            </Typography>
-            <div className="flex justify-center mt-6 space-x-4">
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleBookSession("single")}
-              >
-                Book Single Session
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleBookSession("package")}
-              >
-                Book Package Session
-              </Button>
-            </div>
-          </div>
-        </Paper>
-        {(isSingleSession || isPackageSession) && (
-          <Paper elevation={6} className="mt-10 p-6 shadow-lg rounded-lg">
-            <Typography variant="h6" color="green" align="center">
-              Choose an Available Date
-            </Typography>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Select Date"
-                value={selectedDate}
-                onChange={handleDateChange}
-                disablePast
-                shouldDisableDate={(date) => {
-                  const formattedDate = date.format("YYYY-MM-DD");
-                  return !availableDates.includes(formattedDate);
-                }}
-                slots={{
-                  textField: TextField,
-                }}
-                slotProps={{
-                  textField: { fullWidth: false, variant: "outlined" },
-                }}
-              />
-            </LocalizationProvider>
-
-            {selectedDate && availableSlots.length > 0 && (
-              <div className="mt-6">
-                <Typography variant="body1" style={{ fontWeight: 'bold', color: '#4caf50' }} mb={4}>
-                  Proceed to payment:
-                </Typography>
-                <div className="grid grid-cols-2 gap-4">
-                  {availableSlots.map((slot:any, index) => (
-
-                    <Button
-                      key={index}
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handlepayment(slot)}
-                    >
-                      SESSION TIME{slot.time}  RS {slot.price}/- Only
-
-                    </Button>
-                    
-                  ))}
-                </div>
-              </div>
-            )}
-            {selectedDate && availableSlots.length === 0 && (
-              <Typography variant="body2" align="center" mt={5}>
-                No slots available for the selected date.
-              </Typography>
-            )}
-          </Paper>
-        )}
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-10">
+  <div className="max-w-3xl mx-auto">
+    {/* Trainer Card */}
+    <div className="shadow-xl rounded-lg overflow-hidden bg-white">
+      <div className="relative">
+        {/* Background Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#572c52] to-purple-500 opacity-70"></div>
+        {/* Profile Image */}
+        <img
+          src={trainer?.profileImage}
+          alt="Trainer"
+          className="h-40 w-40 mx-auto mt-6 rounded-full border-4 border-white relative z-10"
+        />
+      </div>
+      {/* Trainer Details */}
+      <div className="p-8 text-center">
+        <h2 className="text-2xl font-semibold text-gray-800">{trainer?.name}</h2>
+        <p className="text-gray-500 mt-2">
+          Specializations: {trainer?.specializations[0]?.name || "N/A"}
+        </p>
+        <p className="text-gray-700 mt-4">
+          Dedicated and experienced professional Fitness Trainer.
+        </p>
+        <div className="flex justify-center mt-6 space-x-4">
+          <button
+            onClick={() => handleBookSession("single")}
+            className="px-6 py-2 bg-[#977493] text-white font-semibold rounded-lg shadow hover:bg-[#7b4373] transition transform hover:scale-105"
+          >
+            Book Single Session
+          </button>
+          <button
+            onClick={() => handleBookSession("package")}
+            className="px-6 py-2 bg-[#9d7b99] text-white font-semibold rounded-lg shadow hover:bg-[#7b4373] transition transform hover:scale-105"
+          >
+            Book Package Session
+          </button>
+        </div>
       </div>
     </div>
+
+    {/* Session Selection */}
+    {(isSingleSession || isPackageSession) && (
+      <div className="shadow-xl rounded-lg mt-12 p-8 bg-white">
+        <h3 className="text-xl font-semibold text-[#0c0c0c] text-center">
+          Choose an Available Date
+        </h3>
+        <div className="mt-6 flex justify-center">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Select Date"
+              value={selectedDate}
+              onChange={handleDateChange}
+              disablePast
+              shouldDisableDate={(date) => {
+                const formattedDate = date.format("YYYY-MM-DD");
+                return !availableDates.includes(formattedDate);
+              }}
+              slots={{
+                textField: TextField,
+              }}
+              slotProps={{
+                textField: { fullWidth: false, variant: "outlined" },
+              }}
+            />
+          </LocalizationProvider>
+        </div>
+
+        {/* Slots */}
+        {selectedDate && availableSlots.length > 0 && (
+          <div className="mt-8">
+            <h4 className="text-lg font-bold text-gray-800 mb-4">
+              Proceed to payment:
+            </h4>
+            <div className="grid grid-cols-2 gap-4">
+              {availableSlots.map((slot, index) => (
+                <button
+                  key={index}
+                  onClick={() => handlepayment(slot)}
+                  className="px-4 py-3 bg-[#683f64] text-white font-semibold rounded-lg shadow hover:bg-[#7b4373] transition transform hover:scale-105"
+                >
+                  {`Session Time: ${slot.time}`} <br />
+                  {`Rs. ${slot.price}/- Only`}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* No Slots Available */}
+        {selectedDate && availableSlots.length === 0 && (
+          <p className="text-center text-gray-500 mt-8">
+            No slots available for the selected date.
+          </p>
+        )}
+      </div>
+    )}
+  </div>
+</div>
+
   );
 }
 

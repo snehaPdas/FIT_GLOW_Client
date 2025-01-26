@@ -29,9 +29,6 @@ function TrainerRoute() {
       <Route path="/schedulesessions" element={<ProtectRoute><ScheduleSessions /></ProtectRoute>} />
      </Route>
      
-           
-     
-
       </Routes>
     
   )

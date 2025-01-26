@@ -109,7 +109,7 @@ function TrainersList() {
           <div className="flex justify-center mt-6">
           <button
             onClick={handleLoadMore}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded"
+            className="bg-[#572c52] hover:bg-[#9f889d] text-white py-2 px-6 rounded"
           >
             Load More Trainers
           </button>

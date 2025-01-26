@@ -82,6 +82,7 @@ console.log("trainer info is",trainerInfo)
           </div>
         </div>
   ))
+  
 ) : (
   <p className="text-center text-gray-500 mt-6">No upcoming sessions.</p>
         )}

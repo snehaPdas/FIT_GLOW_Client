@@ -71,6 +71,8 @@ function Signup() {
       email,
       phone,
       password,
+      height: '',
+      weight: ''
     };
 
     try {

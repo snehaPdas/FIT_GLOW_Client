@@ -7,7 +7,9 @@ export interface User{
     password:string,
     dob?:string,
     gender?:string,
-    isblocked?:boolean
+    isblocked?:boolean,
+    height :string,
+    weight :string
 
 
 }
