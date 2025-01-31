@@ -13,6 +13,7 @@ function UserLayout() {
       <div className="flex flex-1 bg-blue-50">
         {/* Sidebar - Fixed Width */}
         <div className="w-64 flex-shrink-0 bg-white shadow-lg">
+          
           <UserProfileSideBar />
         </div>
 

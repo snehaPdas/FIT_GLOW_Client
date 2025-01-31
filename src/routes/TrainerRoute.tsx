@@ -10,6 +10,7 @@ import TrainerResetpswdPage from '../pages/trainer/TrainerResetpswdPage'
 import TrainerDashboard from '../components/trainers/TrainerDashboard'
 import ScheduleSessions from '../components/trainers/ScheduleSessions'
 import ProtectRoute from "../routes/protector/TrainerProtectRoute"
+import ChatSidebarPage from '../pages/trainer/ChatSidebarPage'
 
 // import TrainerKyc from '../components/trainers/TrainerKyc'
 // import KycSubmitStatus from '../components/trainers/KycSubmitStatus'
@@ -24,9 +25,14 @@ function TrainerRoute() {
       <Route path="/trainer-forgotpassword" element={<TrainerForgotPasswordPage/>}/>
       <Route path="/trainer-forgotpswdOtp" element={<TrainerForgotPswdOtpPage/>}/>
       <Route path="/trainer-resetpassword" element={<TrainerResetpswdPage/>}/>
+
+
+       
       <Route path="/" element={<TrainerLayout/>} >
       <Route index element={<ProtectRoute><TrainerDashboard/></ProtectRoute>}/>
-      <Route path="/schedulesessions" element={<ProtectRoute><ScheduleSessions /></ProtectRoute>} />
+      <Route path="schedulesessions" element={<ProtectRoute><ScheduleSessions /></ProtectRoute>} />
+      <Route path="chat-sidebar" element={<ProtectRoute><ChatSidebarPage /></ProtectRoute>} />
+
      </Route>
      
       </Routes>

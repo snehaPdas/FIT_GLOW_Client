@@ -60,7 +60,7 @@ function TrainerSideBar() {
 
           
           <Link
-            to=""
+            to="/trainer/chat-sidebar"
             className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
           >
             <FaUsers size={22} />

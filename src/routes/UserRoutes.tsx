@@ -17,9 +17,11 @@
   import UserLayout from '../components/user/UserLayout';
   import UserProfilePage from "../pages/user/UserProfilePage"
   import Bookings from '../components/user/Bookings';
+  import ChatSidebarPage from '../pages/user/ChatSidebarPage'
+/////////////////////////////////////
+// import Message from "../components/user/message";
 
 
-  
 
 
   function UserRoutes() {
@@ -47,8 +49,13 @@
                <Route path='/profile' element={<UserLayout />}>
                <Route index element ={<UserProfilePage/>}/>
                <Route path="bookings" element={<Bookings/>}/>
+               <Route path="message" element={<ChatSidebarPage/>}/>
                </Route>
-        
+
+               
+               {/* <Route path="/messages" element={<Message message={''} sender={'User'} time={''} userImage={undefined} trainerImage={undefined}/>}/> */}
+
+              
       </Routes>
       
     )

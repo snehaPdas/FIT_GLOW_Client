@@ -7,7 +7,7 @@ import Footer from '../../components/user/Footer';
 
 function TrainersPage() {
   return (
-    <div className="min-h-screen flex flex-col pt-16">
+    <div className="min-h-screen flex flex-col ">
       
       <Header />
 

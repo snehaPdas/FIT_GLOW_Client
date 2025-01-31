@@ -36,7 +36,7 @@ function Bookings() {
         const fetchbookingDetails=async()=>{
           try {
                            
-            const response=await userAxiosInstance.patch(`${API_URL}/api/user/booking-details`)
+            const response=await userAxiosInstance.get(`${API_URL}/api/user/booking-details`)
             console.log("response issss",response.data)
             setBookingDetails(response.data.data)
           } catch (error) {

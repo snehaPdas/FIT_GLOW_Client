@@ -48,7 +48,7 @@ const Sidebar = () => {
 
         
 
-        <NavLink to="/settings" className={({ isActive }) => 
+        <NavLink to="message" className={({ isActive }) => 
           `flex items-center p-4 transition duration-300 cursor-pointer ${
             isActive ? "bg-white/20" : "hover:bg-white/10"
           }`
