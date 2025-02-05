@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import adminService from '../../services/AdminService';
 import { Form } from 'react-router-dom';
+import { Toaster, toast } from "react-hot-toast";
 
 interface Specialization {
   image: string;
@@ -94,11 +95,15 @@ function Specializations() {
         
         const response = await adminService.addSpecialization(formData);
         setSpecialization((prev) => [...prev, response?.data.specializationresponse]);
+        toast.success('Specialization added successfully!');
+
       }
 
       closeModal(); // Close the modal after saving
-    } catch (error) {
+    } catch (error:any) {
       console.error('Failed to save specialization:', error);
+      toast.error("fill all fields" );
+
     }
   };
 
@@ -168,7 +173,7 @@ function Specializations() {
             <form onSubmit={handleSaveSpecialization}>
               <div className="mb-4">
                 <label htmlFor="specializationName" className="block text-sm font-medium text-gray-700">
-                  Specialisation Name
+                  Specialisation Name(*)
                 </label>
                 <input
                   value={name || ''}
@@ -178,7 +183,7 @@ function Specializations() {
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                  Specialisation description
+                  Specialisation description(*)
                 </label>
                 <input
                   value={description || ''}

@@ -15,6 +15,7 @@ interface Errors {
   email?: string;
   phone?: string;
   password?: string;
+  confirmpassword?:string
 }
 
 function Signup() {
@@ -22,7 +23,10 @@ function Signup() {
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [confirmpassword, setConfirmpassword] = useState<string>("");
+
   const [errors, setErrors] = useState<Errors>({});
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state: RootState) => state.user);
@@ -45,8 +49,13 @@ function Signup() {
     }
     if (!password.trim()) {
       newErrors.password = "Please fill the password field";
-    } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+    } else if (!password.match(/^(?=.*[A-Z])(?=.*[@$!%*?&#^])[A-Za-z\d@$!%*?&#^]{8,}$/) ){
+      newErrors.password = "Password must have one uppercase,one special character minimul length 8";
+    }
+    if (!confirmpassword.trim()) {
+      newErrors.confirmpassword = "Please fill the confirm password field";
+    } else if (password!==confirmpassword) {
+      newErrors.password = "Confirm password is incorrect";
     }
     return newErrors;
   };
@@ -71,6 +80,7 @@ function Signup() {
       email,
       phone,
       password,
+      confirmpassword,
       height: '',
       weight: ''
     };
@@ -163,6 +173,14 @@ function Signup() {
               className="bg-gray-100 border border-gray-300 outline-none rounded-md py-3 px-4 w-full transition duration-200 focus:ring-2 focus:ring-[#572c5f] mb-3"
             />
             {errors.password && (<p className="text-red-500 text-sm">{errors.password}</p>)}
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmpassword}
+              onChange={(e) => setConfirmpassword(e.target.value)}
+              className="bg-gray-100 border border-gray-300 outline-none rounded-md py-3 px-4 w-full transition duration-200 focus:ring-2 focus:ring-[#572c5f] mb-3"
+            />
+            {errors.confirmpassword && (<p className="text-red-500 text-sm">{errors.confirmpassword}</p>)}
   
             <button
               type="submit"

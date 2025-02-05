@@ -11,6 +11,11 @@ import { AppDispatch, RootState } from '../../app/store';
 import { useSelector } from 'react-redux';
 import Message from "./Message";
 import { useEffect, useRef, useState } from 'react';
+import { useSocketContext } from '../../context/socket';
+import { useDispatch } from 'react-redux';
+import { setVideoCall } from '../../features/trainer/TrainerSlice';
+
+
 
 
 interface TrainerChatProps {
@@ -19,10 +24,11 @@ interface TrainerChatProps {
   }
 
 function TrainerChat({ userId, bookingId }:TrainerChatProps) {
-    console.log("useid issssssssss",userId)
-    console.log("bookingId issssssssss",bookingId)
+    
+    
       const trainerToken=localStorage.getItem("trainer_access_token")
       const {  trainerInfo } = useSelector((state: RootState) => state.trainer);
+      const { userInfo } = useSelector((state: RootState) => state.user);
 
     const [userData, setUserData] = useState<User | null>(null);
     const { messages, loading } = useGetMessage(trainerToken!, userId!);
@@ -31,8 +37,11 @@ function TrainerChat({ userId, bookingId }:TrainerChatProps) {
 
 
     const [localMessages, setLocalMessages] = useState(messages);
+    let { socket } = useSocketContext();
+    const dispatch = useDispatch<AppDispatch>();
 
 
+      
     const messagesEndRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
       setBooking_id(bookingId)
@@ -40,7 +49,7 @@ function TrainerChat({ userId, bookingId }:TrainerChatProps) {
   
   
     useEffect(() => {
-        console.log("********")
+        
         const fetchUserDetails = async () => {
           const response = await trainerAxiosInstance.get(`/api/trainer/users/${userId}`);
           setUserData(response.data);
@@ -48,7 +57,7 @@ function TrainerChat({ userId, bookingId }:TrainerChatProps) {
         fetchUserDetails();
       }, [userId]);
       useEffect(() => {
-        console.log("?????????????")
+        
         const fetchTrainer = async () => {
           const response = await trainerAxiosInstance.get(`/api/trainer/${trainerInfo.id}`);
           setTrainerData(response.data.trainerData[0]);
@@ -56,20 +65,63 @@ function TrainerChat({ userId, bookingId }:TrainerChatProps) {
         fetchTrainer();
       }, [trainerInfo.id, userId]);
 
+      useEffect(() => {
+        if (!socket) return;
+    
+        socket.emit("join", trainerInfo?.id || userInfo?.id);
+    
+        const handleNewMessage = (newMessage: any) => {
+          setLocalMessages((prevMessages) => [...prevMessages, newMessage]);
+        };
+       
+       
+    
+    
+        socket.on("messageUpdate", handleNewMessage);
+    
+        return () => {
+          socket.off("messageUpdate", handleNewMessage);
+        };
+      }, [socket, trainerInfo?.id, userInfo?.id]);
+    
+/////////////////////////////////////////////////////////
+useEffect(() => {
+  setLocalMessages(messages);
+}, [messages]);
+
+
       const handleNewMessage = (newMessage: any) => {
-        console.log(">>>>>>>>>>>>>",newMessage)
-        setLocalMessages((prevMessages) => [...prevMessages, newMessage]); // Instant UI update
-      };
+        
+      //   setLocalMessages((prevMessages) => {
+      //     const isDuplicate = prevMessages.some(
+      //       (msg) => msg._id === newMessage._id || (msg.createdAt === newMessage.createdAt && msg.message === newMessage.message)
+      //     );
+      //     return isDuplicate ? prevMessages : [...prevMessages, newMessage];
+      //   });
+       };
 
 
       useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
       }, [localMessages]);
-      useEffect(() => {
-        setLocalMessages(messages);
-      }, [messages]);
-      console.log("local trainerData trainer issssssssss",trainerData)
-      console.log("local messageeeeeeee",localMessages)
+     
+      const navigateVideoChat = () => {
+    
+        dispatch(
+          setVideoCall({
+            userID: userId || "",
+            type: "out-going",
+            callType: "video",
+            roomId: `${Date.now()}`,
+            userName: `${userData?.name}`,
+            userImage: `${userData?.image}`,
+            trainerName: `${trainerData?.name}`,
+            trainerImage: `${trainerData?.profileImage}`, 
+            bookingId: `${bookingId}`
+          })
+        );
+      };
+      
     
   return (
      <div className="w-full lg:max-w-full md:max-w-[450px] flex flex-col h-[82vh] ">
@@ -78,6 +130,11 @@ function TrainerChat({ userId, bookingId }:TrainerChatProps) {
           <img className="h-10 w-10 rounded-full" src={userimg} alt={userimg} />
           <h1 className="text-lg text-white font-medium">{userData?.name}</h1>
         </div>
+        <button className="flex justify-center gap-3 bg-[#572c52] px-4 py-2 rounded-lg" onClick={navigateVideoChat}>
+          <h1 className="text-1xl text-white">Start Session</h1>
+          <FaVideo className="h-6 w-6" />
+        </button>
+
      </div>
      
 
@@ -92,7 +149,7 @@ function TrainerChat({ userId, bookingId }:TrainerChatProps) {
               sender={msg?.senderModel ? (msg.senderModel.charAt(0).toUpperCase() + msg.senderModel.slice(1)) as 'User' | 'Trainer' : 'User'}
               message={msg.message}
               time={new Date(msg.createdAt).toLocaleTimeString()}
-              userImage={userData?.image}
+              userImage={userData?.image || userimg}
               trainerImage={trainerData?.profileImage}
             />
           ))

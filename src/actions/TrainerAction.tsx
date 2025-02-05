@@ -16,7 +16,9 @@ export interface ITrainer {
     'trainer/signup',
     async (trainerData: ITrainer, thunkAPI) => {
       try {
+        console.log("????????????")
         const response = await trainerService.registerTrainer(trainerData);
+        console.log("************",response)
         return response
       } catch (error: any) {
         const errorMessage = error.response?.data?.message || 'An error occurred';
@@ -40,7 +42,7 @@ export const loginTrainer=createAsyncThunk(
 
       try {
           const response=await trainerService.loginTrainer({email,password}) 
-          
+          console.log("??????????",response)
           return response
 
       } catch (error:any) {

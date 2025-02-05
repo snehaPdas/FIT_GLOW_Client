@@ -4,6 +4,7 @@ import { useState, } from 'react';
 import useSendMessage from '../../hooks/useSendMessage';
 import { RootState } from '../../app/store';
 import { useSelector } from 'react-redux';
+import { useSocketContext } from '../../context/socket';
 
 
 
@@ -16,15 +17,16 @@ function MessageInputBar({ userId, onNewMessage }: MessageInputBarProps) {
     const [message, setMessage] = useState('');
     const { sendMessage } = useSendMessage();
     const trainerToken=localStorage.getItem("trainer_access_token")
+    const { socket } = useSocketContext();  // Get socket from context
 
     const {  trainerInfo } = useSelector((state: RootState) => state.trainer);
 
     const validToken = trainerToken ?? ""; 
 
-    console.log("hoooooooooo",sendMessage)
+    
 
     const   handleSendMessage = async (e: React.FormEvent<HTMLElement>) => {
-      console.log("checkingggggggggg")
+      
    e.preventDefault()
    if (!message) return;
     const receiverId = userId ?? "defaultUserId"
@@ -36,7 +38,11 @@ function MessageInputBar({ userId, onNewMessage }: MessageInputBarProps) {
       createdAt: new Date().toISOString(),
       userId: trainerInfo.id
   };
-  console.log("new message issssssssss",newMessage)
+  if (socket) {
+    socket.emit("sendMessage", newMessage);  
+} else {
+    console.error("Socket is not initialized");
+}
   
  
   onNewMessage(newMessage);

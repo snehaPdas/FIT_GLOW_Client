@@ -3,12 +3,29 @@ import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
 import UserRoutes from './routes/UserRoutes'
 import TrainerRoute from './routes/TrainerRoute'
 import AdminRoute from './routes/AdminRoute'
+import { useSelector } from 'react-redux';
+import { RootState } from './app/store';
+import OutgoingVideocallPage from "./pages/trainer/OutgoingvideocallPage"
+import VideCallPageTrainer from './pages/trainer/VideCallPageTrainer'
+import IncomingVideoCallPage from './pages/user/IncomingVideoCallPage'
 
 import toast,{Toaster} from "react-hot-toast"
 
+
 function App() {
+  const {videoCall, showVideoCallTrainer} = useSelector((state: RootState) => state.trainer)
+  const {showIncomingVideoCall, showVideoCallUser} = useSelector((state: RootState) => state.user)
+
+
   return (
     <Router>
+      {videoCall && <OutgoingVideocallPage />}
+      {showVideoCallTrainer && < VideCallPageTrainer/>}
+      {/* {showIncomingVideoCall?._id && <IncomingVideoCallPage />} */}
+      {/* {showVideoCallUser && <VideoCallPage />} */}
+
+      
+
       <Toaster position ="top-right" reverseOrder={false}/>
       <Routes>
 

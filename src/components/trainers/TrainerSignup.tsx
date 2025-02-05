@@ -18,6 +18,7 @@ function TrainerSignUp() {
   const [email, SetEmail] = useState<string>("");
   const [phone, SetPhone] = useState<string>("");
   const [password, SetPassword] = useState<string>("");
+  const [confirmpassword,setConfirmPassword]=useState<string>("")
   const [specializations, setSpecializations] = useState<ISpecialization[]>([]);
   const [selectedSpecializations, setSelectedSpecializations] = useState<string[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -57,9 +58,16 @@ function TrainerSignUp() {
     }
     if (!password) {
       newErrors.password = "Password is required";
-    } else if (password.length < 6) {
-      newErrors.password = "Password should be at least 6 characters";
+    } else if (!password.match(/^(?=.*[A-Z])(?=.*[@$!%*?&#^])[A-Za-z\d@$!%*?&#^]{8,}$/)) {
+      newErrors.password = "Password must have one uppercase,one special character minimul length 8";
+    
     }
+    if (!confirmpassword) {
+      newErrors.confirmpassword = "confirm Password is required";
+    } else if (password!==confirmpassword) {
+      newErrors.confirmpassword = "confirm password is incorrect";
+    }
+
     if (selectedSpecializations.length === 0) {
       newErrors.specializations = "At least one specialization is required";
     }
@@ -85,6 +93,7 @@ function TrainerSignUp() {
         email,
         phone,
         password,
+        confirmpassword,
         specializations: selectedSpecializations,
       };
       await dispatch(registerTrainer(trainerData));
@@ -178,6 +187,15 @@ function TrainerSignUp() {
               className="bg-gray-100 border border-gray-300 rounded-md py-3 px-4 w-full focus:ring-2 focus:ring-[#572c5f]"
             />
             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+            <input
+              type="password"
+              placeholder="confirm Password"
+              value={confirmpassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="bg-gray-100 border border-gray-300 rounded-md py-3 px-4 w-full focus:ring-2 focus:ring-[#572c5f]"
+            />
+            {errors.confirmpassword && <p className="text-red-500 text-sm">{errors.confirmpassword}</p>}
+
             <button
               type="submit"
               className="bg-[#572c5f] text-white font-semibold py-3 rounded-md w-full hover:bg-opacity-75"

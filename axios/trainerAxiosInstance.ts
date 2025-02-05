@@ -15,7 +15,7 @@ const trainerAxiosInstance=axios.create({
 //request user interceptors 
 
 trainerAxiosInstance.interceptors.request.use((config:CustomAxiosRequestConfig)=>{
-    const token=localStorage.getItem("accesstoken")
+    const token=localStorage.getItem("trainer_access_token")
     if(token){
         config.headers["Authorization"]=`Bearer ${token}`
     }
@@ -42,8 +42,8 @@ async (error:AxiosError)=>{
             console.log("sample check for refreshtoken")
             const response= await trainerAxiosInstance.post<{accessToken:string}>("/api/trainer/refresh-token",{},{withCredentials:true})
             const {accessToken}=response.data
-            localStorage.setItem("accesstoken",accessToken)
-            console.log("Access token stored:", localStorage.getItem("accesstoken"));
+            localStorage.setItem("trainer_access_token",accessToken)
+            console.log("Access token stored:", localStorage.getItem("trainer_access_token"));
 
             return trainerAxiosInstance(originalRequest)
         } catch (refreshError) {

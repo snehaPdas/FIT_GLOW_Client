@@ -10,7 +10,7 @@ interface MessageProps {
     trainerImage: string | undefined;
   }
 function Message({ sender, message, time, userImage, trainerImage }: MessageProps) {
-    console.log("/////////////////////>>>>>>>>>>>>.message",message)
+    
   return (
     <div className={`chat ${sender === 'Trainer' ? 'chat-end' : 'chat-start'}`}>
       <div className="chat-image avatar">

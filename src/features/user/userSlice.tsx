@@ -6,12 +6,31 @@ interface UserState {
   userInfo: User | null;
   loading: boolean;
   error: string | null;
+  showIncomingVideoCall:any,
+  videoCall:any,
+  roomIdUser:any
+  showVideoCallUser:any
+  
 }
 
 const initialState: UserState = {
   userInfo: null,
   loading: false,
   error: null,
+  showIncomingVideoCall:{
+    _id: "",
+    callType: "",
+    trainerName: "",
+    trainerImage: '',
+    roomId: null,
+  },
+  videoCall:null,
+  roomIdUser:null,
+  showVideoCallUser: false,
+ 
+
+
+
 };
 
 const userSlice = createSlice({
@@ -22,6 +41,33 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User | null>) => {
       state.userInfo = action.payload;
     },
+    setShowIncomingVideoCall: (state, action) => {
+      state.showIncomingVideoCall = action.payload
+// console.log('userslcie', state.showIncomingVideoCall);
+
+      
+    },
+    setVideoCallUser(state, action: PayloadAction<string | null>) {
+      state.videoCall = action.payload;
+    },
+    setRoomIdUser(state, action: PayloadAction<string | null>) {  
+      state.roomIdUser = action.payload;
+    },
+    setShowVideoCallUser(state, action: PayloadAction<boolean>) {
+      state.showVideoCallUser = action.payload;
+    },
+    endCallUser: (state) => {
+      console.log('hit  user sclice-------->');
+      
+      state.videoCall = null;
+      state.showIncomingVideoCall = null;
+      state.showVideoCallUser = false; // Ensure the video call state is false
+      state.roomIdUser = null;         // Clear the room ID if necessary
+      console.log('callend user slice',state.showIncomingVideoCall);
+      localStorage.removeItem("IncomingVideoCall");
+    },
+   
+
   },
   extraReducers: (builder) => {
     console.log(".........................",)
@@ -82,6 +128,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setShowIncomingVideoCall,setShowVideoCallUser,endCallUser,setRoomIdUser} = userSlice.actions;
 
 export default userSlice.reducer;

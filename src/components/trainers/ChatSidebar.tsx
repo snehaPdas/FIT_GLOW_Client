@@ -27,7 +27,7 @@ function ChatSidebar() {
     const fetchUsers = async () => {
       try {
         const response = await trainerAxiosInstance.get(`/api/trainer/bookingdetails/${trainerId}`);
-        console.log("response:", response.data.data);
+        
 
         const seenUserId = new Set();
         const uniqueUsers = response.data.data.filter((booking: any) => {

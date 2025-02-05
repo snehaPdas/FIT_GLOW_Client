@@ -12,7 +12,7 @@ interface Trainer {
   profileImage: string;
   hasNewMessage: boolean;
   messageCount: number;
-  trainer:string
+
 }
 
 function ChatSidebar() {
@@ -41,6 +41,7 @@ function ChatSidebar() {
             profileImage: book.trainerId.profileImage,
             hasNewMessage: book.hasNewMessage || false,
             messageCount: book.messageCount || 0,
+            
           }))
         );
       } catch (error) {

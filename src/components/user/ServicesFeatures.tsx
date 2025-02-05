@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import API_URL from "../../../axios/API_URL";
-import axios from "axios";
+import userAxiosInstance from "../../../axios/userAxiosInstance";
 import { useNavigate } from "react-router-dom";
 import { Specialization } from "../../types/trainer"
 import Aos from "aos";
@@ -15,7 +15,7 @@ function ServicesFeatures() {
   useEffect(() => {
     const fetchSpecializations = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/user/specializations`);
+        const response = await userAxiosInstance.get(`${API_URL}/api/user/specializations`);
         const specializationLists = response.data.filter(
           (spec: { isListed: any }) => spec.isListed
         );

@@ -20,6 +20,7 @@ function TrainerProtectRoute({ children }: TrainerProtectedRouteProps) {
   const { trainerInfo, kycStatus } = useSelector(
     (state: RootState) => state.trainer
   );
+  console.log("Trainer information issssssss:", trainerInfo);
 
   const trainer_id = trainerInfo?.id;
   console.log("Trainer ID:", trainer_id);
@@ -35,8 +36,7 @@ function TrainerProtectRoute({ children }: TrainerProtectedRouteProps) {
       navigate("/trainer/login");
     }
   }, [trainer_id, dispatch, navigate]);
-  console.log("kyc status=======", kycStatus);
-  console.log("kyc status=======", trainerInfo);
+  
 
   if (!trainerInfo) {
     return null;

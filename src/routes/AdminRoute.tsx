@@ -19,9 +19,7 @@ function AdminRoute() {
         <Route path="/user-listing" element={<UserListingPage />} />
         <Route path="/specialisations" element={<SpecializationPage />} />
         <Route path="/verification" element={<Verification />} />
-
         <Route path="/trainer-view/:trainerId" element={<TrainerVeifyViewPge />} />
-
       </Route>
 
     </Routes>

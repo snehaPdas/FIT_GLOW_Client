@@ -488,7 +488,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
             ))}
           </tbody>
         </table>
-<div className="mt-4 flex justify-center">
+<div className="flex justify-between items-center mt-6">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -496,6 +496,8 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         >
           Previous
         </button>
+        <span className="text-gray-600">Page {currentPage} of {Math.ceil(sessionSchedules.length / itemsPerPage)}</span>
+
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={indexOfLastItem >= sessionSchedules.length}

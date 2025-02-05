@@ -16,40 +16,42 @@ import MessageInpurBar from './MessageInpurBar';
 import useGetMessage from "../../hooks/useGetMessage";
 import userimg from "../../assets/profieicon.png"
 
-
-
 interface TrainerChatProps {
   trainer: {
-    trainerId: any;
+    trainerId?: any;
     trainerName: string;
     profileImage: string;
 };
   }
-  
 
 function UserChat({trainer}:TrainerChatProps) {
-
-    
-    const [trainerData, setTrainerData] = useState<{name: string, profileImage: string} | null>(null)
+   const [trainerData, setTrainerData] = useState<{name: string, profileImage: string} | null>(null)
     const [userData, setUserData] = useState<User | null>(null)
     useSelector((state: RootState) => state.user);
     const {  trainerInfo } = useSelector((state: RootState) => state.trainer);
     const token=localStorage.getItem("accesstoken")
+    const {  userInfo } = useSelector((state: RootState) => state.user);
+
     const { messages,loading } = useGetMessage(token!, trainer.trainerId);
     const [localMessages, setLocalMessages] = useState(messages);
     let {socket}  = useSocketContext()
 
-
+    useEffect(() => {
+      if (!socket) return;
     
-
+      socket.emit("join", trainerInfo?.id || userInfo?.id);
     
-
+      const handleNewMessage = (newMessage: any) => {
+        setLocalMessages((prevMessages) => [...prevMessages, newMessage]);
+      };
     
-
-useEffect(() => {
-  
-  console.log("Socket instance:", socket); // Debug log
-}, [socket]);
+      socket.on("messageUpdate", handleNewMessage);
+    
+      return () => {
+        socket.off("messageUpdate", handleNewMessage); 
+      };
+    }, [socket, trainerInfo?.id, userInfo?.id]);
+    
 
     useEffect(() => {
         
@@ -74,12 +76,18 @@ useEffect(() => {
       
 
       const handleNewMessage = (newMessage: any) => {
-        console.log(">>>>>>>>>>>>>",newMessage)
-        setLocalMessages((prevMessages) => [...prevMessages, newMessage]); // Instant UI update
+      
+        
+        setLocalMessages((prevMessages) => {
+          const isDuplicate = prevMessages.some(
+            (msg) => msg._id === newMessage._id || (msg.createdAt === newMessage.createdAt && msg.message === newMessage.message)
+          );
+          return isDuplicate ? prevMessages : [...prevMessages, newMessage];
+        });
       };
 
 
-      console.log("local message isssssssssssssss",localMessages)
+      
   return (
     <div className="w-full lg:max-w-2xl md:max-w-md h-[85vh] flex flex-col bg-gray-900 text-white shadow-xl rounded-lg overflow-hidden border border-gray-700">
       
@@ -113,7 +121,7 @@ useEffect(() => {
       </div>
 
     </div>
-  );
+  );  
 }
 
 

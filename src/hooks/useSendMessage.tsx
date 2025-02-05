@@ -29,7 +29,7 @@ const useSendMessage = () => {
       setLoading(false);
     }
   };
-   console.log("send +++++++++++",sendMessage)
+   
   return { sendMessage, loading };
 };
 

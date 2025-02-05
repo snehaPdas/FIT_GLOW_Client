@@ -14,6 +14,7 @@ function UserProfile() {
     phone: "",
     email: "",
     password: "",
+    confirmpassword:"",
     dob: "",
     gender: "",
     height: "",

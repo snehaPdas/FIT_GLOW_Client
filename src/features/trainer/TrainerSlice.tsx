@@ -12,23 +12,42 @@ interface TrainerState{
     trainerInfo:null|any,
     loading:null|any
     kycStatus: string;
-
+    videoCall:  VideoCallPayload | null;
+    showVideoCallTrainer: boolean
+    roomIdTrainer: null | string
 
     // trainerToken:null |any,
    // specializations:null|any
     error:null|any
 }
 
+
+interface VideoCallPayload {
+  userID: string;
+  type: string;
+  callType: string;
+  roomId: string;
+  userName: string
+  userImage: string;
+  trainerName: string;
+  trainerImage: string;
+  bookingId: string
+}
+
 const trainer = localStorage.getItem("trainer");
-console.log("--->>------->>>",trainer)
+//console.log("--->>------->>>",trainer)
 //const parsedTrainer = trainer ? JSON.parse(trainer) : null;
 const parsedTrainer = trainer && trainer !== "undefined" ? JSON.parse(trainer) : null;
 
 
 const initialState:TrainerState={
-    trainerInfo:parsedTrainer,
+    trainerInfo:null,
     loading:false,
     error:null,
+    videoCall: null,
+    showVideoCallTrainer: false,
+    roomIdTrainer: null,
+
     kycStatus: "pending",
 
     // trainerToken:localStorage.getItem("trainer_access_token") || null,
@@ -45,6 +64,27 @@ const trainerSlice=createSlice({
             //state.specializations = [];
             
           },
+          setVideoCall(state, action: PayloadAction<VideoCallPayload  | null>) {
+            state.videoCall = action.payload;
+            console.log('hit vidocall slice', state.videoCall);
+            
+          },
+          setShowVideoCall(state, action: PayloadAction<boolean>) {
+            state.showVideoCallTrainer = action.payload;
+            console.log('showVideoCallTrainer slice', state.showVideoCallTrainer);
+      
+          },
+          setRoomId(state, action: PayloadAction<string | null>) {
+            state.roomIdTrainer = action.payload;
+            console.log('roomIdTrainer slice', state.roomIdTrainer);
+          },
+          endCallTrainer: (state) => {
+            state.videoCall = null;
+            state.showVideoCallTrainer = false; 
+            state.roomIdTrainer = null;   
+            localStorage.removeItem("IncomingVideoCall"); 
+          },
+
           
     },
     extraReducers: (builder) => {
@@ -72,7 +112,7 @@ const trainerSlice=createSlice({
             
           })
           .addCase(loginTrainer.fulfilled, (state, action: PayloadAction<any>) => {
-            
+            console.log("API Response:", action.payload)
             state.loading=false
 
             state.trainerInfo = action.payload.trainer
@@ -126,5 +166,5 @@ const trainerSlice=createSlice({
 
     }
 })
-export const { clearTrainer,  } = trainerSlice.actions;
+export const { clearTrainer, setVideoCall,setShowVideoCall ,setRoomId,endCallTrainer} = trainerSlice.actions;
 export default trainerSlice.reducer;

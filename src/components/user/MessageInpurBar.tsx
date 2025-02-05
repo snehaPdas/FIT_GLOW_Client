@@ -28,7 +28,7 @@ function MessageInpurBar({ trainerId, onNewMessage }:MessageInputBarProps) {
    
 
    const handleSendMessage = async (e: React.FormEvent<HTMLElement>) => {
-      console.log("#############################")
+      
         e.preventDefault();
         if (!message) return;
         
@@ -45,7 +45,7 @@ function MessageInpurBar({ trainerId, onNewMessage }:MessageInputBarProps) {
     console.log("socket is.......",socket)
 
         if (socket) {
-            console.log("socket",socket)
+            console.log("socket isssssssss   ",socket)
             socket.emit("sendMessage", newMessage); 
           } else {
             console.error("Socket is not initialized");

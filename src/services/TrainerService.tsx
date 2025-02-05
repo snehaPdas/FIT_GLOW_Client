@@ -44,11 +44,12 @@ export interface ITrainer {
     try {
       console.log("trainer service..",email,password)
         const response=await trainerAxiosInstance.post(`${API_URL}/api/trainer/logintrainer`,{email,password})
+        console.log("ppppppppppppp",response)
 
         const accessToken  = response.data.token
-        console.log("accessss token is",accessToken)
+        
 
-        localStorage.setItem("accesstoken", response.data.token);
+        localStorage.setItem("trainer_access_token", accessToken);
         return response.data
         
     } catch (error:any) {

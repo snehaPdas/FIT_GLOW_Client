@@ -11,7 +11,7 @@ interface MessageProps {
 }
 
 function Message({ sender, message, time, userImage, trainerImage, }: MessageProps)  {
-  console.log("-------------",message)
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     // Import DaisyUI styles dynamically
