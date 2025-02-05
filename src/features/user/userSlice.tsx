@@ -128,6 +128,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, setShowIncomingVideoCall,setShowVideoCallUser,endCallUser,setRoomIdUser} = userSlice.actions;
+export const { setUser, setShowIncomingVideoCall,setShowVideoCallUser,endCallUser,setRoomIdUser,setVideoCallUser} = userSlice.actions;
 
 export default userSlice.reducer;

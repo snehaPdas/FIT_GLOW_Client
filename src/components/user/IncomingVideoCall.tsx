@@ -15,6 +15,19 @@ function IncomingVideoCall() {
     const {socket} = useSocketContext()
 
     const handleEndCall = async () => {
+        console.log('showIncomingVideoCall', showIncomingVideoCall);
+      
+        if (!showIncomingVideoCall) {
+          console.error("No incoming call to end.");
+          return;
+        }
+      
+        await socket?.emit("reject-call", {            
+          to: showIncomingVideoCall._id,
+          sender: "user",
+          name: showIncomingVideoCall.trainerName,
+        });
+        dispatch(endCallUser());
     }
 
     const handleAcceptCall = async () => {
