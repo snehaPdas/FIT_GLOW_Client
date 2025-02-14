@@ -14,18 +14,19 @@ import toast,{Toaster} from "react-hot-toast"
 
 
 function App() {
-  const {videoCall, showVideoCallTrainer} = useSelector((state: RootState) => state.trainer)
+ const {videoCall, showVideoCallTrainer} = useSelector((state: RootState) => state.trainer)
   const {showIncomingVideoCall, showVideoCallUser} = useSelector((state: RootState) => state.user)
 
 
   return (
     <Router>
-       {videoCall && <OutgoingVideocallPage />} 
+          {videoCall && <OutgoingVideocallPage />}    
+        {showIncomingVideoCall?._id && <IncomingVideoCallPage />}  
+
+        {showVideoCallTrainer && < VideCallPageTrainer/>} 
+       {showVideoCallUser && <VideoCallPage />}    
+        
        
-      {showVideoCallTrainer && < VideCallPageTrainer/>} 
-      {showIncomingVideoCall?._id && <IncomingVideoCallPage />}
-      {showVideoCallUser && <VideoCallPage />} 
-      
      
       <Toaster position ="top-right" reverseOrder={false}/>
       <Routes>

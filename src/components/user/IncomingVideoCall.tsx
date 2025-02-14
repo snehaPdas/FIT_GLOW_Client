@@ -9,10 +9,15 @@ import { endCallUser, setRoomIdUser, setShowVideoCallUser } from '../../features
 
 
 function IncomingVideoCall() {
-    const {showIncomingVideoCall} = useSelector((state: RootState) => state.user)
+    const {showIncomingVideoCall,userInfo } = useSelector((state: RootState) => state.user)
+    const { trainerInfo } = useSelector((state: RootState) => state.trainer);
 
     const dispatch = useDispatch<AppDispatch>()
     const {socket} = useSocketContext()
+
+    // if (trainerInfo) {
+    //     return null;
+    //   }
 
     const handleEndCall = async () => {
         console.log('showIncomingVideoCall', showIncomingVideoCall);

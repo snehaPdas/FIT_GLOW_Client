@@ -12,7 +12,6 @@ interface Trainer {
   profileImage: string;
   hasNewMessage: boolean;
   messageCount: number;
-
 }
 
 function ChatSidebar() {
@@ -41,7 +40,6 @@ function ChatSidebar() {
             profileImage: book.trainerId.profileImage,
             hasNewMessage: book.hasNewMessage || false,
             messageCount: book.messageCount || 0,
-            
           }))
         );
       } catch (error) {
@@ -58,7 +56,7 @@ function ChatSidebar() {
   return (
     <div className="flex h-screen bg-gray-900 text-white shadow-lg border-r border-gray-700">
       {/* SIDEBAR */}
-      <div className="w-80 bg-gray-900 text-white shadow-lg border-r border-gray-700 flex flex-col">
+      <div className="w-full sm:w-80 bg-gray-900 text-white shadow-lg border-r border-gray-700 flex flex-col">
         {/* HEADER */}
         <div className="bg-gradient-to-r from-purple-500 to-[#572c52] px-5 py-4 flex items-center shadow-md">
           <h1 className="text-lg font-semibold">Chats</h1>
@@ -112,7 +110,7 @@ function ChatSidebar() {
       </div>
 
       {/* CHAT AREA */}
-      <div className="flex-1 overflow-auto shadow-lg">
+      <div className="flex-1 overflow-auto shadow-lg bg-gray-800">
         {selectedTrainerId ? (
           <UserChat
             trainer={

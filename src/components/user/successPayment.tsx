@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
 import userAxiosInstance from '../../../axios/userAxiosInstance';
+import { useSocketContext } from '../../context/socket';
+import { useNotification } from '../../context/NotificationContext';
 
 
 function SuccessPayment() {
@@ -9,7 +11,9 @@ function SuccessPayment() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const sessionId = queryParams.get('session_id');
-  
+  const { socket } = useSocketContext();
+  const { addTrainerNotification } = useNotification()
+
   
   const stripe_session_id = queryParams.get('stripe_session_id')
  
@@ -18,23 +22,35 @@ function SuccessPayment() {
   const parseinfo=JSON.parse(atob(userInfo.split(".")[1]))
   const userId=parseinfo.id
 
-
-
-  
+ 
   useEffect(() => {
+    
     let isMounted = true; 
   
     const createBooking = async () => {
-      if (!isMounted) return;
-  
+    
+      const bookingKey = `bookingCreated-${stripe_session_id}`;
+
       const bookingCreated = localStorage.getItem('bookingCreated');
+    
+      if (sessionId && userId &&  stripe_session_id&&!bookingCreated) {
+        
+
+        try {  
       
-  
-      if (sessionId && userId && !bookingCreated) {
-        try {
-            
+
           const response = await userAxiosInstance.post('/api/user/bookings', { sessionId, userId, stripe_session_id });
-  
+          const notificationData = {
+            receiverId: response.data.trainerId,
+            content: `New booking for ${response.data.sessionType} (${response.data.specialization}) on ${new Date(response.data.startDate).toDateString()} at ${response.data.startTime}. Amount: $${response.data.amount}.`,
+          };
+          console.log("^^^^^^^^^^^^^^^^^^^^",notificationData)
+           socket?.emit("newBookingNotification",notificationData)
+           addTrainerNotification(notificationData.content)
+           
+
+           localStorage.setItem(bookingKey, 'true');
+
   
           localStorage.setItem('bookingCreated', 'true');
         } catch (error) {
@@ -49,7 +65,7 @@ function SuccessPayment() {
       isMounted = false; 
       localStorage.removeItem('bookingCreated');
     };
-  }, [sessionId, userId, ]);
+  }, [sessionId, userId,  stripe_session_id, socket]);
   
 
   return (

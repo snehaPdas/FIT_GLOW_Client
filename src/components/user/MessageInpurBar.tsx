@@ -82,3 +82,4 @@ function MessageInpurBar({ trainerId, onNewMessage }:MessageInputBarProps) {
 }
 
 export default MessageInpurBar
+

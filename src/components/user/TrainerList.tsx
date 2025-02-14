@@ -5,16 +5,11 @@ import {Trainer} from "../../types/trainer"
 import {useNavigate}  from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 
-
-
-
 function TrainersList() {
     const[trainers,setTrainers]=useState<Trainer[]>([])
     const [trainersData, setTrainersData] = useState<Trainer[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [displayLimit, setDisplayLimit] = useState(6);
-
-
 
     const navigate=useNavigate()
     const location = useLocation();

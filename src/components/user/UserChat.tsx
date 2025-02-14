@@ -89,7 +89,7 @@ function UserChat({trainer}:TrainerChatProps) {
 
       
   return (
-    <div className="w-full lg:max-w-2xl md:max-w-md h-[85vh] flex flex-col bg-gray-900 text-white shadow-xl rounded-lg overflow-hidden border border-gray-700">
+    <div className="w-full h-[85vh] flex flex-col bg-gray-900 text-white shadow-xl rounded-lg overflow-hidden border border-gray-700">
       
       {/* HEADER */}
       <div className="bg-gradient-to-r from-[#572c52] to-[#572c52] px-5 py-3 flex items-center sticky top-0 z-10 shadow-md">

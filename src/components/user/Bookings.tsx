@@ -24,13 +24,7 @@ interface BookingDetail {
 
 
 function Bookings() {
-
-
-    const[bookingDetails,setBookingDetails]=useState<BookingDetail[]>([])
-      
-      
-     
-
+   const[bookingDetails,setBookingDetails]=useState<BookingDetail[]>([])
     useEffect (()=>{
 
         const fetchbookingDetails=async()=>{
@@ -75,9 +69,7 @@ function Bookings() {
              {bookingDetails.length>0?(
 
 bookingDetails.map((session) => (
-             
-      
-        <div className="grid grid-cols-7 gap-4 items-center p-4 hover:bg-gradient-to-r from-[#e6d5eb] via-[#f3c6d3] to-[#f6edf7] transition-all border-b border-gray-300 rounded-lg">
+          <div className="grid grid-cols-7 gap-4 items-center p-4 hover:bg-gradient-to-r from-[#e6d5eb] via-[#f3c6d3] to-[#f6edf7] transition-all border-b border-gray-300 rounded-lg">
           <div className="text-center text-[#333] font-medium">{session.trainerName} </div>
           <div className="text-center text-[#333] font-medium">{new Date(session.bookingDate).toLocaleDateString()}</div>
           <div className="text-center text-[#333] font-medium">{session.startTime}</div>

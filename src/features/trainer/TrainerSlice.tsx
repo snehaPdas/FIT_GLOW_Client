@@ -19,6 +19,8 @@ interface TrainerState{
     // trainerToken:null |any,
    // specializations:null|any
     error:null|any
+    showDietPlan: boolean
+
 }
 
 
@@ -47,11 +49,13 @@ const initialState:TrainerState={
     videoCall: null,
     showVideoCallTrainer: false,
     roomIdTrainer: null,
-
     kycStatus: "pending",
+    showDietPlan:false
+
 
     // trainerToken:localStorage.getItem("trainer_access_token") || null,
     // specializations: [],
+
 
 }
 const trainerSlice=createSlice({
@@ -66,18 +70,21 @@ const trainerSlice=createSlice({
           },
           setVideoCall(state, action: PayloadAction<VideoCallPayload  | null>) {
             state.videoCall = action.payload;
-            console.log('hit vidocall slice', state.videoCall);
+            console.log('hit vidocall slice........???????????', state.videoCall);
             
           },
           setShowVideoCall(state, action: PayloadAction<boolean>) {
             console.log("//////////",action.payload)
             state.showVideoCallTrainer = action.payload;
-            console.log('showVideoCallTrainer slice', state.showVideoCallTrainer);
+            console.log('showVideoCallTrainer slice><><><><>@@@@@@@@', state.showVideoCallTrainer);
       
           },
           setRoomId(state, action: PayloadAction<string | null>) {
             state.roomIdTrainer = action.payload;
             console.log('roomIdTrainer slice', state.roomIdTrainer);
+          },
+          setDietPLan(state,action:PayloadAction<boolean>){
+            state.showDietPlan=action.payload
           },
           endCallTrainer: (state) => {
             state.videoCall = null;
@@ -167,5 +174,5 @@ const trainerSlice=createSlice({
 
     }
 })
-export const { clearTrainer, setVideoCall,setShowVideoCall ,setRoomId,endCallTrainer} = trainerSlice.actions;
+export const { clearTrainer, setVideoCall,setShowVideoCall ,setRoomId,endCallTrainer,setDietPLan} = trainerSlice.actions;
 export default trainerSlice.reducer;

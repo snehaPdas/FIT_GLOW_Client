@@ -8,9 +8,6 @@ import { endCallTrainer } from '../../features/trainer/TrainerSlice'
 import userimg from "../../assets/profieicon.png"
 
 import { useDispatch } from 'react-redux'
-
-
-
 function OutgoingVideocall() {
     const {videoCall, trainerInfo} = useSelector((state: RootState) => state.trainer)
     const { socket } = useSocketContext()
@@ -46,7 +43,7 @@ function OutgoingVideocall() {
     }, [socket]);
 
     const handleEndCall = async () => {
-      await socket?.emit('reject-call', {to: videoCall?.userID, sender:'trainer', name:videoCall?.userName, from:trainerInfo.name, sneder: trainerInfo.id})
+      await socket?.emit('reject-call', {to: videoCall?.userID, sender:'trainer', name:videoCall?.userName, from:trainerInfo.name, sder: trainerInfo.id})
       dispatch(endCallTrainer())
       if(timeoutRef.current) {
           clearTimeout(timeoutRef.current)

@@ -55,6 +55,7 @@ export interface ITrainer {
     } catch (error:any) {
         const errormessage=error.response?.data?.message|| "login failed.."
         console.log(error)
+        
         throw new Error(errormessage);
     }
 

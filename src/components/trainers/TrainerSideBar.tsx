@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-
 import LOGO from "../../assets/logo_fitglow.png";
 import {
   FaBars,
@@ -20,17 +19,13 @@ function TrainerSideBar() {
 
   return (
     <div className="flex">
-    
+      {/* Sidebar */}
       <div
-        className={`h-screen bg-[#572c5f] text-white flex flex-col p-5 transition-all duration-300 ${isSidebarOpen ? "w-64" : "w-58"}`}
+        className={`h-screen bg-[#572c5f] text-white flex flex-col p-5 transition-all duration-300 ${isSidebarOpen ? "w-64" : "w-16"} md:w-64`} // Change width for small screens
       >
         <div className="flex justify-between items-center mb-6">
           <button onClick={toggleSidebar} className="text-white">
-            {isSidebarOpen ? (
-              <FaBars size={24} />
-            ) : (
-              <FaBars size={24} />
-            )}
+            <FaBars size={24} />
           </button>
           {isSidebarOpen && (
             <div className="flex items-center justify-center">
@@ -40,7 +35,6 @@ function TrainerSideBar() {
         </div>
 
         <nav className="flex flex-col space-y-6">
-          
           <Link
             to=""
             className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
@@ -49,7 +43,6 @@ function TrainerSideBar() {
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Dashboard</span>
           </Link>
 
-          
           <Link
             to=""
             className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
@@ -58,7 +51,6 @@ function TrainerSideBar() {
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Sessions</span>
           </Link>
 
-          
           <Link
             to="/trainer/chat-sidebar"
             className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
@@ -66,6 +58,7 @@ function TrainerSideBar() {
             <FaUsers size={22} />
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Message</span>
           </Link>
+
           <Link
             to="/trainer/schedulesessions"
             className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
@@ -73,13 +66,15 @@ function TrainerSideBar() {
             <FaUsers size={22} />
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Schedule Session</span>
           </Link>
-          {/* <Link
-            to=""
+          {/* wallet */}
+          <Link
+            to="/trainer/wallet"
             className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
           >
             <FaUsers size={22} />
-            <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Profie</span>
-          </Link> */}
+            <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Wallet</span>
+          </Link>
+
 
           {/* Logout Button */}
           <Link
@@ -89,9 +84,6 @@ function TrainerSideBar() {
             <FaSignOutAlt size={22} />
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Logout</span>
           </Link>
-
-         
-         
         </nav>
       </div>
     </div>

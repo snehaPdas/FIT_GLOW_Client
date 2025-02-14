@@ -29,6 +29,8 @@ const initialState: UserState = {
   showVideoCallUser: false,
  
 
+ 
+
 
 
 };
@@ -43,12 +45,13 @@ const userSlice = createSlice({
     },
     setShowIncomingVideoCall: (state, action) => {
       state.showIncomingVideoCall = action.payload
-// console.log('userslcie', state.showIncomingVideoCall);
+        console.log('userslcie show incoming video*********************', state.showIncomingVideoCall);
 
       
     },
     setVideoCallUser(state, action: PayloadAction<string | null>) {
       state.videoCall = action.payload;
+      console.log("///////videocalluser   /////////***********",state.videoCall)
     },
     setRoomIdUser(state, action: PayloadAction<string | null>) {  
       state.roomIdUser = action.payload;

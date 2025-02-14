@@ -199,10 +199,11 @@ function TrainersProfileView() {
       <div className="p-8 text-center">
         <h2 className="text-2xl font-semibold text-gray-800">{trainer?.name}</h2>
         <p className="text-gray-500 mt-2">
-          Specializations: {trainer?.specializations[0]?.name || "N/A"}
+          <strong>Specializations:</strong> {trainer?.specializations[0]?.name || "N/A"}
         </p>
         <p className="text-gray-700 mt-4">
-          Dedicated and experienced professional Fitness Trainer.
+        <strong> {trainer?.name} </strong>
+        Dedicated and experienced professional Fitness Trainer. designs customized workout plans and ensures proper exercise techniques to help individuals improve fitness. Teaching correct movement patterns enhances performance and prevents injuries. Beyond workouts, the trainer educates clients on body awareness and overall health for long-term well-being.
         </p>
         <div className="flex justify-center mt-6 space-x-4">
           <button

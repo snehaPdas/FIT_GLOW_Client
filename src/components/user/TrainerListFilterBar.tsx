@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TrainerListFilterBarProps } from "../../types/trainer";
-import axios from "axios";
+import axios from "../../../axios/userAxiosInstance";
 import API_URL from "../../../axios/API_URL";
 import { Specialization } from "../../types/trainer";
 import { useNavigate } from "react-router-dom";
@@ -73,10 +73,6 @@ useEffect(()=>{
     setIsExpanded(!isExpanded);
   };
 
-
-
-
-  
 
   return (
     <div className="bg-[#9f909d] shadow-lg rounded-lg p-4 space-y-6 mt-10">

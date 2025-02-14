@@ -7,6 +7,7 @@ function KycSubmitStatus() {
         <div className="flex flex-col items-center">
           <FaCheckCircle className="text-green-500 text-5xl mb-4" />
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
+            
             KYC Submitted Successfully!
           </h1>
           <p className="text-gray-600 mb-4 text-center">

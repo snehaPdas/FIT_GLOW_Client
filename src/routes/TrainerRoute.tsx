@@ -11,6 +11,8 @@ import TrainerDashboard from '../components/trainers/TrainerDashboard'
 import ScheduleSessions from '../components/trainers/ScheduleSessions'
 import ProtectRoute from "../routes/protector/TrainerProtectRoute"
 import ChatSidebarPage from '../pages/trainer/ChatSidebarPage'
+import WalletPage from "../pages/trainer/WalletPage";
+
 
 // import TrainerKyc from '../components/trainers/TrainerKyc'
 // import KycSubmitStatus from '../components/trainers/KycSubmitStatus'
@@ -32,6 +34,8 @@ function TrainerRoute() {
       <Route index element={<ProtectRoute><TrainerDashboard/></ProtectRoute>}/>
       <Route path="schedulesessions" element={<ProtectRoute><ScheduleSessions /></ProtectRoute>} />
       <Route path="chat-sidebar" element={<ProtectRoute><ChatSidebarPage /></ProtectRoute>} />
+      <Route path="wallet" element={<ProtectRoute><WalletPage /></ProtectRoute>} />
+
 
      </Route>
      

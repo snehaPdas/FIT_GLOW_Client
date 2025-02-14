@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface Trainer {
     //specializations: ReactNode;
     _id: string; 
@@ -75,4 +77,21 @@ export interface Specialization {
   description: string;
   isListed: boolean
   
+}
+// ITransaction.ts
+export interface ITransaction {
+  amount: number;
+  transactionId: string;
+  transactionType: string
+  date?: Date;
+  bookingId?: string;
+}
+
+
+export interface IWallet {
+  trainerId: string;
+  balance: number;
+  transactions: ITransaction[];
+  createdAt?: Date;
+  updatedAt: Date;
 }

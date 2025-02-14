@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../app/store";
 import { useEffect, useRef } from "react";
 import {
-  
+  setDietPLan,
   setRoomId,
   setShowVideoCall,
   setVideoCall,
@@ -58,7 +58,7 @@ function TrainerVideoCall() {
         }
 
         // Reset state on leave
-    
+        dispatch(setDietPLan(true))
         dispatch(setShowVideoCall(false));
         dispatch(setRoomId(null));
         dispatch(setVideoCall(null));

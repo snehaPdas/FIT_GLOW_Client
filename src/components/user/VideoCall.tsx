@@ -92,7 +92,7 @@ function VideoCall() {
 
   return (
     <div
-    className="w-screen bg-[#572c52] h-screen absolute z-[100]"
+    className="w-screen bg-black h-screen absolute z-[100]"
     ref={videoCallRef}
   />
   )

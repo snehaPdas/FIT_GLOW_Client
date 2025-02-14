@@ -50,8 +50,6 @@ function TrainerOtp() {
         toast.success("otp verified suceessfully");
         navigate("/trainer/login")
        
-       
-
     
   }catch(error:any){
     if(error.response){

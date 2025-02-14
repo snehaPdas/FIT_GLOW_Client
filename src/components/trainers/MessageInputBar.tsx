@@ -18,13 +18,8 @@ function MessageInputBar({ userId, onNewMessage }: MessageInputBarProps) {
     const { sendMessage } = useSendMessage();
     const trainerToken=localStorage.getItem("trainer_access_token")
     const { socket } = useSocketContext();  // Get socket from context
-
     const {  trainerInfo } = useSelector((state: RootState) => state.trainer);
-
     const validToken = trainerToken ?? ""; 
-
-    
-
     const   handleSendMessage = async (e: React.FormEvent<HTMLElement>) => {
       
    e.preventDefault()
