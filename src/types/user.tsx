@@ -1,6 +1,7 @@
 import { Key } from "react";
 
 export interface User {
+    userId: any;
     status: string;
     id: Key | null | undefined;
     _id: string;

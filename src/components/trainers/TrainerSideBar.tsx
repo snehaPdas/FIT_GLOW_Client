@@ -66,6 +66,15 @@ function TrainerSideBar() {
             <FaUsers size={22} />
             <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Schedule Session</span>
           </Link>
+
+          {/* diet plan */}
+          <Link
+            to="/trainer/dietplan"
+            className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
+          >
+            <FaUsers size={22} />
+            <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Diet Plan</span>
+          </Link>
           {/* wallet */}
           <Link
             to="/trainer/wallet"
