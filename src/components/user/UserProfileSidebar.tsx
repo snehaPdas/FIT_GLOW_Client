@@ -57,6 +57,15 @@ const Sidebar = () => {
           <span className="text-lg">Message</span>
         </NavLink>
 
+        <NavLink to="dietplan" className={({ isActive }) => 
+          `flex items-center p-4 transition duration-300 cursor-pointer ${
+            isActive ? "bg-white/20" : "hover:bg-white/10"
+          }`
+        }>
+          <FaCalendarAlt  className="text-xl mr-3" />
+          <span className="text-lg">DietPlan</span>
+        </NavLink>
+
         < div className="flex items-center p-4 hover:bg-[#cb8585] transition duration-300 cursor-pointer">
           <FaSignOutAlt className="text-xl mr-3" />
           <span className="text-lg" onClick={handleLogout}>Logout</span>

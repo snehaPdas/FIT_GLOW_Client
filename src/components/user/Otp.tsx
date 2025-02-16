@@ -13,11 +13,27 @@ function Otp() {
   const[otp,setOtp]=useState<string[]>(Array(4).fill(""))
   const[isButtonDisabled,setIsButtonDisabled]=useState(false)
   const[timer,setTimer]=useState(30)
+  const [otpTimer, setOtpTimer] = useState(60); 
+
   const location = useLocation()
   const userData=location.state
   const dispatch=useDispatch<AppDispatch>()
   
   const navigate=useNavigate()
+
+  useEffect(() => {
+    const otpInterval = setInterval(() => {
+      setOtpTimer((prev) => {
+        if (prev === 1) {
+          clearInterval(otpInterval);
+          toast.error("OTP expired, please request a new one.");
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(otpInterval);
+  }, []);
 
   useEffect(()=>{
     if(isButtonDisabled){
@@ -92,6 +108,9 @@ function Otp() {
     <p className="text-center text-gray-500 mb-8">
       Please enter the 4-digit OTP sent to your mobile number.
     </p>
+    <p className="text-center text-red-500 font-semibold">
+          OTP expires in: {otpTimer}s
+        </p>
     <div className="flex justify-between space-x-2">
       {
         otp.map((value,index)=>(

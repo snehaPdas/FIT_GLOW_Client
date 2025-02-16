@@ -18,6 +18,7 @@
   import UserProfilePage from "../pages/user/UserProfilePage"
   import Bookings from '../components/user/Bookings';
   import ChatSidebarPage from '../pages/user/ChatSidebarPage'
+  import UserDietPlanPage from '../pages/user/UserDietPlanPage'
 /////////////////////////////////////
 // import Message from "../components/user/message";
 
@@ -50,6 +51,8 @@
                <Route index element ={<UserProfilePage/>}/>
                <Route path="bookings" element={<Bookings/>}/>
                <Route path="message" element={<ChatSidebarPage/>}/>
+               <Route path="dietplan" element={<UserDietPlanPage/>}/>
+
                </Route>
 
                

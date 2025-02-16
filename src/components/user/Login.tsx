@@ -6,6 +6,7 @@ import login_img from "../../assets/login_back.jpg";
 import { loginUser, GoogleLogins } from "../../actions/userActio";
 import { Toaster, toast } from "react-hot-toast";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
+import { AxiosResponse } from "axios";
 
 
 const Login = () => {
@@ -53,6 +54,7 @@ const Login = () => {
       const loginData = { email, password };
       console.log("Login data:", loginData);
       const action = await dispatch(loginUser(loginData));
+      console.log("logiiiiiiiin user",action.payload)
       if (loginUser.rejected.match(action)) {
         let errorMessage = action.payload as string;
         console.log("Error message:", errorMessage);
@@ -61,6 +63,7 @@ const Login = () => {
       }
 
       navigate("/home");
+      
     } catch (error: any) {
       console.log("Error:", error);
       if (error.response) {

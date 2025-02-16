@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import trainerAxiosInstance from "../../../axios/trainerAxiosInstance";
 import { User } from "../../types/user";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 import DietModal from "../../components/trainers/DietModal";
 
-// Define DietPlan type
+
+
 export interface DietPlan {
     morning: string;
     lunch: string;
     evening: string;
     night: string;
     totalCalories: string;
+    [key: string]: string;
 }
 
 function DietPlan() {
@@ -21,8 +23,8 @@ function DietPlan() {
     const [userDetails, setUserDetails] = useState<any>(null);
     const [dietPlans, setDietPlans] = useState<{ [userId: string]: DietPlan }>({});
     const [saveTriggered, setSaveTriggered] = useState(false);
+    const prevDietPlans = useRef<{ [userId: string]: DietPlan }>({});
 
-    // Get trainer info from Redux store
     const trainerinfo = useSelector((state: RootState) => state.trainer);
     const trainerId = trainerinfo?.trainerInfo?.id;
 
@@ -34,14 +36,13 @@ function DietPlan() {
                 const response = await trainerAxiosInstance.get(`/api/trainer/bookingdetails/${trainerId}`);
                 const seenUserId = new Set();
                 const uniqueUsers = response.data.data.filter((booking: any) => {
-                    if (!booking.userId || !booking.userId._id) return false;
-                    if (seenUserId.has(booking.userId._id)) return false;
+                    if (!booking.userId?._id || seenUserId.has(booking.userId._id)) return false;
                     seenUserId.add(booking.userId._id);
                     return true;
                 });
                 setUsers(uniqueUsers.map((booking: any) => ({ userId: booking.userId, bookingId: booking._id })));
             } catch (error: any) {
-                console.error("Error fetching trainer:", error.response?.data || error.message);
+                console.error("Error fetching users:", error.response?.data || error.message);
             }
         };
 
@@ -55,43 +56,73 @@ function DietPlan() {
             try {
                 const response = await trainerAxiosInstance.get(`/api/trainer/users/${selectedUser.userId._id}`);
                 setUserDetails(response.data);
-            } catch (error: any) {
-                console.error("Error fetching user details:", error.response?.data || error.message);
+
+                const dietResponse = await trainerAxiosInstance.get(`/api/trainer/get-diet-plan/${selectedUser.userId._id}`);
+                setDietPlans(prev => ({
+                    ...prev,
+                    [selectedUser.userId._id]: dietResponse.data || { morning: "", lunch: "", evening: "", night: "", totalCalories: "" }
+                }));
+            } catch (error) {
+                console.error("Error fetching user details:", error);
             }
         };
 
         fetchUserDetails();
     }, [selectedUser]);
 
-    const handleDietChange = (userId: string, newDietPlan: DietPlan) => {
+    const handleDietChange = useCallback((userId: string, newDietPlan: DietPlan) => {
         setDietPlans(prev => ({
             ...prev,
-            [userId]: newDietPlan,
+            [userId]: { ...prev[userId], ...newDietPlan }
         }));
-    };
+    }, []);
 
     useEffect(() => {
         if (!saveTriggered || !selectedUser) return;
-
+    
         const saveDietPlan = async () => {
             try {
-                console.log("&&&&&&&&&&&&&&&",selectedUser?.userId._id)
-                console.log("Selected User ID:", selectedUser?.userId._id);
-                console.log("Diet Plan to save:", dietPlans[selectedUser.userId._id]);
-                await trainerAxiosInstance.post(
-                    `/api/trainer/store-diet-plan/${selectedUser?.userId._id}`,
-                    { ...dietPlans[selectedUser.userId._id], trainerId } // Include trainerId in the request body
-                );
-                console.log("Diet plan saved:", dietPlans[selectedUser.userId._id]);
+                const userId = selectedUser.userId._id;
+                const updatedDietPlan = dietPlans[userId] || {};
+                const previousPlan = prevDietPlans.current[userId] || {};
+    
+                const changedFields = Object.keys(updatedDietPlan).reduce((acc, key) => {
+                    if (updatedDietPlan[key] !== previousPlan[key]) {
+                        acc[key] = updatedDietPlan[key];
+                    }
+                    return acc;
+                }, {} as Partial<DietPlan>);
+    
+                if (Object.keys(changedFields).length > 0) {
+                    // Check if the existing diet plan has an ID
+                    const existingPlan = prevDietPlans.current[userId];
+    
+                    await trainerAxiosInstance.post(
+                        `/api/trainer/store-diet-plan/${userId}`,
+                        {
+                            ...changedFields,
+                            trainerId,
+                            dietPlanId: existingPlan?._id // Pass existing ID to update
+                        }
+                    );
+    
+                    prevDietPlans.current[userId] = { ...updatedDietPlan };
+                }
             } catch (error) {
                 console.error("Error saving diet plan:", error);
             } finally {
                 setSaveTriggered(false);
             }
         };
-
+    
         saveDietPlan();
-    }, [saveTriggered, selectedUser, dietPlans]);
+    }, [saveTriggered, selectedUser, dietPlans, trainerId]);
+    
+    const handleEditdietplan=(user: User)=>{
+        setSelectedUser(user);
+  setIsModalOpen(true); 
+
+    }
 
     return (
         <div className="max-w-5xl mx-auto mt-10 p-10 bg-white shadow-xl rounded-2xl">
@@ -102,6 +133,7 @@ function DietPlan() {
                         <tr className="bg-[#572c52] text-white text-lg">
                             <th className="py-5 px-6 text-left rounded-tl-xl font-semibold">Name</th>
                             <th className="py-5 px-6 text-center rounded-tr-xl font-semibold">Diet Plan</th>
+                            <th className="py-5 px-6 text-center rounded-tr-xl font-semibold">Edit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,6 +152,14 @@ function DietPlan() {
                                             View
                                         </button>
                                     </td>
+                                    <td className="py-5 px-6 border-b border-gray-300 text-center">
+            <button
+              onClick={() => handleEditdietplan(user)}
+              className="text-[#572c52] hover:text-[#6e3d68]"
+            >
+              Edit
+            </button>
+          </td>
                                 </tr>
                             ))
                         ) : (
@@ -139,6 +179,8 @@ function DietPlan() {
                     dietPlan={dietPlans[selectedUser.userId._id] || { morning: "", lunch: "", evening: "", night: "", totalCalories: "" }}
                     setDietPlan={(newDietPlan) => handleDietChange(selectedUser.userId._id, newDietPlan)}
                     setSaveTriggered={setSaveTriggered}  
+                    isEditing={true}  // New prop
+
                 />
             )}
         </div>

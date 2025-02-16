@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 
 export interface Trainer {
+    trainerName: ReactNode;
+    trainerId: any;
     //specializations: ReactNode;
     _id: string; 
     profileImage: string
@@ -94,4 +96,12 @@ export interface IWallet {
   transactions: ITransaction[];
   createdAt?: Date;
   updatedAt: Date;
+}
+
+export interface DietPlan {
+  name: string;
+  calories: number;
+  protein: string;
+  carbs: string;
+  fats: string;
 }
