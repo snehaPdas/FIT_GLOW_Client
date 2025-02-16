@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { DietPlan } from "../../types/trainer"; // Assuming you have a DietPlan type
+// import { DietPlan } from "../../types/trainer"; // Assuming you have a DietPlan type
 import { Toaster, toast } from "react-hot-toast";
+import { DietPlan } from "./DietPlan";
 
 
 interface DietModalProps {
@@ -9,6 +10,10 @@ interface DietModalProps {
     dietPlan: DietPlan;
     setDietPlan: (newDietPlan: DietPlan) => void;
     setSaveTriggered: React.Dispatch<React.SetStateAction<boolean>>;
+    userDetails: any;  
+    isEditing: boolean;  
+
+
 }
 
 const DietModal: React.FC<DietModalProps> = ({ showModal, handleClose, dietPlan, setDietPlan, setSaveTriggered }) => {

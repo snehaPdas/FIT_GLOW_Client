@@ -44,11 +44,11 @@ function TrainerSideBar() {
           </Link>
 
           <Link
-            to=""
+            to="profile"
             className="flex items-center p-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-200"
           >
             <FaListAlt size={22} />
-            <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Sessions</span>
+            <span className={`ml-3 ${!isSidebarOpen && "hidden"}`}>Profile</span>
           </Link>
 
           <Link

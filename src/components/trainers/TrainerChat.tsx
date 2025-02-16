@@ -83,7 +83,7 @@ function TrainerChat({ userId, bookingId }: TrainerChatProps) {
       })
     );
   };
-
+console.log("localmessageeeeeeeeeee",localMessages)
   return (
     <div className="w-full lg:max-w-full md:max-w-[450px] flex flex-col h-[82vh]">
       <div className="bg-gray-500 px-4 py-2 mb-2 h-14 flex justify-between items-center sticky top-0 z-10">
@@ -118,6 +118,8 @@ function TrainerChat({ userId, bookingId }: TrainerChatProps) {
               time={new Date(msg.createdAt).toLocaleTimeString()}
               userImage={userData?.image || userimg}
               trainerImage={trainerData?.profileImage}
+              imageUrl={msg?.message?.startsWith('http') && (msg.message?.endsWith('.jpg') || msg.message?.endsWith('.png') || msg.message?.endsWith('.jpeg')) ? msg.message : undefined} 
+
             />
           ))
         // )

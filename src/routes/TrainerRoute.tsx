@@ -15,6 +15,9 @@ import WalletPage from "../pages/trainer/WalletPage";
 import DietPlanPage from '../pages/trainer/DietPlanPage'
 
 
+
+
+
 // import TrainerKyc from '../components/trainers/TrainerKyc'
 // import KycSubmitStatus from '../components/trainers/KycSubmitStatus'
 

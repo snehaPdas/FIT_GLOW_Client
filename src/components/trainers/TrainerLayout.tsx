@@ -31,12 +31,12 @@ const TrainerLayout: React.FC = () => {
 
   const toggleProfileDropdown = () => {
     setIsProfileDropdownOpen(!isProfileDropdownOpen);
-    setIsNotificationOpen(false); // Close notifications when profile opens
+    setIsNotificationOpen(false); 
   };
 
   const toggleNotificationDropdown = () => {
     setIsNotificationOpen(!isNotificationOpen);
-    setIsProfileDropdownOpen(false); // Close profile when notifications open
+    setIsProfileDropdownOpen(false); 
   };
 
 

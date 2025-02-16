@@ -98,10 +98,11 @@ export interface IWallet {
   updatedAt: Date;
 }
 
-export interface DietPlan {
-  name: string;
-  calories: number;
-  protein: string;
-  carbs: string;
-  fats: string;
-}
+// export interface DietPlan {
+//   name: string;
+//   calories: number;
+//   protein: string;
+//   carbs: string;
+//   fats: string;
+//   newDietPlan:string
+// }
