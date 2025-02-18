@@ -62,7 +62,7 @@ function TrainerChat({ userId, bookingId }: TrainerChatProps) {
 
   useEffect(() => {
     setLocalMessages(messages);
-  }, [messages]);
+  }, [messages,socket]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -118,7 +118,7 @@ console.log("localmessageeeeeeeeeee",localMessages)
               time={new Date(msg.createdAt).toLocaleTimeString()}
               userImage={userData?.image || userimg}
               trainerImage={trainerData?.profileImage}
-              imageUrl={msg?.message?.startsWith('http') && (msg.message?.endsWith('.jpg') || msg.message?.endsWith('.png') || msg.message?.endsWith('.jpeg')) ? msg.message : undefined} 
+        
 
             />
           ))

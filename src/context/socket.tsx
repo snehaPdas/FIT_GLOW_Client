@@ -38,7 +38,7 @@ export const SocketContextProvider = ({ children }: { children: ReactNode }): JS
 
   console.log("user information issssssssss?????????????",userInfo)
 
-  useEffect(() => {
+   useEffect(() => {
     console.log("Initializing socket connection...");
     if (!loggedUser) {
       console.warn("No loggedUser found, skipping socket initialization.");
@@ -57,13 +57,14 @@ export const SocketContextProvider = ({ children }: { children: ReactNode }): JS
       setSocket(newSocket);
     });
 
-    // Cleanup socket on unmount
+   // Cleanup socket on unmount
     return () => {
       console.log("Disconnecting socket...");
       newSocket.disconnect();
       setSocket(null);
     };
   }, [loggedUser]);
+
 
   useEffect(() => {
     if (!socket) {

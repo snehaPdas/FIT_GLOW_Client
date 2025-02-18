@@ -10,7 +10,7 @@ interface User {
   userId: {
     _id: string;
     name: string;
-    userImage?: string;
+    
   };
   bookingId: string;
 }
