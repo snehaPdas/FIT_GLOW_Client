@@ -73,6 +73,8 @@ function TrainerView() {
   }, [trainerId]);
 
   const handleApproveStatusChange = async (newStatus: string) => {
+
+    
     try {
       Swal.fire({
         title: "Are you sure?",

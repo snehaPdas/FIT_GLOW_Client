@@ -7,6 +7,7 @@ import {Typography,Button,Paper, TextField,} from "@mui/material";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Review from "./Review";
 
 
 
@@ -14,6 +15,7 @@ import API_URL from "../../../axios/API_URL";
 import {loadStripe} from '@stripe/stripe-js';
 import userAxiosInstance from "../../../axios/userAxiosInstance";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface ISessionSchedule {
   _id: any;
@@ -42,6 +44,14 @@ function TrainersProfileView() {
   const [isPackageSession, setIsPackageSession] = useState(false);
   const [sessionSchedules, setSessionSchedules] = useState<ISessionSchedule[]>([]);
   const [trainer, setTrainer] = useState<TrainerProfile | null>(null);
+  const [bookingStatus, setBookingStatus] = useState<string | null>(null);
+  const [hasUserReviewed, setHasUserReviewed] = useState<boolean>(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [selectedRating, setSelectedRating] = useState<number>(0);
+  const [reviewComment, setReviewComment] = useState<string | null>(null);
+  const [userReviewId, setUserReviewId] = useState<string | null>(null);
+  const [avgRatingAndTotalReviews, setAvgRatingAndTotalReviews] = useState<AvgRatingAndReviews[]>([]);
 
   const { trainerId } = useParams<{ trainerId: string }>();
 
@@ -50,6 +60,7 @@ function TrainersProfileView() {
   
   const parseinfo=JSON.parse(atob(userInfo.split(".")[1]))
   const userId=parseinfo.id
+  console.log("trainerid",trainerId)
   const navigate=useNavigate()
 
   useEffect(() => {
@@ -180,6 +191,75 @@ function TrainersProfileView() {
 
   }
 
+  useEffect(() => {
+    const findBooking = async () => {
+      const response = await userAxiosInstance.get(
+        `/api/user/bookings/${userId}/${trainerId}`
+      );
+      console.log("response data issssssssss",response.data)
+      setBookingStatus(response.data);
+    };
+
+    findBooking();
+  }, []);
+console.log("@@@@@@@@@@@@@@@bookingStatus",bookingStatus)
+const handleAddReview = () => {
+  setIsReviewModalOpen(true);
+}
+const handleEditReview = () => {
+  setIsReviewModalOpen(true);
+};
+
+const handleStarClick = (rating: any) => {
+  setSelectedRating(rating);
+}
+const handleReviewSubmit = async () => {
+  const data = {
+    reviewComment,
+    selectedRating,
+    userId: userInfo?.id,
+    trainerId,
+  };
+
+  const response = await userAxiosInstance.post(`/api/user/review`, data);
+
+  setUserReviewId(response.data.reviewId);
+  setIsReviewModalOpen(false);
+  setReviewComment(null);
+  setSelectedRating(0);
+  setReload((prev) => !prev);
+  if (response.data.message) {
+    toast.success(response.data.message);
+  }
+};
+const handleReviewEdit = async () => {
+  const data = {
+    reviewComment,
+    selectedRating,
+    userReviewId,
+  };
+  const response = await userAxiosInstance.patch(
+    `/api/user/edit-review`,
+    data
+  );
+  setIsReviewModalOpen(false);
+  setReviewComment(null);
+  setSelectedRating(0);
+  setReload((prev) => !prev);
+  if (response.data.message) {
+    toast.success(response.data.message);
+  }
+};
+useEffect(() => {
+  const getAvgRatingAndTotalReviews = async () => {
+    const response = await userAxiosInstance.get(
+      `/api/user/reviews-summary/${trainerId}`
+    );
+    setAvgRatingAndTotalReviews(response.data);
+  };
+  getAvgRatingAndTotalReviews();
+}, [trainerId]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-10">
   <div className="max-w-3xl mx-auto">
@@ -223,7 +303,8 @@ function TrainersProfileView() {
     </div>
 
     {/* Session Selection */}
-    {(isSingleSession || isPackageSession) && (
+    {
+    (isSingleSession || isPackageSession) && (
       <div className="shadow-xl rounded-lg mt-12 p-8 bg-white">
         <h3 className="text-xl font-semibold text-[#0c0c0c] text-center">
           Choose an Available Date
@@ -279,6 +360,100 @@ function TrainersProfileView() {
       </div>
     )}
   </div>
+
+  <div className="flex justify-center mt-8">
+        <h1 className="text-2xl mt-5 font-bold sm:text-xl sm:mt-3">
+          {bookingStatus === "Confirmed" ? "What clients are saying" : ""}
+        </h1>
+      </div>
+      {bookingStatus === "Confirmed" ? (
+        <div className="flex justify-end mr-10 sm:mr-4">
+          {!hasUserReviewed ? (
+            <button
+              onClick={handleAddReview}
+              className="bg-red-500 lg:mr-5 lg:px-4 lg:py-3 text-white sm:px-2 sm:py-1 sm:text-sm"
+            >
+              Add Review
+            </button>
+          ) : (
+            <button
+              onClick={handleEditReview}
+              className="bg-red-500 px-3 py-2 text-white  sm:px-2 sm:py-1 sm:text-sm"
+            >
+              Edit Review
+            </button>
+          )}
+        </div>
+      ) : (
+        ""
+      )}
+      <Review
+        trainerId={trainerId}
+        reload={reload}
+        currentUeser={userInfo?.id}
+        onReviewCheck={(hasReview) => setHasUserReviewed(hasReview)}
+      />
+      
+      {isReviewModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg p-6 md:p-8 w-full max-w-2xl shadow-lg h-[55vh] overflow-y-auto relative sm:p-4 sm:h-auto">
+            <h1 className="font-bold text-2xl sm:text-xl">
+              {hasUserReviewed ? "Edit Review" : "Write a Review"}
+            </h1>
+            <h1 className="font-medium mt-3 sm:text-base">Select Your Rating</h1>
+            <div className="text-yellow-600 text-lg sm:text-base">
+              <div className="flex items-center mt-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <svg
+                    key={star}
+                    onClick={() => handleStarClick(star)}
+                    className={`w-7 h-7 ms-1 cursor-pointer sm:w-5 sm:h-5 ${star <= selectedRating ? "text-yellow-600" : "text-gray-300"
+                      }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 22 20"
+                    aria-hidden="true"
+                  >
+                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                  </svg>
+                ))}
+              </div>
+              <div className="mt-3">
+                <textarea
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  className="w-full border rounded-md p-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+                  placeholder="Write your review here..."
+                  rows={6}
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-4 sm:gap-2 mt-4">
+              <button
+                className="bg-red-500 px-3 py-2 rounded-md text-white sm:px-2 sm:py-1 sm:text-sm"
+                onClick={() => setIsReviewModalOpen(false)}
+              >
+                Close
+              </button>
+              {!hasUserReviewed ? (
+                <button
+                  onClick={handleReviewSubmit}
+                  className="bg-blue-500 px-3 py-2 rounded-md text-white sm:px-2 sm:py-1 sm:text-sm"
+                >
+                  Submit
+                </button>
+              ) : (
+                <button
+                  onClick={handleReviewEdit}
+                  className="bg-blue-500 px-3 py-2 rounded-md text-white sm:px-2 sm:py-1 sm:text-sm"
+                >
+                  Submit
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+  
 </div>
 
   );

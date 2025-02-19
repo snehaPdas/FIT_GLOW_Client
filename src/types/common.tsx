@@ -15,3 +15,13 @@ export interface ISessionSchedule {
     trainerId: string;
     
   }
+  
+
+export interface IReview {
+  review_id: string
+  comment: string
+  rating: number
+  userName: string
+  userImage: string
+  userId : string
+}
