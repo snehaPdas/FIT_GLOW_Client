@@ -8,6 +8,8 @@ import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Review from "./Review";
+import { AvgRatingAndReviews,} from "../../types/common";
+
 
 
 
@@ -217,7 +219,7 @@ const handleReviewSubmit = async () => {
   const data = {
     reviewComment,
     selectedRating,
-    userId: userInfo?.id,
+    userId,
     trainerId,
   };
 
@@ -233,10 +235,12 @@ const handleReviewSubmit = async () => {
   }
 };
 const handleReviewEdit = async () => {
+  
   const data = {
     reviewComment,
     selectedRating,
     userReviewId,
+  
   };
   const response = await userAxiosInstance.patch(
     `/api/user/edit-review`,
@@ -362,23 +366,24 @@ useEffect(() => {
   </div>
 
   <div className="flex justify-center mt-8">
-        <h1 className="text-2xl mt-5 font-bold sm:text-xl sm:mt-3">
-          {bookingStatus === "Confirmed" ? "What clients are saying" : ""}
-        </h1>
+  <h1 className="text-3xl text-gray-500 mt-6 sm:text-2xl sm:mt-4">
+  {bookingStatus === "Confirmed" ? "Insights from Our Clients" : ""}
+</h1>
+
       </div>
       {bookingStatus === "Confirmed" ? (
         <div className="flex justify-end mr-10 sm:mr-4">
           {!hasUserReviewed ? (
             <button
               onClick={handleAddReview}
-              className="bg-red-500 lg:mr-5 lg:px-4 lg:py-3 text-white sm:px-2 sm:py-1 sm:text-sm"
-            >
-              Add Review
+              className="bg-gradient-to-r from-[#f0a3b3] to-[#4b424d] text-white  rounded-full px-4 py-1 text-sm"
+              >
+              Share Your Experience
             </button>
           ) : (
             <button
               onClick={handleEditReview}
-              className="bg-red-500 px-3 py-2 text-white  sm:px-2 sm:py-1 sm:text-sm"
+              className="bg-[#572c52] text-white  sm:px-2 sm:py-1 sm:text-sm"
             >
               Edit Review
             </button>
@@ -437,7 +442,7 @@ useEffect(() => {
               {!hasUserReviewed ? (
                 <button
                   onClick={handleReviewSubmit}
-                  className="bg-blue-500 px-3 py-2 rounded-md text-white sm:px-2 sm:py-1 sm:text-sm"
+                  className="bg-green-500 px-3 py-2 rounded-md text-white sm:px-2 sm:py-1 sm:text-sm"
                 >
                   Submit
                 </button>

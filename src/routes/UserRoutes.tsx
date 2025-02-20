@@ -19,6 +19,8 @@
   import Bookings from '../components/user/Bookings';
   import ChatSidebarPage from '../pages/user/ChatSidebarPage'
   import UserDietPlanPage from '../pages/user/UserDietPlanPage'
+  import AboutUsPage from '../pages/user/AboutUsPage';
+
 /////////////////////////////////////
 // import Message from "../components/user/message";
 
@@ -46,6 +48,7 @@
           <Route path="/resetpassword" element={<ResetPasswordPage/>}/>
           <Route path="/trainers" element={<TrainersPage/>}/>
           <Route path="/trainersprofileview/:trainerId" element={<TrainerProfileViewPage/>} />
+          <Route path='/aboutUs' element={<AboutUsPage />} />
           <Route path='/paymentSuccess' element={<SuccessPaymentPage />} />
                <Route path='/profile' element={<UserLayout />}>
                <Route index element ={<UserProfilePage/>}/>

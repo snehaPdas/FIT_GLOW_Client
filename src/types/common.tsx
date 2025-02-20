@@ -23,5 +23,11 @@ export interface IReview {
   rating: number
   userName: string
   userImage: string
-  userId : string
+  userId: string | { _id: string; name: string };  
+
+}
+
+export interface AvgRatingAndReviews {
+  totalReviews: number;
+  averageRating: number;
 }

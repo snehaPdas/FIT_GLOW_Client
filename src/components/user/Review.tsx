@@ -3,6 +3,7 @@ import {} from "react-icons";
 import { FaArrowLeft, FaArrowRight,} from "react-icons/fa";
 import userAxiosInstance from "../../../axios/userAxiosInstance";
 import { IReview } from "../../types/common";
+import img from "../../assets/profieicon.png"
 
 interface ReviewProps {
   trainerId: string | undefined;
@@ -24,6 +25,7 @@ function Review({ trainerId, reload, currentUeser, onReviewCheck }: ReviewProps)
       setCurrentCard(currentCard + 1)
     }
   }
+
 
   const arrowLeft = () => {
     if(currentCard > 1) {
@@ -86,6 +88,8 @@ function Review({ trainerId, reload, currentUeser, onReviewCheck }: ReviewProps)
     return  stars;
   }
 
+  console.log(")()()()()()()()()",reviews)
+
   return (
     <>
       <div className="flex justify-center p-10 gap-5">
@@ -94,14 +98,14 @@ function Review({ trainerId, reload, currentUeser, onReviewCheck }: ReviewProps)
             <div className="flex w-full p-4 max-w-lg flex-col rounded-lg bg-white shadow-sm border border-slate-200 my-6">
             <div className="flex items-center gap-4 text-slate-800">
               <img
-                src={review.userImage}
+                src={review.userImage||img}
                 alt="Tania Andrew"
                 className="relative inline-block h-[58px] w-[58px] !rounded-full  object-cover object-center"
               />
               <div className="flex w-full flex-col">
                 <div className="flex items-center justify-between">
                   <h5 className="text-xl font-semibold text-slate-800">
-                    {review.userName}
+                  {typeof review.userId === "object" ? review.userId.name : "User"}
                   </h5>
 
                   <div className="flex items-center gap-1">
@@ -123,10 +127,11 @@ function Review({ trainerId, reload, currentUeser, onReviewCheck }: ReviewProps)
 
       </div>
       {currentReviewCards.length >0 && (
-        <div className="flex justify-center gap-10">
-        <FaArrowLeft className="h-7 w-7" onClick={arrowLeft} />
-        <FaArrowRight className="h-7 w-7" onClick={arrowRight}/>
-      </div>
+       <div className="flex justify-center gap-10">
+       <FaArrowLeft className="h-7 w-7 text-gray-500 cursor-pointer" onClick={arrowLeft} />
+       <FaArrowRight className="h-7 w-7 text-gray-500 cursor-pointer" onClick={arrowRight} />
+     </div>
+     
       )}
     </>
   );
