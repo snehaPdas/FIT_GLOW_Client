@@ -53,7 +53,7 @@ function AdminDashboard() {
 
 
   return (
-    // <div className="flex flex-col p-6 space-y-8 min-h-screen">
+  
     <div
       className="flex flex-col p-6 space-y-8 min-h-screen bg-gradient-to-r"
       style={{ background: "linear-gradient(to right, #fffff, #ffffff)" }}

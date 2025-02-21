@@ -20,7 +20,7 @@ import {
   }
   
   const RevenueChart: React.FC<RevenueChartProps> = ({ data }) => {
-    console.log("??????????/",data)
+    
     const today = new Date();
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth(); 

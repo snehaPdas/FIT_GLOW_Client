@@ -20,7 +20,7 @@ function TrainerResetPassword() {
     }
     try {
       const payload:any = { newPassword};
-      console.log('userdata checkk', userData);
+      
 
       const response = await TrainerService.resetPassword(userData,payload);
       console.log("the response format..........",response.message)

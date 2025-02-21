@@ -12,7 +12,7 @@ export const registerUser=createAsyncThunk(
 
      }catch(error:any){
         if (error.response && error.response.status === 409) {
-             console.log("------------------------------------")
+             
             return thunkAPI.rejectWithValue(error.response.data.message || "Email already exists");
           }
         return thunkAPI.rejectWithValue(error.response?.data);
@@ -46,8 +46,8 @@ export const verifyForgotOtp=createAsyncThunk(
       try {
         
           const response=await userService.verifyForgotOtp({userData,otp})
-          console.log("yess")
-          console.log("response is----",response)
+        
+      
           return response
       } catch (error:any) {
         console.log("response----",error)
@@ -73,11 +73,11 @@ export const loginUser=createAsyncThunk(
     
         try {
             const response=await userService.loginUser({email,password})  
-            console.log("yesssUUUUUUUu")  
-            console.log("login action response is....*********x",response)      
+            
+      
             return response
         } catch (error:any) {
-          console.log("checckk",error)
+          
                  
                 const errorMessage = error.data?.message || "login failed";
                 console.log("error message--------",errorMessage)

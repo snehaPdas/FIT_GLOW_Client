@@ -74,7 +74,7 @@ const trainerSlice=createSlice({
             
           },
           setShowVideoCall(state, action: PayloadAction<boolean>) {
-            console.log("//////////",action.payload)
+            console.log("///////whhhhhhhhhh///",action.payload)
             state.showVideoCallTrainer = action.payload;
             console.log('showVideoCallTrainer slice><><><><>@@@@@@@@', state.showVideoCallTrainer);
       

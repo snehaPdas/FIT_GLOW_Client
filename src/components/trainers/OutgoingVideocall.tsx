@@ -9,13 +9,15 @@ import userimg from "../../assets/profieicon.png"
 
 import { useDispatch } from 'react-redux'
 function OutgoingVideocall() {
-    const {videoCall, trainerInfo} = useSelector((state: RootState) => state.trainer)
+    const {videoCall, trainerInfo} = useSelector((state: RootState) => state.trainer);
     const { socket } = useSocketContext()
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const dispatch = useDispatch<AppDispatch>()
 
     useEffect(()=>{
       if (videoCall?.type === 'out-going') {
+        console.clear();
+        console.log("videocall",videoCall);
         socket?.emit('outgoing-video-call',{
           to: videoCall.userID,
             from: trainerInfo.id,

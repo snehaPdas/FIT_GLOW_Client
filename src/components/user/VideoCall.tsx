@@ -2,38 +2,30 @@ import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../app/store";
 import { useEffect, useRef } from "react";
-import io from "socket.io-client";
-import {
-  setRoomIdUser,
-  setShowIncomingVideoCall,
-  setShowVideoCallUser,
-  setVideoCallUser,
-} from "../../features/user/userSlice";
-import {useSocketContext} from '../../context/socket'
-
+import { setRoomIdUser, setShowIncomingVideoCall, setShowVideoCallUser, setVideoCallUser,} from "../../features/user/userSlice";
+import { useSocketContext } from "../../context/socket";
 
 
 function VideoCall() {
   const videoCallRef = useRef<HTMLDivElement | null>(null);
-  const { roomIdUser, showIncomingVideoCall, videoCall  } = useSelector((state: RootState) => state.user);
-  let {socket}  = useSocketContext()
+  const { roomIdUser, showIncomingVideoCall, videoCall } = useSelector(
+    (state: RootState) => state.user
+  );
+  let { socket } = useSocketContext();
   const dispatch = useDispatch();
-
-  console.log('videoCall',showIncomingVideoCall);
-  
-
+console.log(
+  "room id issssss",roomIdUser
+,)
   useEffect(() => {
-    console.log("/////////")
-    console.log("Room ID roomIdUser:", roomIdUser);
-    if ( !roomIdUser) return;
-    // Continue setup...
-  }, [ roomIdUser]);
+    if (!roomIdUser) return;
+    
+  }, [roomIdUser]);
 
   useEffect(() => {
     if (!roomIdUser) return;
 
-    const appId = parseInt(import.meta.env.VITE_APP_ID)
-    const serverSecret = (import.meta.env.VITE_ZEGO_SECRET)
+    const appId = parseInt(import.meta.env.VITE_APP_ID);
+    const serverSecret = import.meta.env.VITE_ZEGO_SECRET;
 
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appId,
@@ -43,11 +35,9 @@ function VideoCall() {
       "User"
     );
 
- 
-
     const zp = ZegoUIKitPrebuilt.create(kitToken);
 
-    zp.joinRoom({      
+    zp.joinRoom({
       container: videoCallRef.current,
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall,
@@ -56,46 +46,38 @@ function VideoCall() {
       turnOnCameraWhenJoining: true,
       showPreJoinView: false,
       onLeaveRoom: () => {
-        socket?.emit("leave-room", { to: showIncomingVideoCall?.trainerId});
-        // alert('leave-room user')
-        console.log('USER SOCKET ID', socket?.id);
-        
-        
+        socket?.emit("leave-room", { to: showIncomingVideoCall?.trainerId });
         dispatch(setShowVideoCallUser(false));
         dispatch(setRoomIdUser(null));
         dispatch(setVideoCallUser(null));
-        dispatch(setShowIncomingVideoCall(null))
-        // localStorage.removeItem("roomId");
-        // localStorage.removeItem("showVideoCall");
+        dispatch(setShowIncomingVideoCall(null));
       },
     });
 
     socket?.on("user-left", () => {
-      console.log('hit user left');
-      alert('hit user left')
       zp.destroy();
       dispatch(setShowVideoCallUser(false));
       dispatch(setRoomIdUser(null));
       dispatch(setVideoCallUser(null));
-      dispatch(setShowIncomingVideoCall(null))
+      dispatch(setShowIncomingVideoCall(null));
       localStorage.removeItem("roomId");
+
       localStorage.removeItem("showVideoCall");
     });
 
     return () => {
-      zp.destroy();
-      socket?.off("user-left");
-    };
-  }, [roomIdUser,  dispatch]);
+      window.location.reload();
 
-  
+      zp.destroy();
+    };
+  }, [roomIdUser, dispatch, socket]);
 
   return (
     <div
-    className="w-screen bg-black h-screen absolute z-[100]"
-    ref={videoCallRef}
-  />
-  )
+      className="w-screen bg-black h-screen absolute z-[100]"
+      ref={videoCallRef}
+    />
+  );
 }
 
 export default VideoCall;

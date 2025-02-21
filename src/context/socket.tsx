@@ -150,11 +150,13 @@ export const SocketContextProvider = ({ children }: { children: ReactNode }): JS
       console.log("Cleaning up socket event listeners...");
       socket.off("incoming-video-call");
       socket.off("accepted-call");
-      socket.off("trainer-accept");
+      // socket.off("trainer-accept");
       socket.off("call-rejected");
       socket.off("user-left");
+      socket.off('receiveCancelNotificationForTrainer')
+      socket.off('receiveCancelNotificationForUser')
     };
-  }, [socket, dispatch, userInfo, trainerInfo]);
+  }, [socket, dispatch,addUserNotification, addTrainerNotification]);
 
   return <SocketContext.Provider value={{ socket }}>{children}</SocketContext.Provider>;
 };

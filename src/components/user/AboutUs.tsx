@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import bgImg2 from "../../assets/aboutus3.jpg";
 import bgImg3 from "../../assets/aboutus5.jpg";
-import bgImg1 from "../../assets/aboutus9.avif";
+import bgImg1 from "../../assets/training.png";
 
 function AboutUs() {
   const navigate = useNavigate();

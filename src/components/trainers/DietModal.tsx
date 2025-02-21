@@ -11,7 +11,8 @@ interface DietModalProps {
     setDietPlan: (newDietPlan: DietPlan) => void;
     setSaveTriggered: React.Dispatch<React.SetStateAction<boolean>>;
     userDetails: any;  
-    isEditing: boolean;  
+    isEditing: boolean; 
+    
 
 
 }
@@ -64,23 +65,30 @@ const DietModal: React.FC<DietModalProps> = ({ showModal, handleClose, dietPlan,
 };
 
 
-  
 
-    
 
     if (!showModal) return null;
 
     return (
         <>
             <Toaster />
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                <div className="bg-white p-8 rounded-lg w-2/3 shadow-xl flex flex-col space-y-6">
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-2xl font-bold text-[#572c52]">Diet Plan</h2>
-                        <button onClick={handleClose} className="text-[#572c52] text-lg font-semibold hover:text-[#7b4373]">
-                            ✖
-                        </button>
-                    </div>
+            <div className="mb-4">
+            <div className="grid grid-cols-1 gap-2 bg-gray-100 p-4 rounded-lg shadow-md">
+                <p className="text-lg font-medium text-[#572c52] flex justify-between border-b pb-2">
+                    <span>🍽️ Morning</span> <span className="font-semibold">7:00 AM</span>
+                </p>
+                <p className="text-lg font-medium text-[#572c52] flex justify-between border-b pb-2">
+                    <span>🍛 Lunch</span> <span className="font-semibold">12:00 PM</span>
+                </p>
+                <p className="text-lg font-medium text-[#572c52] flex justify-between border-b pb-2">
+                    <span>☕ Evening</span> <span className="font-semibold">3:00 PM</span>
+                </p>
+                <p className="text-lg font-medium text-[#572c52] flex justify-between">
+                    <span>🌙 Night</span> <span className="font-semibold">6:30 PM</span>
+                </p>
+            
+        
+    
 
                     <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
                         {Object.entries(editedDietPlan).map(([key, value]) => (

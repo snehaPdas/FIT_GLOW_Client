@@ -20,7 +20,7 @@ function AdminLogin() {
       email,
       password,
     };
-    console.log("the admin data", adminData);
+    
 
     if (!email.trim() || !password.trim()) {
       setError("Email and password are required");
@@ -41,7 +41,7 @@ function AdminLogin() {
     try {
       const action = await dispatch(adminLogin(adminData));
 
-      console.log("actionnnnnnnnnn", action);
+      
       if (adminLogin.fulfilled.match(action)) {
         toast.success("Successfully logged in!");
         navigate("/admin");

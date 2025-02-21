@@ -39,11 +39,11 @@ async (error:AxiosError)=>{
     
     
     const originalRequest = error.config as CustomAxiosRequestConfig;
-     console.log("hiiiiiiiiiiii", error)
-        console.log("==============",error.response)
+     
+
     //blocked check
     if (error.response?.status === 403 ) {
-        console.log("......///");
+        
        // toast.success("entered to block")
        console.log("user has been blocked by admin")
         console.warn("User is blocked, redirecting to login...");
@@ -55,7 +55,7 @@ async (error:AxiosError)=>{
         originalRequest._retry = true;
 
         try {
-            console.log("sample check for refreshtoken")
+            
             const response= await userAxiosInstance.post<{accessToken:string}>("/api/user/refresh-token",{},{withCredentials:true})
             const {accessToken}=response.data
             localStorage.setItem("accesstoken",accessToken)

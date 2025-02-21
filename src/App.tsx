@@ -20,12 +20,12 @@ function App() {
 
   return (
     <Router>
-          {videoCall && <OutgoingVideocallPage />}    
+            {videoCall && <OutgoingVideocallPage />}     
         {showIncomingVideoCall?._id && <IncomingVideoCallPage />}  
 
-        {showVideoCallTrainer && < VideCallPageTrainer/>} 
+         {showVideoCallTrainer && < VideCallPageTrainer/>}  
        {showVideoCallUser && <VideoCallPage />}    
-        
+         
        
      
       <Toaster position ="top-right" reverseOrder={false}/>

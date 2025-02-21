@@ -33,7 +33,7 @@ function Verification() {
 
   useEffect(() => {
     const getAllTrainersKycData = async () => {
-        console.log("///")
+        
       try {
         const response = await adminAxiosInstance.get(`/api/admin/trainers/kyc`);
         const trainersData: Trainer[] = response.data.data.map((trainer: any) => ({          
@@ -44,7 +44,7 @@ function Verification() {
           status: trainer.kycData?.kycStatus || "Pending", 
 
         }));
-        console.log("response is......>>>>.....>>",response.data.data)
+        
         response.data.data.forEach((trainers:any) => {
             console.log("KYC Data:", trainers.kycData.kycStatus);
           });
@@ -63,7 +63,7 @@ function Verification() {
   );
 
   const handleView = (trainerId: string) => {
-    console.log("//////////////trainerId",trainerId)
+    
     navigate(`/admin/trainer-view/${trainerId}`);
   };
 
