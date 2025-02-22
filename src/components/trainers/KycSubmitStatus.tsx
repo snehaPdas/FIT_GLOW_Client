@@ -14,9 +14,7 @@ function KycSubmitStatus() {
             We have received your KYC information. Our admin team is reviewing
             your details, and you'll be notified soon.
           </p>
-          {/* <button className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-            Back to Dashboard
-          </button> */}
+         
         </div>
       </div>
     </div>

@@ -79,7 +79,7 @@ function Specializations() {
   if (image) {
     formData.append('image', image); 
   }
-  console.log("Form Data Before Send:", Object.fromEntries(formData.entries())); // Debugging line
+  console.log("Form Data Before Send:", Object.fromEntries(formData.entries()));
   try {
       if (editingSpecialization) {
         const response = await adminService.updateSpecialization(editingSpecialization._id, formData);

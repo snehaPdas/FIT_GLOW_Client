@@ -25,7 +25,7 @@ useEffect(()=>{
  const getspecializations=async()=>{
     try {
       const response=await axios.get(`${API_URL}/api/user/specializations`)
-      console.log("fetch specialization",response)
+      
       setSpecializations(response.data)
     } catch (error) {
       console.log("error in fetching specialisation:",error)
@@ -37,7 +37,7 @@ useEffect(()=>{
 
 
   const handleFilterChange = (type: string, value: string ) => {
- console.log("valu is ",value)
+ 
  let updatedSelectedvalue:string[] = [];
  if(type==="specialization"){
  updatedSelectedvalue=selectedSpecializations.includes(value)?selectedSpecializations.filter((id)=>id!==value):[...selectedSpecializations,value]
@@ -79,7 +79,7 @@ useEffect(()=>{
       <h2 className="text-2xl font-semibold text-white">Filter Trainers</h2>
 
       {/* Specialization Filter */}
-      {/* //////////////////////////////////////// */}
+      
       <div className="flex flex-col">
     <label className="text-sm font-medium text-[#572c52] mb-1">
       Specialization

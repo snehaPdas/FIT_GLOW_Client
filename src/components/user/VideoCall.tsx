@@ -13,9 +13,7 @@ function VideoCall() {
   );
   let { socket } = useSocketContext();
   const dispatch = useDispatch();
-console.log(
-  "room id issssss",roomIdUser
-,)
+
   useEffect(() => {
     if (!roomIdUser) return;
     

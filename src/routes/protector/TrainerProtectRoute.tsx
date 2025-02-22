@@ -20,16 +20,16 @@ function TrainerProtectRoute({ children }: TrainerProtectedRouteProps) {
   const { trainerInfo, kycStatus } = useSelector(
     (state: RootState) => state.trainer
   );
-  console.log("Trainer information issssssss:", trainerInfo);
+  
 
   const trainer_id = trainerInfo?.id;
-  console.log("Trainer ID:", trainer_id);
+  
   const toggleUpdateStatus = () => {
     setUpdated(!updated);
   };
   useEffect(() => {
     if (trainer_id) {
-      console.log("p.......");
+    
       dispatch(getKycStatus(trainer_id));
       toggleUpdateStatus();
     } else {

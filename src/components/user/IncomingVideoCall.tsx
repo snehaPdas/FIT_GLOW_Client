@@ -20,7 +20,7 @@ function IncomingVideoCall() {
     //   }
 
     const handleEndCall = async () => {
-        console.log('showIncomingVideoCall', showIncomingVideoCall);
+    
       
         if (!showIncomingVideoCall) {
           console.error("No incoming call to end.");

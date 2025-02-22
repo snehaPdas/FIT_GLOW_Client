@@ -20,10 +20,10 @@ function ResetPassword() {
     }
     try {
       const payload:any = { newPassword};
-      console.log('userdata checkk', userData);
+      
 
       const response = await userService.resetPassword(userData,payload);
-      console.log("the response format..........",response.message)
+    
         if(response.message === "Password reset successfully"){
           toast.success("Your Password Reset Successfully")
           navigate("/login")

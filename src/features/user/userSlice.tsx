@@ -45,13 +45,13 @@ const userSlice = createSlice({
     },
     setShowIncomingVideoCall: (state, action) => {
       state.showIncomingVideoCall = action.payload
-        console.log('userslcie show incoming video*********************', state.showIncomingVideoCall);
+        
 
       
     },
     setVideoCallUser(state, action: PayloadAction<string | null>) {
       state.videoCall = action.payload;
-      console.log("///////videocalluser   /////////***********",state.videoCall)
+      
     },
     setRoomIdUser(state, action: PayloadAction<string | null>) {  
       state.roomIdUser = action.payload;
@@ -60,11 +60,11 @@ const userSlice = createSlice({
       state.showVideoCallUser = action.payload;
     },
     endCallUser: (state) => {
-      console.log('hit  user sclice-------->');
+      
       
       state.videoCall = null;
       state.showIncomingVideoCall = null;
-      state.showVideoCallUser = false; // Ensure the video call state is false
+      state.showVideoCallUser = false; 
       state.roomIdUser = null;         // Clear the room ID if necessary
       console.log('callend user slice',state.showIncomingVideoCall);
       localStorage.removeItem("IncomingVideoCall");
@@ -73,7 +73,7 @@ const userSlice = createSlice({
 
   },
   extraReducers: (builder) => {
-    console.log(".........................",)
+  
     builder
       // Register User Actions
       .addCase(registerUser.fulfilled, (state, action) => {
@@ -91,7 +91,7 @@ const userSlice = createSlice({
        .addCase(loginUser.fulfilled,(state,action)=>{
         
         state.userInfo=action.payload.data.user
-        console.log("user information got.........",state.userInfo)
+        
         state.loading = false;
        })
        .addCase(loginUser.pending,(state)=>{

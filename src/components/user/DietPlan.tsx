@@ -51,7 +51,6 @@ function DietPlan() {
     }
     setLoading(false);
   };
-  console.log("dietttttttttplan",dietPlan)
 
   return (
     <div

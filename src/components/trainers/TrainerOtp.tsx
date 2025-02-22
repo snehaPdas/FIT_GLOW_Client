@@ -23,7 +23,7 @@ function TrainerOtp() {
   
   const navigate=useNavigate()
 
-  console.log("oooo",trainerData)
+
 
   useEffect(()=>{
     if(isButtonDisabled){
@@ -45,7 +45,7 @@ function TrainerOtp() {
     
       const otpString=otp.join("")
       let action=await TrainerService.verifyOtp({trainerData,otp:otpString})
-      console.log("check action",action)
+      
        
         toast.success("otp verified suceessfully");
         navigate("/trainer/login")

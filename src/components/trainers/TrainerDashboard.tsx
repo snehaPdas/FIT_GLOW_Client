@@ -51,9 +51,9 @@ function TrainerDashboard() {
       if (!trainerInfo?.id) return;
 
       try {
-        console.log("Fetching booking details...");
+        
         const response = await trainerAxiosInstance.get(`/api/trainer/bookingdetails/${trainerInfo.id}`);
-        console.log("API Response:", response.data);
+        
 
         const upcomingSessions = response.data.data.filter(
           (session: BookingDetail) => new Date(session.startDate) >= new Date()
@@ -71,13 +71,13 @@ function TrainerDashboard() {
 
 
   useEffect(() => {
-    console.log("++++++++++++")
+    
    const fetchDashboardDatas = async () => {
-    console.log("++++++++++++")
+    
      try {
-       console.log("errrrrrrrrrrrr")
+       
         const response=await trainerAxiosInstance.get(`/api/trainer/dashboard/${trainerInfo.id}` );          
-      console.log("&&&&&&&&&&&&&&&",response)
+      
         setDashboardData({trainerRevenue: response.data.data.trainerRevenue,  
           userTrainerChartData: response.data.data.userTrainerChartData,
           trainerWiseData:response. data.data.trainerWiseData,

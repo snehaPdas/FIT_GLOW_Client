@@ -10,15 +10,12 @@ interface SendMessageParams {
 const val=123
 
 const useSendMessage = () => {
-  console.log("??????????????????????")
+
   const [loading, setLoading] = useState(false);
   
   const sendMessage = async ({ message, receiverId, token }: SendMessageParams) => {
    // setLoading(true);
-    try {
-       console.log("@@@@@@@@@@@@@@")
-       //  console.log(message,'--',receiverId,'--', token);
-        
+    try {   
       // Correct axios.post call by passing the data as an object
       const response = await axios.post(`${API_URL}/api/messages/send`, {
         message,

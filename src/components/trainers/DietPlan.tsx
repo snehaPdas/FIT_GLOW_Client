@@ -131,9 +131,9 @@ function DietPlan() {
                 <table className="table-auto w-full border-collapse">
                     <thead>
                         <tr className="bg-[#572c52] text-white text-lg">
-                            <th className="py-5 px-6 text-left rounded-tl-xl font-semibold">Name</th>
-                            <th className="py-5 px-6 text-center rounded-tr-xl font-semibold">Diet Plan </th>
-                            <th className="py-5 px-6 text-center rounded-tr-xl font-semibold">Edit</th>
+                            <th className="py-5 px-6 text-left  font-semibold">Name</th>
+                            <th className="py-5 px-6 text-center  font-semibold">Diet Plan </th>
+                            <th className="py-5 px-6 text-center font-semibold">Edit</th>
                         </tr>
                     </thead>
                     <tbody>

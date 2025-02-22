@@ -13,8 +13,7 @@ interface MessageProps {
 
 function Message({ sender, message, time, userImage, trainerImage, }: MessageProps) {
   
-  // Check if the message contains an image URL, use imageUrl prop for this
-  // Debug the image URL being passed
+  
 
   return (
     <div className={`chat ${sender === 'Trainer' ? 'chat-end' : 'chat-start'}`}>

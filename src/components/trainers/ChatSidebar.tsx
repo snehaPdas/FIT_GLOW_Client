@@ -68,8 +68,8 @@ function ChatSidebar() {
 
   
 
-  console.log("users",users)
-  console.log("setSelectedUserId",selectedUserId)
+  
+
 
   return (
     <div className="flex flex-col sm:flex-row min-h-screen bg-gray-900 text-white shadow-lg border-r border-gray-700">

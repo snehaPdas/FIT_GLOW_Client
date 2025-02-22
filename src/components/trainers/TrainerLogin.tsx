@@ -58,7 +58,7 @@ const TrainerLogin = () => {
         toast.error(message);
         return;
       }
-      console.log(">>>>>>>>>>>>",action)
+      
       navigate("/trainer");
     } catch (error: any) {
       if (error.response) {

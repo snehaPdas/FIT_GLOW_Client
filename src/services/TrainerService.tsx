@@ -26,10 +26,10 @@ export interface ITrainer {
   }
 
   const verifyOtp=async({trainerData,otp}:{trainerData:Trainer,otp:string})=>{
-    console.log("yesss",trainerData,otp)
+  
     try {
       const response=await axios.post(`${API_URL}/api/trainer/otp`,{trainerData,otp})
-      console.log("the response is**********",response.data)
+      
       return response.data
       
     } catch (error:any) {
@@ -42,9 +42,9 @@ export interface ITrainer {
   const loginTrainer=async({email,password}:{email:string,password:string})=>{     
          
     try {
-      console.log("trainer service..",email,password)
+    
         const response=await trainerAxiosInstance.post(`${API_URL}/api/trainer/logintrainer`,{email,password})
-        console.log("ppppppppppppp",response)
+        
 
         const accessToken  = response.data.token
         
@@ -64,9 +64,9 @@ export interface ITrainer {
 
 const forgotPassword=async(emailData:string)=>{
   try {
-    console.log("email is",emailData)
+  
      const response=await trainerAxiosInstance.post(`${API_URL}/api/trainer/forgotpassword`,{emailData})
-     console.log("the response from forgotpswd",response)
+     
      return response.data
 } catch (error) {
     console.log("Forgot Password Error",error)
@@ -74,9 +74,9 @@ const forgotPassword=async(emailData:string)=>{
 }
 const resetPassword=async(  userData:string,payload:string )=>{
   try {
-   console.log("email is",payload)
+   
    const response=await trainerAxiosInstance.post(`${API_URL}/api/trainer/resetpassword`,{payload,userData})
-   console.log("frotend response got??",response)
+  
    return response.data
   } catch (error) {
     console.log("error in ResetPassword",error)
@@ -89,7 +89,7 @@ const verifyForgotOtp=async({ userData, otp,}:{userData:ITrainer;otp:string})=>{
 
    const response=await axios.post(`${API_URL}/api/trainer/forgototp`,{userData,otp})
    
-   console.log("the frontend response otp",response)
+   
    if(response.data){
        localStorage.setItem("user",JSON.stringify(response.data))
    }
@@ -103,10 +103,10 @@ const verifyForgotOtp=async({ userData, otp,}:{userData:ITrainer;otp:string})=>{
 
 }
 const kycStatus = async (trainer_id: string) => {
-  console.log("request gone from servicefront")
+
   try {
     const response = await trainerAxiosInstance.get(`/api/trainer/kycStatus/${trainer_id}`);
-    console.log("******service submickyc*******",response.data)
+    
     return response.data;
   } catch (error: any) {
     console.error(
@@ -124,7 +124,7 @@ const kycSubmission = async (formData: FormData) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log("yes............response data is",response.data)
+    
     return response.data;
   } catch (error: any) {
     console.error(

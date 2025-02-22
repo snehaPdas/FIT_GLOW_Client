@@ -55,7 +55,7 @@ function UserChat({trainer}:TrainerChatProps) {
 
     useEffect(() => {
         
-        console.log("trainerid is",trainer)
+        
 
         const fetchTrainerData = async () => { 
      

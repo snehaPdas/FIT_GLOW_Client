@@ -44,7 +44,7 @@ function SuccessPayment() {
             receiverId: response.data.trainerId,
             content: `New booking for ${response.data.sessionType} (${response.data.specialization}) on ${new Date(response.data.startDate).toDateString()} at ${response.data.startTime}. Amount: $${response.data.amount}.`,
           };
-          console.log("^^^^^^^^^^^^^^^^^^^^",notificationData)
+          
            socket?.emit("newBookingNotification",notificationData)
            addTrainerNotification(notificationData.content)
            
@@ -86,12 +86,7 @@ function SuccessPayment() {
         >
           Go to Homepage
         </button>
-        {/* <button
-          onClick={() => navigate('/profile/bookings')}
-          className="w-full bg-gray-600 text-white py-3 rounded-lg shadow-md hover:bg-gray-700 transition-transform transform hover:scale-105"
-        >
-          View Orders
-        </button> */}
+      
       </div>
     </div>
 

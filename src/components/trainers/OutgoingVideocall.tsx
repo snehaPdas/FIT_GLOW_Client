@@ -17,7 +17,7 @@ function OutgoingVideocall() {
     useEffect(()=>{
       if (videoCall?.type === 'out-going') {
         console.clear();
-        console.log("videocall",videoCall);
+        
         socket?.emit('outgoing-video-call',{
           to: videoCall.userID,
             from: trainerInfo.id,

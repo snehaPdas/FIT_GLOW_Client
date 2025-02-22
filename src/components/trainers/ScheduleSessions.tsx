@@ -15,7 +15,7 @@ interface Session {
   startDate?: string;
   endDate?: string;
   specialization: string;
-  status: string; // "Confirmed" or "Pending"
+  status: string; // "Confirmed
   type?: string;
   price?: number; // Added price field
 }
@@ -63,7 +63,7 @@ const ScheduleSessions: React.FC = () => {
   const handleSessionTypeChange = (type: string) => {
     setSessionType(type);
   };
-///////////////////////////////////////////////////
+
 const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
@@ -94,7 +94,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   try {
     
     if (editingSession) {
-      console.log("L")
+      
       // Edit Mode
       const response = await axiosinstance.put(
         `${API_URL}/api/trainer/edit-session/${editingSession._id}`,
@@ -176,10 +176,9 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     }
   };
   
-  /////////////////////////////////////////
+  
   const handleEdit = (session: ISessionSchedule) => {
     setEditingSession(session)
-    console.log("Session Data:", session);
     console.log("Specializations Array:", spec);
   
     if (spec.length === 0) {
@@ -188,7 +187,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     }
   
     const specialization = spec.find((s) => s._id === specializationId);
-    console.log("Matched Specialization:", specialization);
+    
   
     
     setFormData({
@@ -216,14 +215,14 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     const fetchSessionData = async () => {
        
       try {
-        console.log("ya")
+        
         const response = await axiosinstance.get(
           `${API_URL}/api/trainer/shedules/${trainerId}`
         );
 
         
         const schedules = response.data.sheduleData;
-        // console.log("schedules", schedules);
+        
 
         setSessionSchedules(schedules);
       } catch (error) {

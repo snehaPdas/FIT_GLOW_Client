@@ -21,8 +21,7 @@
   import UserDietPlanPage from '../pages/user/UserDietPlanPage'
   import AboutUsPage from '../pages/user/AboutUsPage';
 
-/////////////////////////////////////
-// import Message from "../components/user/message";
+
 
 
 

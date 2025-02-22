@@ -36,7 +36,7 @@ export const SocketContextProvider = ({ children }: { children: ReactNode }): JS
   const {addTrainerNotification, addUserNotification} = useNotification()
 
 
-  console.log("user information issssssssss?????????????",userInfo)
+  
 
    useEffect(() => {
     console.log("Initializing socket connection...");
@@ -74,7 +74,7 @@ export const SocketContextProvider = ({ children }: { children: ReactNode }): JS
 
     // Incoming Video Call
     socket.on("incoming-video-call", (data: any) => {
-      console.log("Incoming video call>>>>>>>>>>>>>>>>>>>>:", data);
+      
       if (userInfo?.id===data._id) {
       dispatch(setShowIncomingVideoCall({
         _id: data._id,
@@ -96,7 +96,7 @@ export const SocketContextProvider = ({ children }: { children: ReactNode }): JS
 
     // Accepted Call
     socket.on("accepted-call", (data: any) => {
-      console.log("Call accepted:", data);
+    
       
       dispatch(setRoomId(data.roomId));
       dispatch(setShowVideoCall(true));
@@ -125,7 +125,7 @@ export const SocketContextProvider = ({ children }: { children: ReactNode }): JS
 
     // User Left
     socket.on("user-left", (data: string | undefined) => {
-      console.log("User left the room:", data);
+      
       if (data === userInfo?.id) {
         dispatch(setShowVideoCallUser(false));
         dispatch(setRoomIdUser(null));
@@ -147,7 +147,7 @@ export const SocketContextProvider = ({ children }: { children: ReactNode }): JS
 
     // Cleanup event listeners
     return () => {
-      console.log("Cleaning up socket event listeners...");
+      
       socket.off("incoming-video-call");
       socket.off("accepted-call");
       // socket.off("trainer-accept");

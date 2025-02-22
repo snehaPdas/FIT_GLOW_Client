@@ -42,7 +42,7 @@ function TrainerForgotpswdOtp() {
     
       const otpString=otp.join("")
       let action=await dispatch(verifyForgotOtp({userData,otp:otpString}))
-          console.log("action issss",action)
+          
     if(verifyForgotOtp.rejected.match(action)){
       const message  = "otp is invalid";
               toast.error(message);

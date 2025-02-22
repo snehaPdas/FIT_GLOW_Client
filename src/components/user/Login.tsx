@@ -52,9 +52,9 @@ const Login = () => {
 
     try {
       const loginData = { email, password };
-      console.log("Login data:", loginData);
+      
       const action = await dispatch(loginUser(loginData));
-      console.log("logiiiiiiiin user",action.payload)
+      
       if (loginUser.rejected.match(action)) {
         let errorMessage = action.payload as string;
         console.log("Error message:", errorMessage);

@@ -5,7 +5,7 @@ const loginAdmin=async({email,password}:{email:string,password:string})=>{
     
     try{
   const  response= await adminAxiosInstance.post(`${API_URL}/api/admin/loginadmin`,{email,password})   
-    console.log("response is",response)
+    
     return response.data
     }catch(error:any){
         const errorMessage =
@@ -23,7 +23,7 @@ const loginAdmin=async({email,password}:{email:string,password:string})=>{
 }
 const addSpecialization=async(formData:any)=>{
 
- console.log("////////",Array.from(formData.entries()))
+ console.log(Array.from(formData.entries()))
 try {
   const response= await adminAxiosInstance.post(`${API_URL}/api/admin/specialization`,formData)
   console.log("got response from speciali",response)
@@ -47,7 +47,7 @@ const getSpecializations = async () => {
 
   const updateSpecialization = async (id: string, formData: { name: string; description: string ,image:string}| FormData) => {
     try{
-     // console.log("Form Data check ", Object.fromEntries(formData.entries())); // Debugging line
+     
       const response= await adminAxiosInstance.put(`${API_URL}/api/admin/specialization/${id}`, formData);
       console.log(response)
         return response

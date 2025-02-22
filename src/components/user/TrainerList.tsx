@@ -15,7 +15,7 @@ function TrainersList() {
     const location = useLocation();
 
     useEffect(()=>{
-        console.log("yes in useeffect")
+        
         async function fetchAllTrainers(){
             try {
                 const response=await userAxiosInstance.get(`${API_URL}/api/user/trainers`)
@@ -23,7 +23,7 @@ function TrainersList() {
               //  setTrainers(trainersData)
               const trainers = response.data;
 
-                console.log("-----------",trainers)
+                
                 const params=new URLSearchParams(window.location.search)
                 console.log("Current URL search:", window.location.search);
 

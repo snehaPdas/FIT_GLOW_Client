@@ -28,7 +28,7 @@ const verifyOtp=async({ userData, otp,}:{userData:User;otp:string})=>{
 
     const response=await axios.post(`${API_URL}/api/user/otp`,{userData,otp})
     
-    console.log("the frontend response otp",response)
+    
     if(response.data){
         localStorage.setItem("user",JSON.stringify(response.data))
     }
@@ -48,7 +48,7 @@ const verifyForgotOtp=async({ userData, otp,}:{userData:User;otp:string})=>{
  
      const response=await axios.post(`${API_URL}/api/user/forgototp`,{userData,otp})
      
-     console.log("the frontend response otp",response)
+    
      if(response.data){
          localStorage.setItem("user",JSON.stringify(response.data))
      }
@@ -64,11 +64,11 @@ const verifyForgotOtp=async({ userData, otp,}:{userData:User;otp:string})=>{
  
 
 const resendOtp=async( useremail:string)=>{
-    console.log("reached here..........",useremail)
+    
     try{
 const response=await axios.post(`${API_URL}/api/user/resendotp`,{useremail})
 if(response.data){
-    console.log("response of resend otp",response)
+    
     return response.data
 }
     }catch(error:any){
@@ -81,11 +81,11 @@ if(response.data){
 const loginUser=async({email,password}:{email:string,password:string})=>{              
     try {
         const response=await userAxiosInstance.post(`${API_URL}/api/user/loginuser`,{email,password})
-          console.log("response---->>>",response)
+          
         const accessToken  = response.data.token
 
         localStorage.setItem("accesstoken", response.data.token);
-        console.log("storageee...",   localStorage.getItem("accesstoken"))
+        
         return response
     } catch (error:any) {
         const errormessage=error.response?.data?.message|| "login failed"
@@ -99,7 +99,7 @@ const loginUser=async({email,password}:{email:string,password:string})=>{
 
 const googleAuth=async(token:string)=>{
     try {
-        console.log("ppppp",token)
+    
         const response=await axios.post(`${API_URL}/api/user/googlesignup`,{token},{
             headers: { "Content-Type": "application/json" },
         })
@@ -115,9 +115,9 @@ const googleAuth=async(token:string)=>{
 }
 const forgotPassword=async(emailData:string)=>{
     try {
-        console.log("email is",emailData)
+    
          const response=await userAxiosInstance.post(`${API_URL}/api/user/forgotpassword`,{emailData})
-         console.log("the response from forgotpswd",response)
+         
          return response.data
     } catch (error) {
         console.log("Forgot Password Error",error)
@@ -126,9 +126,9 @@ const forgotPassword=async(emailData:string)=>{
 }
 const resetPassword=async(  userData:string,payload:string )=>{
    try {
-    console.log("email is",payload)
+
     const response=await userAxiosInstance.post(`${API_URL}/api/user/resetpassword`,{payload,userData})
-    console.log("frotend response got??",response)
+    
     return response.data
    } catch (error) {
      console.log("error in ResetPassword",error)

@@ -62,7 +62,7 @@ function TrainersProfileView() {
   
   const parseinfo=JSON.parse(atob(userInfo.split(".")[1]))
   const userId=parseinfo.id
-  console.log("trainerid",trainerId)
+  
   const navigate=useNavigate()
 
   useEffect(() => {
@@ -180,7 +180,7 @@ function TrainersProfileView() {
     
     try {
       const response=await userAxiosInstance.post(`/api/user/payment/${sessionId.id}`,{userData:userId})
-      console.log("response for fetch is..........",response)
+      
       const stripe=await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
       if(stripe){
         await stripe.redirectToCheckout({sessionId:response.data.id})
@@ -198,13 +198,13 @@ function TrainersProfileView() {
       const response = await userAxiosInstance.get(
         `/api/user/bookings/${userId}/${trainerId}`
       );
-      console.log("response data issssssssss",response.data)
+    
       setBookingStatus(response.data);
     };
 
     findBooking();
   }, []);
-console.log("@@@@@@@@@@@@@@@bookingStatus",bookingStatus)
+
 const handleAddReview = () => {
   setIsReviewModalOpen(true);
 }

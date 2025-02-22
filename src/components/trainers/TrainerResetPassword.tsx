@@ -23,7 +23,7 @@ function TrainerResetPassword() {
       
 
       const response = await TrainerService.resetPassword(userData,payload);
-      console.log("the response format..........",response.message)
+      
         if(response.message === "Password reset successfully"){
           toast.success("Your Password Reset Successfully")
           navigate("/trainer/login")
